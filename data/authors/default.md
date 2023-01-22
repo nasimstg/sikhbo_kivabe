@@ -1,16 +1,25 @@
 ---
-name: Tails Azimuth
+name: Mohammed Nasim
 avatar: /static/images/avatar.png
-occupation: Professor of Atmospheric Science
-company: Stanford University
-email: address@yoursite.com
-twitter: https://twitter.com/Twitter
-linkedin: https://www.linkedin.com
-github: https://github.com
+occupation: Full Stack Web Developer
+company: wooeneStudio
+email: nasim.stg@email.com
+twitter: https://twitter.com/#
+linkedin: https://www.linkedin.com#
+github: https://github.com/nasimstg
 ---
 
-Tails Azimuth is a professor of atmospheric sciences at the Stanford AI Lab. His research interests includes complexity modelling of tailwinds, headwinds and crosswinds.
+# Hi, Thanks for being interested in learning about us.
 
-He leads the clean energy group which develops 3D air pollution-climate models, writes differential equation solvers, and manufactures titanium plated air ballons. In his free time he bakes raspberry pi.
+I'm Mohammed Nasim founder of [wooeneStudio](https://wooenestudio.github.io/) . I'm a student and a semi professinal fullStack web developer. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+## Currently working on:
+Being a tech enthusiast, I'm not able to stay free for long. I always like it being busy working on ideas. Someday One of my ideas will help millions.
+Heres' some of my ongoin projects in brief.
+```
+<project>
+    - *Reddit like community/social app FightersCommunity 
+    - *AdmissionAssistant app like web app VarsityInfo(muli language)
+    - *HSC ICT full web app features = [interactive, sandbox, freeView]
+</project>
+```
