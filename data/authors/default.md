@@ -4,7 +4,7 @@ avatar: /static/images/avatar.png
 occupation: Full Stack Web Developer
 company: wooeneStudio
 email: nasim.stg@email.com
-twitter: https://twitter.com/#
+twitter: https://twitter.com/nasimStg
 linkedin: https://www.linkedin.com#
 github: https://github.com/nasimstg
 ---

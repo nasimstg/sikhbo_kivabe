@@ -2,7 +2,7 @@ const siteMetadata = {
   title: 'Sikhbo Kivabe',
   author: 'Mohammed Nasim (Starter Code: Tails Azimuth)',
   headerTitle: 'Sikhbo Kivabe',
-  description: '',
+  description: 'asdfasdfasfdsadf',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
@@ -15,7 +15,7 @@ const siteMetadata = {
   twitter: 'https://twitter.com/#',
   facebook: 'https://facebook.com/mohammed.nasim.on3',
   youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com/#',
+  linkedin: 'https://www.linkedin.com/in/nasimStg',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
