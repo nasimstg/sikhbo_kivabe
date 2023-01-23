@@ -2,7 +2,7 @@ const siteMetadata = {
   title: 'Sikhbo Kivabe',
   author: 'Mohammed Nasim (Starter Code: Tails Azimuth)',
   headerTitle: 'Sikhbo Kivabe',
-  description: 'asdfasdfasfdsadf',
+  description: '',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
