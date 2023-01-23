@@ -9,7 +9,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/nasimstg/sikhbo_kivabe',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/learn-web-development-in-bangla.png',
   email: 'nasim.stg@gmail.com',
   github: 'https://github.com/nasim.stg',
   twitter: 'https://twitter.com/nasimstg',
