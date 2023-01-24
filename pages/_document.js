@@ -27,6 +27,11 @@ class MyDocument extends Document {
             content="I1lmcJ-yz7b4mUJy1MADXEK4295-yweU3Z4UBoh2zDQ"
           />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594293377588314"
+            crossOrigin="anonymous"
+          ></script>
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />
