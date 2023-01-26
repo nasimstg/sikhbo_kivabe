@@ -29,7 +29,7 @@ class MyDocument extends Document {
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
           <script
             async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594293377588314"
             crossOrigin="anonymous"
           ></script>
         </Head>
