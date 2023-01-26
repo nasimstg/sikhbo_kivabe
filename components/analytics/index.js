@@ -5,9 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const Analytics = () => {
   return (
-    <>
-      {isProduction && siteMetadata.analytics.googleAnalyticsId && <GA />}
-    </>
+    <>{isProduction && siteMetadata.analytics.googleAnalyticsId && <GA />}</>
   )
 }
 
