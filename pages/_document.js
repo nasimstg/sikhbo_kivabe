@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import Script from 'next/script'
 class MyDocument extends Document {
   render() {
     return (
@@ -28,11 +27,11 @@ class MyDocument extends Document {
             content="I1lmcJ-yz7b4mUJy1MADXEK4295-yweU3Z4UBoh2zDQ"
           />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-          <Script
+          <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="
             crossOrigin="anonymous"
-          ></Script>
+          ></script>
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />

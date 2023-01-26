@@ -2,8 +2,6 @@ import { getAllFilesFrontMatter } from '@/lib/mdx'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { PageSEO } from '@/components/SEO'
-import Multiplex from '@/components/Multiplex'
-import InArticle from '@/components/InArticle'
 
 export const POSTS_PER_PAGE = 5
 
@@ -27,7 +25,6 @@ export default function Blog({ posts, initialDisplayPosts, pagination }) {
         initialDisplayPosts={initialDisplayPosts}
         pagination={pagination}
         title="All Posts"
-        components={<InArticle />}
       />
     </>
   )
