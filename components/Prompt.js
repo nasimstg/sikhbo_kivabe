@@ -17,13 +17,13 @@ export default function Prompt() {
         return () => clearTimeout(timerId)
     }, [])
     return (
-        <div id='prompt' style={{
+        <div className='text-sm text-gray-100 dark:text-gray-100' id='prompt' style={{
             position: 'fixed',
             bottom: '0',
             width: '100%',
             backgroundColor: '#0d0d0d',
             textAlign: 'center',
-            minHeight: '100px'
+            padding: '10px'
         }}>
             This website uses Google Analytics and Google Adsense and Giscus. Please read our
             <br />
@@ -32,7 +32,8 @@ export default function Prompt() {
             <button style={{
                 backgroundColor: 'green',
                 padding: '3px 15px',
-                borderRadius: '3px'
+                borderRadius: '3px',
+                marginRight:'10px'
             }}
                 onClick={() => {
                     const elm = document.getElementById('prompt')
@@ -40,6 +41,17 @@ export default function Prompt() {
                     elm.style.display = 'none'
                 }}
             >Accept</button>
+            <button style={{
+                backgroundColor: 'crimson',
+                padding: '3px 15px',
+                borderRadius: '3px'
+            }}
+                onClick={() => {
+                    const elm = document.getElementById('prompt')
+                    localStorage.setItem("Accepted", "False");
+                    elm.style.display = 'none'
+                }}
+            >Decline</button>
         </div>
     )
 }
