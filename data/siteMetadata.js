@@ -1,11 +1,11 @@
 const siteMetadata = {
-  title: 'Sikhbo Kivabe',
+  title: 'Learn anything with HowtoLearn',
   author: 'Mohammed Nasim',
-  headerTitle: 'Sikhbo Kivabe',
+  headerTitle: 'How to Learn ',
   description: 'A simple website to get started with any technology . Obviously in Bangla Language. I am you host nasimStg and this is you first step into the tech field. I will be teaching you guys how you can learn any web technology. ',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://sikhbokivabe.vercel.app/',
+  siteUrl: 'https://howtolearn.vercel.app/',
   siteRepo: 'https://github.com/nasimstg/sikhbo_kivabe',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
@@ -16,15 +16,15 @@ const siteMetadata = {
   facebook: 'https://facebook.com/mohammed.nasim.on3',
   youtube: 'https://youtube.com/@wooenestudio',
   linkedin: 'https://www.linkedin.com/in/nasimStg',
-  locale: ['bn-BD', 'en-US'],
+  locale: ['en-US'],
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
     // supports plausible, simpleAnalytics, umami or googleAnalytics
-    plausibleDataDomain: 'sikhbokivabe.vercel.app', // e.g. tailwind-nextjs-starter-blog.vercel.app
+    plausibleDataDomain: 'howtolearn.vercel.app', // e.g. tailwind-nextjs-starter-blog.vercel.app
     simpleAnalytics: false, // true or false
     umamiWebsiteId: '', // e.g. 123e4567-e89b-12d3-a456-426614174000
-    googleAnalyticsId: 'G-582J42CPJS', // e.g. UA-000000-2 or G-XXXXXXX
+    googleAnalyticsId: 'G-FF6P06F76G', // e.g. UA-000000-2 or G-XXXXXXX
     posthogAnalyticsId: '', // posthog.init e.g. phc_5yXvArzvRdqtZIsHkEm3Fkkhm3d0bEYUXCaFISzqPSQ
   },
   newsletter: {
