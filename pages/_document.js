@@ -29,7 +29,7 @@ class MyDocument extends Document {
           <meta name="google-adsense-account" content="ca-pub-3594293377588314" />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594293377588314"
-     crossorigin="anonymous"></script>
+     crossOrigin="anonymous"></script>
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />
