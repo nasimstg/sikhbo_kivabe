@@ -26,12 +26,10 @@ class MyDocument extends Document {
             name="google-site-verification"
             content="I1lmcJ-yz7b4mUJy1MADXEK4295-yweU3Z4UBoh2zDQ"
           />
+          <meta name="google-adsense-account" content="ca-pub-3594293377588314" />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594293377588314"
-            crossOrigin="anonymous"
-          ></script>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594293377588314"
+     crossorigin="anonymous"></script>
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />
