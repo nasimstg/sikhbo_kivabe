@@ -28,6 +28,7 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl 
         rel="canonical"
         href={canonicalUrl ? canonicalUrl : `${siteMetadata.siteUrl}${router.asPath}`}
       />
+      <meta name="google-adsense-account" content="ca-pub-3594293377588314" />
     </Head>
   )
 }
