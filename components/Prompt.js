@@ -25,9 +25,9 @@ export default function Prompt() {
             textAlign: 'center',
             padding: '10px'
         }}>
-            This website uses Google Analytics and Google Adsense and Giscus. Please read our
+            এই ওয়েবসাইটটি Google Analytics এবং Google Adsense এবং Giscus ব্যবহার করে। আমাদের পড়ুন
             <br />
-            <Link href="/terms-and-conditions"> Terms and Conditions</Link> and <Link href="/privacy-policies"> Privacy Policies</Link>
+            <Link href="/terms-and-conditions"> শর্তাবলী</Link> এবং <Link href="/privacy-policies">গোপনীয়তা নীতি</Link>
             <br />
             <button style={{
                 backgroundColor: 'green',
@@ -40,7 +40,7 @@ export default function Prompt() {
                     localStorage.setItem("Accepted", "True");
                     elm.style.display = 'none'
                 }}
-            >Accept</button>
+            >গ্রহণ</button>
             <button style={{
                 backgroundColor: 'crimson',
                 padding: '3px 15px',
@@ -51,7 +51,7 @@ export default function Prompt() {
                     localStorage.setItem("Accepted", "False");
                     elm.style.display = 'none'
                 }}
-            >Decline</button>
+            >প্রত্যাখ্যান</button>
         </div>
     )
 }

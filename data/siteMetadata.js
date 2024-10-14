@@ -1,8 +1,8 @@
 const siteMetadata = {
-  title: 'Sikhbo Kivabe',
-  author: 'Mohammed Nasim',
-  headerTitle: 'Sikhbo Kivabe',
-  description: 'A simple website to get started with any technology . Obviously in Bangla Language. I am you host nasimStg and this is you first step into the tech field. I will be teaching you guys how you can learn any web technology. ',
+  title: 'শিখবো কিভাবে',
+  author: 'মো:নাসিম শেখ',
+  headerTitle: 'শিখবো কিভাবে',
+  description: 'শিখবো কিভাবের সাথে একটি নতুন প্রোগ্রামিং ভাষা বা প্রযুক্তি শিখুন। ওয়েব, মোবাইল এবং ডেস্কটপ প্রোগ্রামিংয়ের জন্য সেরা টিউটোরিয়াল এবং কোর্স খুঁজুন। এই ব্লগ বা ইউটিউব ভিডিওগুলির মাধ্যমে শিখবো কিভাবের সাথে আপনার নিজস্ব প্রকল্পগুলি তৈরি করতে জনপ্রিয় সরঞ্জাম এবং কাঠামো ব্যবহার করতে শিখুন৷',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://sikhbokivabe.vercel.app/',
