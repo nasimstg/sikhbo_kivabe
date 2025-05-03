@@ -1,0 +1,250 @@
+---
+title: 'পার্ট ৩: কন্ট্রোল ফ্লো: সি-তে If-Else, Loops'
+date: '2024-11-13'
+tags: ['সি', 'প্রোগ্রামিং', 'কন্ডিশনাল স্টেটমেন্ট', 'লুপিং স্ট্রাকচার']
+draft: false
+summary: 'আপনার প্রোগ্রামগুলিকে আরও ডাইনামিক এবং শক্তিশালী করতে কন্ডিশনাল স্টেটমেন্ট (`if`, `else if`, `else`) এবং লুপিং স্ট্রাকচার (`for`, `while`, `do-while`) কীভাবে ব্যবহার করবেন তা শিখুন।'
+authors: ['default']
+---
+
+**"সি-তে শুরু করা" সিরিজের পার্ট ৩-এ আপনাকে আবার স্বাগতম!** পূর্ববর্তী অংশগুলিতে, আমরা সি-এর basics বোঝা এবং variable, data type, এবং operator নিয়ে কীভাবে কাজ করতে হয় তার ভিত্তি স্থাপন করেছি। এখন, আমরা **কন্ট্রোল ফ্লো** স্টেটমেন্ট introduce করে আমাদের প্রোগ্রামগুলিকে আরও intelligent এবং versatile কীভাবে করা যায় তা শিখতে চলেছি। এই স্টেটমেন্টগুলি আপনাকে নির্দিষ্ট condition এর উপর ভিত্তি করে code এর ভিন্ন block execute করতে বা multiple time code এর একটি block repeat করতে অনুমতি দেয়।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### কন্ডিশনাল স্টেটমেন্ট: `if`, `else if`, এবং `else` ব্যবহার করে সিদ্ধান্ত নেওয়া
+
+Conditional statement আপনার প্রোগ্রামকে সিদ্ধান্ত নিতে এবং একটি নির্দিষ্ট condition true বা false কিনা তার উপর ভিত্তি করে code এর ভিন্ন path execute করতে অনুমতি দেয়। সি-তে সবচেয়ে সাধারণ conditional statement হলো `if` statement।
+
+#### `if` স্টেটমেন্ট
+
+`if` স্টেটমেন্ট code এর একটি block execute করে শুধুমাত্র যদি একটি specified condition true হয়। সিনট্যাক্স নিম্নলিখিত রূপ:
+
+```c
+if (condition) {
+    // Code to be executed if the condition is true
+}
+```
+
+`condition` হলো একটি expression যা true (non-zero) বা false (zero) Evaluate হয়। যদি condition true হয়, curly brace `{}` এর ভিতরের code execute হয়।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int age = 20;
+
+    if (age >= 18) {
+        printf("You are eligible to vote.\n");
+    }
+
+    return 0;
+}
+```
+
+এই উদাহরণে, "You are eligible to vote." message টি শুধুমাত্র প্রিন্ট হবে যদি `age` variable এর মান 18 বা তার বেশি হয়।
+
+#### `else` স্টেটমেন্ট
+
+`else` স্টেটমেন্ট `if` স্টেটমেন্টের সাথে conjunction এ ব্যবহার করা যেতে পারে code এর একটি block execute করার জন্য যদি `if` স্টেটমেন্টে condition false হয়। সিনট্যাক্স হলো:
+
+```c
+if (condition) {
+    // Code to be executed if the condition is true
+} else {
+    // Code to be executed if the condition is false
+}
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int age = 15;
+
+    if (age >= 18) {
+        printf("You are eligible to vote.\n");
+    } else {
+        printf("You are not yet eligible to vote.\n");
+    }
+
+    return 0;
+}
+```
+
+এই ক্ষেত্রে, যেহেতু `age` 15 (18 এর কম), "You are not yet eligible to vote." message টি প্রিন্ট হবে।
+
+#### `else if` স্টেটমেন্ট
+
+মাঝে মাঝে, আপনার multiple condition check করার প্রয়োজন হতে পারে। `else if` স্টেটমেন্ট আপনাকে অতিরিক্ত condition check করার অনুমতি দেয় যদি পূর্ববর্তী `if` বা `else if` condition গুলি false হয়। সিনট্যাক্স হলো:
+
+```c
+if (condition1) {
+    // Code to be executed if condition1 is true
+} else if (condition2) {
+    // Code to be executed if condition1 is false AND condition2 is true
+} else if (condition3) {
+    // Code to be executed if condition1 and condition2 are false AND condition3 is true
+} else {
+    // Code to be executed if none of the above conditions are true
+}
+```
+
+আপনি multiple `else if` স্টেটমেন্ট রাখতে পারেন। শেষে `else` block ঐচ্ছিক এবং এটি execute হবে যদি পূর্ববর্তী কোনো condition true না হয়।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int score = 75;
+
+    if (score >= 90) {
+        printf("Grade: A\n");
+    } else if (score >= 80) {
+        printf("Grade: B\n");
+    } else if (score >= 70) {
+        printf("Grade: C\n");
+    } else if (score >= 60) {
+        printf("Grade: D\n");
+    } else {
+        printf("Grade: F\n");
+    }
+
+    return 0;
+}
+```
+
+এই উদাহরণে, প্রোগ্রামটি `score` variable এর মানের উপর ভিত্তি করে corresponding letter grade নির্ধারণ করবে এবং প্রিন্ট করবে।
+
+### লুপিং স্ট্রাকচার: `for`, `while`, এবং `do-while` ব্যবহার করে অ্যাকশন পুনরাবৃত্তি করা
+
+Loop আপনাকে code এর একটি block repeatedly execute করার অনুমতি দেয় যতক্ষণ না একটি নির্দিষ্ট condition meet হয়। সি তিনটি প্রধান ধরণের loop সরবরাহ করে: `for`, `while`, এবং `do-while`।
+
+#### `for` Loop
+
+`for` loop সাধারণত ব্যবহৃত হয় যখন আপনি আগে থেকে জানেন যে আপনি code এর একটি block কতবার execute করতে চান। সিনট্যাক্স হলো:
+
+```c
+for (initialization; condition; increment/decrement) {
+    // Code to be executed repeatedly
+}
+```
+
+- **Initialization:** এই স্টেটমেন্টটি loop এর শুরুতে শুধুমাত্র একবার execute হয়। এটি প্রায়শই একটি loop counter variable initialize করতে ব্যবহৃত হয়।
+- **Condition:** এই expression loop এর প্রতিটি iteration এর আগে Evaluate হয়। যদি condition true হয়, loop body execute হয়। যদি এটি false হয়, loop terminate হয়।
+- **Increment/Decrement:** এই স্টেটমেন্টটি প্রতিটি iteration এর শেষে execute হয়। এটি প্রায়শই loop counter update করতে ব্যবহৃত হয়।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 1; i <= 5; i++) {
+        printf("The value of i is: %d\n", i);
+    }
+
+    return 0;
+}
+```
+
+এই loop টি "The value of i is: [number]" message টি পাঁচ বার প্রিন্ট করবে, `i` এর মান 1 থেকে 5 পর্যন্ত।
+
+#### `while` Loop
+
+`while` loop code এর একটি block execute করে যতক্ষণ না একটি specified condition true হয়। condition প্রতিটি iteration এর আগে check হয়। সিনট্যাক্স হলো:
+
+```c
+while (condition) {
+    // Code to be executed as long as the condition is true
+}
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int count = 0;
+
+    while (count < 3) {
+        printf("Count is: %d\n", count);
+        count++; // Increment the counter to eventually make the condition false
+    }
+
+    return 0;
+}
+```
+
+এই loop টি `count` এর মান (0, 1, এবং 2) প্রিন্ট করবে যতক্ষণ না `count` 3 এর কম থাকে। infinite loop এড়াতে condition টি eventually false হয় তা নিশ্চিত করা crucial।
+
+#### `do-while` Loop
+
+`do-while` loop টি `while` loop এর মতো, কিন্তু এটি guarantee করে যে loop body কমপক্ষে একবার execute হবে কারণ condition টি first iteration এর _পরে_ check হয়। সিনট্যাক্স হলো:
+
+```c
+do {
+    // Code to be executed at least once, and then repeatedly as long as the condition is true
+} while (condition);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int num;
+
+    do {
+        printf("Enter a positive number: ");
+        scanf("%d", &num);
+    } while (num <= 0);
+
+    printf("You entered: %d\n", num);
+
+    return 0;
+}
+```
+
+এই loop টি user কে একটি positive number enter করার জন্য prompt করতে থাকবে যতক্ষণ না একটি positive number enter হয়।
+
+### Loop Execution Controlling: `break` এবং `continue`
+
+সি দুটি বিশেষ স্টেটমেন্ট সরবরাহ করে যা loop এর মধ্যে normal flow of execution পরিবর্তন করতে ব্যবহার করা যেতে পারে:
+
+- **`break`:** `break` স্টেটমেন্ট innermost enclosing loop (বা `switch` statement) অবিলম্বে terminate করে। program execution loop এর ঠিক পরের স্টেটমেন্ট দিয়ে চলতে থাকে।
+- **`continue`:** `continue` স্টেটমেন্ট loop এর বর্তমান iteration এর বাকি অংশ skip করে এবং পরবর্তী iteration এ proceed করে।
+
+আমরা এই স্টেটমেন্টগুলি সম্পর্কে সিরিজের future part এ আরও বিস্তারিত আলোচনা করব যখন আমরা scenario তে encounter করব যেখানে এগুলি particularly useful।
+
+### এরপর কি?
+
+আমাদের "সি-তে শুরু করা" সিরিজের পরবর্তী অংশে, আমরা সি-তে **function** এর জগতে ডুব দেব। আপনি reusable block of code তৈরি করতে এবং আপনার program গুলি আরও organized এবং manageable করতে আপনার নিজস্ব function define কিভাবে করতে হয় তা শিখবেন। সাথে থাকুন\!
+
+<br />
+
+**পরামর্শ:**
+
+- যদি আপনি পূর্ববর্তী অংশে আলোচনা করা বিভিন্ন ধরণের operator review করতে চান, আপনি সেই information এখানে পেতে পারেন: "[সি-তে ভ্যারিয়েবল, ডেটা টাইপ, এবং অপারেটর](/blog/beginner-c-cpp/c-variable-data-types-and-operators)"।
+- boolean logic বোঝা conditional statement নিয়ে কাজ করার জন্য crucial। আপনি "[প্রোগ্রামিংয়ে বুলিয়ান লজিক]" সম্পর্কিত আমাদের explanation টি সহায়ক খুঁজে পেতে পারেন।
+- আমরা সংক্ষেপে `switch` স্টেটমেন্ট mention করেছি, আপনি "[সি-তে সুইচ স্টেটমেন্ট]" সম্পর্কিত আমাদের article এ এর ব্যবহার explore করতে চাইতে পারেন।
+- পরবর্তী অংশে, আমরা control flow আলোচনা করব। "[প্রোগ্রামিংয়ে কন্ট্রোল ফ্লো স্টেটমেন্ট (পার্ট ৩)](/blog/beginner-c-cpp/control-flow-if-else-and-loops-in-c)" সম্পর্কিত আমাদের সাধারণ পরিচিতি পড়ে আপনি কিছুটা এগিয়ে থাকতে পারেন।
+
+This content thoroughly covers control flow in C for beginners, providing a strong understanding of how to make programs make decisions and repeat actions.
+
+## এই আর্টিকেলে আলোচিত বিষয়:
+
+- ### কন্ট্রোল ফ্লো
+- ### If-Else
+- ### লুপ
+- ### For Loop
+- ### While Loop
+- ### Do-While Loop

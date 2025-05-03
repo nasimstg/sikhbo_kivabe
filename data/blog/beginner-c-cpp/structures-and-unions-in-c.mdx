@@ -1,0 +1,262 @@
+---
+title: 'পার্ট ৭: সি-তে স্ট্রাকচার এবং ইউনিয়ন'
+date: '2024-11-17'
+tags: ['সি', 'স্ট্রাকচার', 'ইউনিয়ন', 'প্রোগ্রামিং']
+draft: false
+summary: 'স্ট্রাকচার ব্যবহার করে বিভিন্ন টাইপের সম্পর্কিত ডেটা গ্রুপ করতে এবং একই মেমরি লোকেশনে বিভিন্ন ডেটা টাইপ store করতে ইউনিয়ন ব্যবহার করে সি-তে আপনার নিজস্ব custom data type তৈরি কীভাবে করবেন তা শিখুন।'
+authors: ['default']
+---
+
+**আমাদের "সি-তে শুরু করা" সিরিজের পার্ট ৭ এ আপনাকে আবার স্বাগতম!** পূর্ববর্তী অংশগুলিতে, আমরা integer, float, এবং character এর মতো fundamental data type নিয়ে কাজ করেছি। এখন, আমরা **structure** এবং **union** ব্যবহার করে আমাদের নিজস্ব **user-defined data type** তৈরি কীভাবে করতে হয় তা শিখতে চলেছি। এই শক্তিশালী feature গুলি আপনাকে related data একটি meaningful way তে group করতে অনুমতি দেয়, আপনার code কে আরও organized এবং manage করা সহজ করে তোলে।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### সি-তে স্ট্রাকচার
+
+সি-তে একটি **structure** হলো একটি composite data type যা বিভিন্ন data type এর variable গুলিকে একটি single name এর অধীনে group করে। এই variable গুলিকে structure এর **member** বলা হয়। Structure আপনাকে multiple attribute আছে এমন real-world entity গুলিকে represent করার অনুমতি দেয়।
+
+#### একটি স্ট্রাকচার define করা
+
+একটি structure define করতে, আপনি `struct` keyword ব্যবহার করেন যার পরে structure name (tag ও বলা হয়) এবং curly brace `{}` এ member declaration এর একটি block থাকে।
+
+একটি structure define করার syntax হলো:
+
+```c
+struct structure_name {
+    data_type member1_name;
+    data_type member2_name;
+    // ... more members
+};
+```
+
+**উদাহরণ:**
+
+আসুন 2D space এ একটি point represent করার জন্য একটি structure define করি:
+
+```c
+struct Point {
+    int x;
+    int y;
+};
+```
+
+এখানে, `Point` হলো structure এর name, এবং এর দুটি member আছে: `x` এবং `y`, উভয়ই `int` type এর।
+
+#### স্ট্রাকচার ভ্যারিয়েবল declare করা
+
+আপনি একবার একটি structure define করলে, আপনি `struct` keyword ব্যবহার করে সেই structure type এর variable declare করতে পারেন যার পরে structure name এবং variable name থাকবে।
+
+**উদাহরণ:**
+
+```c
+struct Point p1; // 'struct Point' type এর 'p1' নামক একটি structure variable declare করে
+struct Point p2; // 'p2' নামক অন্য একটি structure variable declare করে
+```
+
+আপনি একই সময়ে structure variable declare এবং initialize ও করতে পারেন:
+
+```c
+struct Point p3 = {10, 20}; // p3 কে x = 10 এবং y = 20 দিয়ে initialize করে
+```
+
+#### স্ট্রাকচার member গুলি অ্যাক্সেস করা
+
+একটি structure variable এর individual member গুলি access করতে, আপনি **dot operator** (`.`) ব্যবহার করেন।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    struct Point p1;
+    p1.x = 5;
+    p1.y = 12;
+
+    printf("Point p1: (%d, %d)\n", p1.x, p1.y); // Output: Point p1: (5, 12)
+
+    struct Point p2 = {3, 7};
+    printf("Point p2: (%d, %d)\n", p2.x, p2.y); // Output: Point p2: (3, 7)
+
+    return 0;
+}
+```
+
+#### নেস্টেড স্ট্রাকচার
+
+আপনি অন্যান্য structure এর ভিতরে structure ও রাখতে পারেন, যা **nested structure** নামে পরিচিত।
+
+**উদাহরণ:**
+
+আসুন একটি rectangle এর জন্য একটি structure define করি যা আমাদের `Point` structure ব্যবহার করে:
+
+```c
+struct Rectangle {
+    struct Point topLeft;
+    struct Point bottomRight;
+};
+```
+
+inner structure এর member গুলি access করতে, আপনি multiple time dot operator ব্যবহার করেন:
+
+```c
+struct Rectangle rect;
+rect.topLeft.x = 0;
+rect.topLeft.y = 10;
+rect.bottomRight.x = 20;
+rect.bottomRight.y = 0;
+
+printf("Top-left corner: (%d, %d)\n", rect.topLeft.x, rect.topLeft.y);
+printf("Bottom-right corner: (%d, %d)\n", rect.bottomRight.x, rect.bottomRight.y);
+```
+
+#### Pointer to Structure
+
+আপনি structure variable এর pointer ও declare করতে পারেন। syntax অন্যান্য data type এর pointer declare করার অনুরূপ:
+
+```c
+struct Point *ptr_p; // একটি 'struct Point' এর pointer declare করে
+```
+
+একটি pointer এর মাধ্যমে structure এর member গুলি access করতে, আপনি **arrow operator** (`->`) ব্যবহার করেন।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    struct Point p = {5, 12};
+    struct Point *ptr_p = &p; // ptr_p এখন p এর memory location point করছে
+
+    printf("Point p: (%d, %d)\n", p.x, p.y);
+    printf("Point p via pointer: (%d, %d)\n", ptr_p->x, ptr_p->y); // arrow operator ব্যবহার করে
+
+    ptr_p->x = 15; // pointer এর মাধ্যমে x এর value modify করা
+    printf("Point p after modification: (%d, %d)\n", p.x, p.y);
+
+    return 0;
+}
+```
+
+arrow operator `ptr_p->x` হলো `(*ptr_p).x` এর equivalent, কিন্তু এটি আরও concise এবং structure এর pointer এর সাথে কাজ করার সময় commonly used।
+
+### সি-তে ইউনিয়ন
+
+সি-তে একটি **union** হলো user-defined data type যা বিভিন্ন data type এর member ধারণ করতে পারে। তবে, structure এর বিপরীতে যেখানে প্রতিটি member এর নিজস্ব memory location আছে, union এর সমস্ত member একই memory location share করে। এর মানে হলো একটি union এর শুধুমাত্র একটি member যে কোনো given time এ value ধারণ করতে পারে। একটি union এর size এর বৃহত্তম member এর size দ্বারা নির্ধারিত হয়।
+
+#### একটি ইউনিয়ন define করা
+
+একটি union define করার syntax structure এর মতো similar, তবে আপনি `struct` keyword এর পরিবর্তে `union` keyword ব্যবহার করেন।
+
+```c
+union Data {
+    int i;
+    float f;
+    char str[20];
+};
+```
+
+এখানে, `Data` হলো union এর name। এটি একটি integer `i`, একটি floating-point number `f`, বা একটি character array `str` ধারণ করতে পারে, তবে শুধুমাত্র এগুলির মধ্যে একটি at a time।
+
+#### Union Variable Declare করা এবং Member গুলি Access করা
+
+আপনি union variable declare করেন এবং structure এর মতো same way তে dot operator ব্যবহার করে তাদের member গুলি access করেন।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+union Data {
+    int i;
+    float f;
+    char str[20];
+};
+
+int main() {
+    union Data data;
+
+    data.i = 10;
+    printf("Data.i: %d\n", data.i); // Output: Data.i: 10
+
+    data.f = 3.14;
+    printf("Data.f: %f\n", data.f); // Output: Data.f: 3.14 (The value of i is now overwritten)
+
+    strcpy(data.str, "Hello");
+    printf("Data.str: %s\n", data.str); // Output: Data.str: Hello (The values of i and f are now overwritten)
+
+    printf("Data.i after str assignment: %d\n", data.i); // Output: Some garbage value
+    printf("Data.f after str assignment: %f\n", data.f); // Output: Some garbage value
+
+    return 0;
+}
+```
+
+output থেকে যেমন আপনি দেখতে পাচ্ছেন, আপনি যখন একটি union এর একটি member এ একটি value assign করেন, তখন other member দের value গুলি overwritten হয় কারণ তারা same memory location share করে।
+
+### স্ট্রাকচার এবং ইউনিয়ন এর মধ্যে প্রধান পার্থক্য
+
+| বৈশিষ্ট্য         | স্ট্রাকচার                                         | ইউনিয়ন                                                                     |
+| :---------------- | :------------------------------------------------- | :-------------------------------------------------------------------------- |
+| মেমরি             | প্রতিটি member এর নিজস্ব memory location আছে।      | সমস্ত member একই memory location share করে।                                 |
+| সাইজ              | সমস্ত member এর size এর যোগফল (সাধারণত)।           | বৃহত্তম member এর size।                                                     |
+| একযোগে স্টোরেজ    | একই সময়ে সমস্ত member এর জন্য মান store করতে পারে। | এক সময়ে শুধুমাত্র একটি member এর জন্য মান store করতে পারে।                 |
+| উদ্দেশ্য          | বিভিন্ন ধরণের related data group করা।              | memory save করা যখন member দের মধ্যে শুধুমাত্র একটি at a time প্রয়োজন হয়। |
+
+### কখন Structure বনাম Union ব্যবহার করবেন
+
+- **Structure ব্যবহার করুন** যখন আপনাকে বিভিন্ন pieces of information group করতে হবে যা logically together belonged এবং আপনার সেগুলির all simultaneously store এবং access করতে হবে (যেমন, name, age, এবং address সহ একটি person represent করা)।
+- **Union ব্যবহার করুন** যখন আপনার এমন একটি situation থাকে যেখানে একটি variable different types of data at different time এ ধারণ করতে পারে, কিন্তু all at the same time নয়, এবং আপনি different purpose এর জন্য same memory location ব্যবহার করে memory save করতে চান (যেমন, একটি variable যা একটি integer বা একটি floating-point number হতে পারে, কিন্তু simultaneously উভয়ই নয়)।
+
+### উদাহরণ: Structure ব্যবহার করা
+
+আসুন name, roll number, এবং marks সহ একজন student represent করার জন্য একটি structure তৈরি করি:
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int rollNumber;
+    float marks;
+};
+
+int main() {
+    struct Student student1;
+
+    strcpy(student1.name, "John Doe");
+    student1.rollNumber = 101;
+    student1.marks = 85.5;
+
+    printf("Student Name: %s\n", student1.name);
+    printf("Roll Number: %d\n", student1.rollNumber);
+    printf("Marks: %.2f\n", student1.marks);
+
+    return 0;
+}
+```
+
+### এরপর কি?
+
+আমাদের "সি-তে শুরু করা" সিরিজের পরবর্তী অংশে, আমরা সি-তে **file handling** explore করব, file থেকে data read এবং file এ data write কিভাবে করতে হয় তা শিখব, যা data persist করতে পারে এমন program তৈরির জন্য essential।
+
+**পরামর্শ:**
+
+- বিভিন্ন data type সম্পর্কে আপনার understanding refresh করতে, আপনি আমাদের পূর্ববর্তী আলোচনা "[Variables and Data Types in C সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" পুনরায় দেখতে পারেন।
+- আমরা structure এর সাথে pointer ব্যবহার করেছি, আপনি "[Pointers in C সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" সম্পর্কিত আমাদের explanation review করতে চাইতে পারেন।
+- data group করার কথা ভাবলে আপনাকে memory তে data কীভাবে organized হয় তা বিবেচনা করতে পারে। আপনি "[Memory Layout of Structures and Unions সম্পর্কিত সম্ভাব্য ভবিষ্যতের ব্লগ পোস্টের লিঙ্ক]" এ এটি আরও explore করতে পারেন।
+- পরবর্তী অংশে, আমরা file নিয়ে dealing করব। আপনি program গুলি অপারেটিং সিস্টেমের সাথে কীভাবে interact করে file access করতে পারে তা ভাবতে চাইতে পারেন।

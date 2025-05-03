@@ -21,8 +21,17 @@ export default function Footer() {
           <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
         </div>
+        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          <div>
+            <Link href={'/privacy-policies'}>Privacy Policy</Link>
+          </div>
+          <div>{` • `}</div>
+          <div>
+            <Link href={'/terms-and-conditions'}>Terms of Service</Link>
+          </div>
+        </div>
         <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="https://wooenestudio.github.io/">wooeneStudio</Link>
+          <Link href="https://nasimstg.vercel.app/">nasimstg</Link>
         </div>
       </div>
     </footer>

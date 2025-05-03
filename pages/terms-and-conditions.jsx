@@ -1,278 +1,275 @@
-/* eslint-disable @next/next/link-passhref */
 import Link from 'next/link'
-import React from 'react'
 
 export default function index() {
   return (
-    <div>
-      <h1>Terms and Conditions</h1>
-      <p>Last updated: January 27, 2023</p>
-      <p>Please read these terms and conditions carefully before using Our Service.</p>
-      <h1>Interpretation and Definitions</h1>
-      <h2>Interpretation</h2>
-      <p>
-        The words of which the initial letter is capitalized have meanings defined under the
-        following conditions. The following definitions shall have the same meaning regardless of
-        whether they appear in singular or in plural.
-      </p>
-      <h2>Definitions</h2>
-      <p>For the purposes of these Terms and Conditions:</p>
-      <ul>
-        <li>
-          <p>
-            <strong>Affiliate</strong> means an entity that controls, is controlled by or is under
-            common control with a party, where &quot;control&quot; means ownership of 50% or more of
-            the shares, equity interest or other securities entitled to vote for election of
-            directors or other managing authority.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Country</strong> refers to: Bangladesh
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;,
-            &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Sikhbo Kivabe.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Device</strong> means any device that can access the Service such as a computer,
-            a cellphone or a digital tablet.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Service</strong> refers to the Website.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these
-            Terms and Conditions that form the entire agreement between You and the Company
-            regarding the use of the Service. This Terms and Conditions agreement has been created
-            with the help of the{' '}
-            <a
-              href="https://www.termsfeed.com/terms-conditions-generator/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              TermsFeed Terms and Conditions Generator
-            </a>
-            .
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Third-party Social Media Service</strong> means any services or content
-            (including data, information, products or services) provided by a third-party that may
-            be displayed, included or made available by the Service.
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>Website</strong> refers to Sikhbo Kivabe, accessible from{' '}
-            <a
-              href="https://sikhbokivabe.vercel.app/"
-              rel="external nofollow noopener noreferrer"
-              target="_blank"
-            >
-              https://sikhbokivabe.vercel.app/
-            </a>
-          </p>
-        </li>
-        <li>
-          <p>
-            <strong>You</strong> means the individual accessing or using the Service, or the
-            company, or other legal entity on behalf of which such individual is accessing or using
-            the Service, as applicable.
-          </p>
-        </li>
-      </ul>
-      <h1>Acknowledgment</h1>
-      <p>
-        These are the Terms and Conditions governing the use of this Service and the agreement that
-        operates between You and the Company. These Terms and Conditions set out the rights and
-        obligations of all users regarding the use of the Service.
-      </p>
-      <p>
-        Your access to and use of the Service is conditioned on Your acceptance of and compliance
-        with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and
-        others who access or use the Service.
-      </p>
-      <p>
-        By accessing or using the Service You agree to be bound by these Terms and Conditions. If
-        You disagree with any part of these Terms and Conditions then You may not access the
-        Service.
-      </p>
-      <p>
-        You represent that you are over the age of 18. The Company does not permit those under 18 to
-        use the Service.
-      </p>
-      <p>
-        Your access to and use of the Service is also conditioned on Your acceptance of and
-        compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies
-        and procedures on the collection, use and disclosure of Your personal information when You
-        use the Application or the Website and tells You about Your privacy rights and how the law
-        protects You. Please read Our Privacy Policy carefully before using Our Service.
-      </p>
-      <h1>Links to Other Websites</h1>
-      <p>
-        Our Service may contain links to third-party web sites or services that are not owned or
-        controlled by the Company.
-      </p>
-      <p>
-        The Company has no control over, and assumes no responsibility for, the content, privacy
-        policies, or practices of any third party web sites or services. You further acknowledge and
-        agree that the Company shall not be responsible or liable, directly or indirectly, for any
-        damage or loss caused or alleged to be caused by or in connection with the use of or
-        reliance on any such content, goods or services available on or through any such web sites
-        or services.
-      </p>
-      <p>
-        We strongly advise You to read the terms and conditions and privacy policies of any
-        third-party web sites or services that You visit.
-      </p>
-      <h1>Termination</h1>
-      <p>
-        We may terminate or suspend Your access immediately, without prior notice or liability, for
-        any reason whatsoever, including without limitation if You breach these Terms and
-        Conditions.
-      </p>
-      <p>Upon termination, Your right to use the Service will cease immediately.</p>
-      <h1>Limitation of Liability</h1>
-      <p>
-        Notwithstanding any damages that You might incur, the entire liability of the Company and
-        any of its suppliers under any provision of this Terms and Your exclusive remedy for all of
-        the foregoing shall be limited to the amount actually paid by You through the Service or 100
-        USD if You haven't purchased anything through the Service.
-      </p>
-      <p>
-        To the maximum extent permitted by applicable law, in no event shall the Company or its
-        suppliers be liable for any special, incidental, indirect, or consequential damages
-        whatsoever (including, but not limited to, damages for loss of profits, loss of data or
-        other information, for business interruption, for personal injury, loss of privacy arising
-        out of or in any way related to the use of or inability to use the Service, third-party
-        software and/or third-party hardware used with the Service, or otherwise in connection with
-        any provision of this Terms), even if the Company or any supplier has been advised of the
-        possibility of such damages and even if the remedy fails of its essential purpose.
-      </p>
-      <p>
-        Some states do not allow the exclusion of implied warranties or limitation of liability for
-        incidental or consequential damages, which means that some of the above limitations may not
-        apply. In these states, each party's liability will be limited to the greatest extent
-        permitted by law.
-      </p>
-      <h1>&quot;AS IS&quot; and &quot;AS AVAILABLE&quot; Disclaimer</h1>
-      <p>
-        The Service is provided to You &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; and with all
-        faults and defects without warranty of any kind. To the maximum extent permitted under
-        applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and
-        their respective licensors and service providers, expressly disclaims all warranties,
-        whether express, implied, statutory or otherwise, with respect to the Service, including all
-        implied warranties of merchantability, fitness for a particular purpose, title and
-        non-infringement, and warranties that may arise out of course of dealing, course of
-        performance, usage or trade practice. Without limitation to the foregoing, the Company
-        provides no warranty or undertaking, and makes no representation of any kind that the
-        Service will meet Your requirements, achieve any intended results, be compatible or work
-        with any other software, applications, systems or services, operate without interruption,
-        meet any performance or reliability standards or be error free or that any errors or defects
-        can or will be corrected.
-      </p>
-      <p>
-        Without limiting the foregoing, neither the Company nor any of the company's provider makes
-        any representation or warranty of any kind, express or implied: (i) as to the operation or
-        availability of the Service, or the information, content, and materials or products included
-        thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the
-        accuracy, reliability, or currency of any information or content provided through the
-        Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on
-        behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs
-        or other harmful components.
-      </p>
-      <p>
-        Some jurisdictions do not allow the exclusion of certain types of warranties or limitations
-        on applicable statutory rights of a consumer, so some or all of the above exclusions and
-        limitations may not apply to You. But in such a case the exclusions and limitations set
-        forth in this section shall be applied to the greatest extent enforceable under applicable
-        law.
-      </p>
-      <h1>Governing Law</h1>
-      <p>
-        The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and
-        Your use of the Service. Your use of the Application may also be subject to other local,
-        state, national, or international laws.
-      </p>
-      <h1>Disputes Resolution</h1>
-      <p>
-        If You have any concern or dispute about the Service, You agree to first try to resolve the
-        dispute informally by contacting the Company.
-      </p>
-      <h1>For European Union (EU) Users</h1>
-      <p>
-        If You are a European Union consumer, you will benefit from any mandatory provisions of the
-        law of the country in which you are resident in.
-      </p>
-      <h1>United States Legal Compliance</h1>
-      <p>
-        You represent and warrant that (i) You are not located in a country that is subject to the
-        United States government embargo, or that has been designated by the United States
-        government as a &quot;terrorist supporting&quot; country, and (ii) You are not listed on any
-        United States government list of prohibited or restricted parties.
-      </p>
-      <h1>Severability and Waiver</h1>
-      <h2>Severability</h2>
-      <p>
-        If any provision of these Terms is held to be unenforceable or invalid, such provision will
-        be changed and interpreted to accomplish the objectives of such provision to the greatest
-        extent possible under applicable law and the remaining provisions will continue in full
-        force and effect.
-      </p>
-      <h2>Waiver</h2>
-      <p>
-        Except as provided herein, the failure to exercise a right or to require performance of an
-        obligation under these Terms shall not effect a party's ability to exercise such right or
-        require such performance at any time thereafter nor shall the waiver of a breach constitute
-        a waiver of any subsequent breach.
-      </p>
-      <h1>Translation Interpretation</h1>
-      <p>
-        These Terms and Conditions may have been translated if We have made them available to You on
-        our Service. You agree that the original English text shall prevail in the case of a
-        dispute.
-      </p>
-      <h1>Changes to These Terms and Conditions</h1>
-      <p>
-        We reserve the right, at Our sole discretion, to modify or replace these Terms at any time.
-        If a revision is material We will make reasonable efforts to provide at least 30 days'
-        notice prior to any new terms taking effect. What constitutes a material change will be
-        determined at Our sole discretion.
-      </p>
-      <p>
-        We use Google analytics and Adsense please read their terms and conditions as well
-        <Link href="https://marketingplatform.google.com/about/analytics/terms/us">
-          <u style={{ cursor: 'pointer', color: 'teal' }}> Analytics </u>
-        </Link>
-        <Link href="https://www.google.com/adsense/localized-terms">
-          <u style={{ cursor: 'pointer', color: 'teal' }}> Adsense </u>
-        </Link>
-      </p>
-      <p>
-        By continuing to access or use Our Service after those revisions become effective, You agree
-        to be bound by the revised terms. If You do not agree to the new terms, in whole or in part,
-        please stop using the website and the Service.
-      </p>
-      <h1>Contact Us</h1>
-      <p>If you have any questions about these Terms and Conditions, You can contact us:</p>
-      <ul>
-        <li>
-          <p>By email: nasim.stg@gmail.com</p>
-        </li>
-        <li>
-          <p>By phone number: +8801314091006</p>
-        </li>
-      </ul>
-    </div>
+    <>
+      <div>
+        <h1>শর্তাবলী</h1>
+        <p>শেষ আপডেট: জানুয়ারী ২৭, ২০২৩</p>
+        <p>আমাদের পরিষেবা ব্যবহার করার আগে অনুগ্রহ করে এই শর্তাবলী সাবধানে পড়ুন।</p>
+        <h1>ব্যাখ্যা এবং সংজ্ঞা</h1>
+        <h2>ব্যাখ্যা</h2>
+        <p>
+          যে শব্দগুলির প্রথম অক্ষর বড় হাতে লেখা হয়েছে সেগুলির অর্থ নিম্নলিখিত শর্তাবলীর অধীনে
+          সংজ্ঞায়িত করা হয়েছে। নিম্নলিখিত সংজ্ঞাগুলির একই অর্থ থাকবে তা সেগুলি একবচনে বা বহুবচনে
+          উপস্থিত হোক না কেন।
+        </p>
+        <h2>সংজ্ঞা</h2>
+        <p>এই শর্তাবলীর উদ্দেশ্যে:</p>
+        <ul>
+          <li>
+            <p>
+              <strong>অ্যাফিলিয়েট</strong> মানে এমন একটি সত্তা যা একটি পক্ষের নিয়ন্ত্রণ করে,
+              নিয়ন্ত্রিত হয় বা সাধারণ নিয়ন্ত্রণে থাকে, যেখানে &quot;নিয়ন্ত্রণ&quot; মানে পরিচালক
+              বা অন্যান্য ব্যবস্থাপনা কর্তৃপক্ষের নির্বাচনের জন্য ভোট দেওয়ার অধিকারী শেয়ার,
+              ইক্যুইটি স্বার্থ বা অন্যান্য সিকিউরিটিজের ৫০% বা তার বেশি মালিকানা।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>দেশ</strong> বলতে বোঝায়: বাংলাদেশ
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>কোম্পানি</strong> (এই চুক্তিতে &quot;কোম্পানি&quot;, &quot;আমরা&quot;,
+              &quot;আমাদেরকে&quot; বা &quot;আমাদের&quot; হিসাবে উল্লেখ করা হয়েছে) বলতে শিখবো
+              কিভাবে-কে বোঝায়।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>ডিভাইস</strong> মানে যেকোনো ডিভাইস যা পরিষেবার অ্যাক্সেস করতে পারে যেমন একটি
+              কম্পিউটার, একটি সেলফোন বা একটি ডিজিটাল ট্যাবলেট।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>পরিষেবা</strong> বলতে ওয়েবসাইটকে বোঝায়।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>শর্তাবলী</strong> (এছাড়াও &quot;শর্তাবলী&quot; হিসাবে উল্লেখ করা হয়) মানে এই
+              শর্তাবলী যা পরিষেবা ব্যবহারের বিষয়ে আপনার এবং কোম্পানির মধ্যে সম্পূর্ণ চুক্তি গঠন
+              করে। এই শর্তাবলী চুক্তি{' '}
+              <a
+                href="https://www.termsfeed.com/terms-conditions-generator/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                TermsFeed শর্তাবলী জেনারেটর
+              </a>
+              -এর সাহায্যে তৈরি করা হয়েছে।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>তৃতীয় পক্ষের সোশ্যাল মিডিয়া পরিষেবা</strong> মানে কোনো তৃতীয় পক্ষ দ্বারা
+              সরবরাহকৃত কোনো পরিষেবা বা বিষয়বস্তু (ডেটা, তথ্য, পণ্য বা পরিষেবা সহ) যা পরিষেবার
+              মাধ্যমে প্রদর্শিত, অন্তর্ভুক্ত বা উপলব্ধ করা হতে পারে।
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>ওয়েবসাইট</strong> বলতে শিখবো কিভাবে-কে বোঝায়, যা{' '}
+              <a
+                href="https://sikhbokivabe.vercel.app/"
+                rel="external nofollow noopener noreferrer"
+                target="_blank"
+              >
+                https://sikhbokivabe.vercel.app/
+              </a>
+              থেকে অ্যাক্সেসযোগ্য
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>আপনি</strong> মানে পরিষেবা অ্যাক্সেস বা ব্যবহারকারী ব্যক্তি, অথবা প্রযোজ্য
+              ক্ষেত্রে যে কোম্পানি বা অন্য আইনি সত্তার পক্ষে এমন ব্যক্তি পরিষেবা অ্যাক্সেস বা
+              ব্যবহার করছেন।
+            </p>
+          </li>
+        </ul>
+        <h1>স্বীকৃতি</h1>
+        <p>
+          এইগুলি এই পরিষেবার ব্যবহারের জন্য প্রযোজ্য শর্তাবলী এবং আপনার এবং কোম্পানির মধ্যে পরিচালিত
+          চুক্তি। এই শর্তাবলী পরিষেবা ব্যবহারের বিষয়ে সমস্ত ব্যবহারকারীর অধিকার এবং বাধ্যবাধকতা
+          নির্ধারণ করে।
+        </p>
+        <p>
+          পরিষেবার আপনার অ্যাক্সেস এবং ব্যবহার এই শর্তাবলী আপনার গ্রহণ এবং সম্মতি সাপেক্ষে। এই
+          শর্তাবলী সমস্ত দর্শক, ব্যবহারকারী এবং যারা পরিষেবা অ্যাক্সেস বা ব্যবহার করেন তাদের জন্য
+          প্রযোজ্য।
+        </p>
+        <p>
+          পরিষেবা অ্যাক্সেস বা ব্যবহার করার মাধ্যমে আপনি এই শর্তাবলী দ্বারা আবদ্ধ হতে সম্মত হন। আপনি
+          যদি এই শর্তাবলীর কোনো অংশের সাথে দ্বিমত পোষণ করেন তবে আপনি পরিষেবা অ্যাক্সেস করতে পারবেন
+          না।
+        </p>
+        <p>
+          আপনি প্রতিনিধিত্ব করেন যে আপনার বয়স ১৮ বছরের বেশি। কোম্পানি ১৮ বছরের কম বয়সীদের পরিষেবা
+          ব্যবহার করার অনুমতি দেয় না।
+        </p>
+        <p>
+          পরিষেবার আপনার অ্যাক্সেস এবং ব্যবহার কোম্পানির গোপনীয়তা নীতি আপনার গ্রহণ এবং সম্মতি
+          সাপেক্ষে। আমাদের গোপনীয়তা নীতিতে আপনার ব্যক্তিগত তথ্যের সংগ্রহ, ব্যবহার এবং প্রকাশ
+          সম্পর্কিত আমাদের নীতি এবং প্রক্রিয়া বর্ণনা করা হয়েছে যখন আপনি অ্যাপ্লিকেশন বা ওয়েবসাইট
+          ব্যবহার করেন এবং এটি আপনার গোপনীয়তা অধিকার এবং আইন কীভাবে আপনাকে সুরক্ষা দেয় সে সম্পর্কে
+          আপনাকে জানায়। আমাদের পরিষেবা ব্যবহার করার আগে অনুগ্রহ করে আমাদের গোপনীয়তা নীতি সাবধানে
+          পড়ুন।
+        </p>
+        <h1>অন্যান্য ওয়েবসাইটের লিঙ্ক</h1>
+        <p>
+          আমাদের পরিষেবাতে তৃতীয় পক্ষের ওয়েবসাইট বা পরিষেবাগুলির লিঙ্ক থাকতে পারে যা কোম্পানির
+          মালিকানাধীন বা নিয়ন্ত্রিত নয়।
+        </p>
+        <p>
+          কোনো তৃতীয় পক্ষের ওয়েবসাইট বা পরিষেবার বিষয়বস্তু, গোপনীয়তা নীতি বা অনুশীলনের উপর
+          কোম্পানির কোনো নিয়ন্ত্রণ নেই এবং এর জন্য কোনো দায়বদ্ধতা গ্রহণ করে না। আপনি আরও স্বীকার
+          করেন এবং সম্মত হন যে এই ধরনের কোনো ওয়েবসাইট বা পরিষেবার মাধ্যমে উপলব্ধ কোনো বিষয়বস্তু,
+          পণ্য বা পরিষেবার ব্যবহার বা নির্ভরতার কারণে সৃষ্ট বা কথিত ক্ষতির জন্য কোম্পানি প্রত্যক্ষ
+          বা পরোক্ষভাবে দায়ী বা দায়বদ্ধ হবে না।
+        </p>
+        <p>
+          আমরা আপনাকে দৃঢ়ভাবে পরামর্শ দিচ্ছি যে আপনি যে কোনো তৃতীয় পক্ষের ওয়েবসাইট বা পরিষেবা
+          পরিদর্শন করেন তার শর্তাবলী এবং গোপনীয়তা নীতি পড়ুন।
+        </p>
+        <h1>সমাপ্তি</h1>
+        <p>
+          আমরা যেকোনো কারণে, পূর্ব নোটিশ বা দায়বদ্ধতা ছাড়াই আপনার অ্যাক্সেস অবিলম্বে সমাপ্ত বা
+          স্থগিত করতে পারি, যার মধ্যে এই শর্তাবলী লঙ্ঘন অন্তর্ভুক্ত, তবে এতে সীমাবদ্ধ নয়।
+        </p>
+        <p>সমাপ্তি ঘটলে, পরিষেবা ব্যবহারের আপনার অধিকার অবিলম্বে বন্ধ হয়ে যাবে।</p>
+        <h1>দায়বদ্ধতার সীমাবদ্ধতা</h1>
+        <p>
+          আপনার কোনো ক্ষতি হতে পারে তা সত্ত্বেও, এই শর্তাবলীর যেকোনো বিধানের অধীনে কোম্পানির এবং এর
+          যেকোনো সরবরাহকারীর সম্পূর্ণ দায়বদ্ধতা এবং উপরের সবগুলির জন্য আপনার একচেটিয়া প্রতিকার
+          পরিষেবা মাধ্যমে আপনার দ্বারা আসলে প্রদত্ত পরিমাণ বা আপনি যদি পরিষেবা মাধ্যমে কিছু না কিনে
+          থাকেন তবে ১০০ USD এর মধ্যে সীমাবদ্ধ থাকবে।
+        </p>
+        <p>
+          প্রযোজ্য আইন দ্বারা অনুমোদিত সর্বোচ্চ সীমা পর্যন্ত, কোনো অবস্থাতেই কোম্পানি বা এর
+          সরবরাহকারীরা কোনো বিশেষ, আনুষঙ্গিক, পরোক্ষ বা ফলস্বরূপ ক্ষতির জন্য (যার মধ্যে লাভের ক্ষতি,
+          ডেটা বা অন্যান্য তথ্যের ক্ষতি, ব্যবসায়িক বাধা, ব্যক্তিগত আঘাত, পরিষেবা ব্যবহার বা
+          ব্যবহারের অক্ষমতা, পরিষেবার সাথে ব্যবহৃত তৃতীয় পক্ষের সফটওয়্যার এবং/অথবা তৃতীয় পক্ষের
+          হার্ডওয়্যার, বা এই শর্তাবলীর কোনো বিধানের সাথে অন্য কোনোভাবে সম্পর্কিত গোপনীয়তা লঙ্ঘন
+          থেকে উদ্ভূত ক্ষতি অন্তর্ভুক্ত, তবে এতে সীমাবদ্ধ নয়) দায়ী থাকবে না, এমনকি যদি কোম্পানি বা
+          কোনো সরবরাহকারীকে এই ধরনের ক্ষতির সম্ভাবনার কথা জানানো হয়ে থাকে এবং এমনকি যদি প্রতিকার
+          তার অপরিহার্য উদ্দেশ্য পূরণে ব্যর্থ হয়।
+        </p>
+        <p>
+          কিছু রাজ্যে আনুষঙ্গিক বা ফলস্বরূপ ক্ষতির জন্য নিহিত ওয়্যারেন্টি বা দায়বদ্ধতার
+          সীমাবদ্ধতার বর্জন অনুমোদিত নয়, যার অর্থ উপরের কিছু সীমাবদ্ধতা প্রযোজ্য নাও হতে পারে। এই
+          রাজ্যগুলিতে, প্রতিটি পক্ষের দায়বদ্ধতা আইন দ্বারা অনুমোদিত সর্বোচ্চ পরিমাণে সীমাবদ্ধ
+          থাকবে।
+        </p>
+        <h1>&quot;যেমন আছে&quot; এবং &quot;যেমন উপলব্ধ&quot; অস্বীকৃতি</h1>
+        <p>
+          পরিষেবা আপনাকে &quot;যেমন আছে&quot; এবং &quot;যেমন উপলব্ধ&quot; এবং যেকোনো ধরণের
+          ওয়ারেন্টি ছাড়াই সমস্ত ত্রুটি সহ সরবরাহ করা হয়। প্রযোজ্য আইনের অধীনে অনুমোদিত সর্বোচ্চ
+          সীমা পর্যন্ত, কোম্পানি, তার নিজের এবং তার অ্যাফিলিয়েট এবং তাদের নিজ নিজ লাইসেন্সদাতা এবং
+          পরিষেবা প্রদানকারীদের পক্ষে, পরিষেবা সম্পর্কিত সমস্ত ওয়ারেন্টি স্পষ্টভাবে অস্বীকার করে,
+          তা স্পষ্ট, নিহিত, সংবিধিবদ্ধ বা অন্যথায় হোক না কেন, যার মধ্যে মার্চেন্টাবিলিটি, কোনো
+          নির্দিষ্ট উদ্দেশ্যে উপযুক্ততা, শিরোনাম এবং অ-লঙ্ঘনের সমস্ত নিহিত ওয়ারেন্টি এবং ডিলিংয়ের
+          প্রক্রিয়া, পারফরম্যান্সের প্রক্রিয়া, ব্যবহার বা ট্রেড অনুশীলন থেকে উদ্ভূত হতে পারে এমন
+          ওয়ারেন্টি অন্তর্ভুক্ত। উপরের বিষয়গুলির সীমাবদ্ধতা ছাড়াই, কোম্পানি কোনো ওয়ারেন্টি বা
+          অঙ্গীকার প্রদান করে না এবং কোনো প্রকারের কোনো প্রতিনিধিত্ব করে না যে পরিষেবা আপনার
+          প্রয়োজনীয়তা পূরণ করবে, কোনো উদ্দেশ্যমূলক ফলাফল অর্জন করবে, অন্য কোনো সফটওয়্যার,
+          অ্যাপ্লিকেশন, সিস্টেম বা পরিষেবার সাথে সামঞ্জস্যপূর্ণ বা কাজ করবে, বাধা ছাড়াই কাজ করবে,
+          কোনো পারফরম্যান্স বা নির্ভরযোগ্যতা মান পূরণ করবে বা ত্রুটিমুক্ত হবে বা কোনো ত্রুটি বা
+          ডিফেক্ট সংশোধন করা যাবে বা হবে।
+        </p>
+        <p>
+          পূর্বের বিষয়গুলির সীমাবদ্ধতা ছাড়াই, কোম্পানি বা কোম্পানির কোনো প্রদানকারী কোনো প্রকারের
+          কোনো প্রতিনিধিত্ব বা ওয়ারেন্টি দেয় না, তা স্পষ্ট বা নিহিত হোক না কেন: (i) পরিষেবার
+          অপারেশন বা উপলব্ধতা বা এতে অন্তর্ভুক্ত তথ্য, বিষয়বস্তু এবং উপকরণ বা পণ্য সম্পর্কিত; (ii)
+          পরিষেবা নিরবচ্ছিন্ন বা ত্রুটিমুক্ত হবে; (iii) পরিষেবার মাধ্যমে সরবরাহকৃত কোনো তথ্য বা
+          বিষয়বস্তুর নির্ভুলতা, নির্ভরযোগ্যতা বা বর্তমানতা সম্পর্কিত; অথবা (iv) পরিষেবা, এর
+          সার্ভার, বিষয়বস্তু বা কোম্পানি থেকে বা তার পক্ষে প্রেরিত ইমেলগুলি ভাইরাস, স্ক্রিপ্ট,
+          ট্রোজান হর্স, ওয়ার্ম, ম্যালওয়্যার, টাইমবোম্ব বা অন্যান্য ক্ষতিকারক উপাদান থেকে মুক্ত।
+        </p>
+        <p>
+          কিছু বিচারব্যবস্থা কিছু ধরণের ওয়ারেন্টি বা ভোক্তার প্রযোজ্য সংবিধিবদ্ধ অধিকারের
+          সীমাবদ্ধতার বর্জন অনুমোদন করে না, তাই উপরের কিছু বা সমস্ত বর্জন এবং সীমাবদ্ধতা আপনার জন্য
+          প্রযোজ্য নাও হতে পারে। তবে এই ক্ষেত্রে এই বিভাগে বর্ণিত বর্জন এবং সীমাবদ্ধতা প্রযোজ্য
+          আইনের অধীনে সর্বোচ্চ প্রযোজ্য পরিমাণে প্রয়োগ করা হবে।
+        </p>
+        <h1>নিয়ন্ত্রক আইন</h1>
+        <p>
+          দেশের আইন, এর আইনের সংঘাতের নিয়মাবলী বাদ দিয়ে, এই শর্তাবলী এবং পরিষেবা আপনার ব্যবহারকে
+          নিয়ন্ত্রণ করবে। অ্যাপ্লিকেশন আপনার ব্যবহার অন্যান্য স্থানীয়, রাজ্য, জাতীয় বা
+          আন্তর্জাতিক আইন সাপেক্ষেও হতে পারে।
+        </p>
+        <h1>বিরোধ নিষ্পত্তি</h1>
+        <p>
+          পরিষেবা সম্পর্কে আপনার কোনো উদ্বেগ বা বিরোধ থাকলে, আপনি কোম্পানির সাথে যোগাযোগ করে প্রথমে
+          অনানুষ্ঠানিকভাবে বিরোধ সমাধানের চেষ্টা করতে সম্মত হন।
+        </p>
+        <h1>ইউরোপীয় ইউনিয়ন (EU) ব্যবহারকারীদের জন্য</h1>
+        <p>
+          আপনি যদি ইউরোপীয় ইউনিয়নের ভোক্তা হন, তবে আপনি যে দেশে বসবাস করেন সে দেশের আইনের যেকোনো
+          বাধ্যতামূলক বিধান থেকে উপকৃত হবেন।
+        </p>
+        <h1>মার্কিন যুক্তরাষ্ট্রের আইনগত সম্মতি</h1>
+        <p>
+          আপনি প্রতিনিধিত্ব করেন এবং ওয়ারেন্টি দেন যে (i) আপনি এমন কোনো দেশে অবস্থিত নন যা মার্কিন
+          যুক্তরাষ্ট্র সরকারের নিষেধাজ্ঞার অধীন, বা যাকে মার্কিন যুক্তরাষ্ট্র সরকার কর্তৃক একটি
+          &quot;সন্ত্রাসবাদ সমর্থনকারী&quot; দেশ হিসাবে মনোনীত করা হয়েছে, এবং (ii) আপনি কোনো
+          মার্কিন যুক্তরাষ্ট্র সরকারের নিষিদ্ধ বা সীমাবদ্ধ পক্ষের তালিকায় তালিকাভুক্ত নন।
+        </p>
+        <h1>বিচ্ছিন্নতা এবং মওকুফ</h1>
+        <h2>বিচ্ছিন্নতা</h2>
+        <p>
+          যদি এই শর্তাবলীর কোনো বিধান অপ্রয়োগযোগ্য বা অবৈধ বলে গণ্য হয়, তবে এই বিধানটি প্রযোজ্য
+          আইনের অধীনে যতটা সম্ভব বিধানটির উদ্দেশ্যগুলি সম্পাদন করার জন্য পরিবর্তন এবং ব্যাখ্যা করা
+          হবে এবং অবশিষ্ট বিধানগুলি সম্পূর্ণ কার্যকর থাকবে।
+        </p>
+        <h2>মওকুফ</h2>
+        <p>
+          এখানে প্রদত্ত ব্যতীত, এই শর্তাবলীর অধীনে একটি অধিকার প্রয়োগ করতে বা একটি বাধ্যবাধকতা
+          সম্পাদন করার প্রয়োজন পূরণে ব্যর্থতা পরবর্তীকালে যেকোনো সময় এই ধরনের অধিকার প্রয়োগ করার
+          বা এই ধরনের কার্য সম্পাদনের প্রয়োজন পূরণের কোনো পক্ষের ক্ষমতাকে প্রভাবিত করবে না এবং কোনো
+          লঙ্ঘনের মওকুফ কোনো পরবর্তী লঙ্ঘনের মওকুফ গঠন করবে না।
+        </p>
+        <h1>অনুবাদ ব্যাখ্যা</h1>
+        <p>
+          এই শর্তাবলী অনুবাদ করা হতে পারে যদি আমরা সেগুলি আমাদের পরিষেবায় আপনার জন্য উপলব্ধ করে
+          থাকি। আপনি সম্মত হন যে বিরোধের ক্ষেত্রে মূল ইংরেজি পাঠ্য প্রাধান্য পাবে।
+        </p>
+        <h1>এই শর্তাবলীর পরিবর্তন</h1>
+        <p>
+          আমরা যেকোনো সময়, আমাদের একক বিবেচনার ভিত্তিতে, এই শর্তাবলী সংশোধন বা প্রতিস্থাপন করার
+          অধিকার সংরক্ষণ করি। যদি কোনো সংশোধন গুরুত্বপূর্ণ হয়, তাহলে নতুন শর্তাবলী কার্যকর হওয়ার
+          অন্তত ৩০ দিন আগে নোটিশ প্রদানের জন্য আমরা যুক্তিসঙ্গত প্রচেষ্টা করব। কী একটি গুরুত্বপূর্ণ
+          পরিবর্তন গঠন করে তা আমাদের একক বিবেচনার ভিত্তিতে নির্ধারিত হবে।
+        </p>
+        <p>
+          আমরা গুগল অ্যানালিটিক্স এবং অ্যাডসেন্স ব্যবহার করি, অনুগ্রহ করে তাদের শর্তাবলীও পড়ুন
+          <Link href="https://marketingplatform.google.com/about/analytics/terms/us">
+            <u style={{ cursor: 'pointer', color: 'teal' }}> অ্যানালিটিক্স </u>
+          </Link>
+          <Link href="https://www.google.com/adsense/localized-terms">
+            <u style={{ cursor: 'pointer', color: 'teal' }}> অ্যাডসেন্স </u>
+          </Link>
+        </p>
+        <p>
+          এই সংশোধনগুলি কার্যকর হওয়ার পরে আমাদের পরিষেবা অ্যাক্সেস বা ব্যবহার চালিয়ে যাওয়ার
+          মাধ্যমে, আপনি সংশোধিত শর্তাবলী দ্বারা আবদ্ধ হতে সম্মত হন। আপনি যদি নতুন শর্তাবলীতে,
+          সম্পূর্ণ বা আংশিকভাবে সম্মত না হন, তাহলে অনুগ্রহ করে ওয়েবসাইট এবং পরিষেবা ব্যবহার বন্ধ
+          করুন।
+        </p>
+        <h1>আমাদের সাথে যোগাযোগ করুন</h1>
+        <p>এই শর্তাবলী সম্পর্কে আপনার কোনো প্রশ্ন থাকলে, আপনি আমাদের সাথে যোগাযোগ করতে পারেন:</p>
+        <ul>
+          <li>
+            <p>ইমেলের মাধ্যমে: nasim.stg@gmail.com</p>
+          </li>
+          <li>
+            <p>ফোন নম্বরের মাধ্যমে: +8801314091006</p>
+          </li>
+        </ul>
+      </div>
+    </>
   )
 }

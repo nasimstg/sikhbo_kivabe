@@ -1,0 +1,429 @@
+---
+title: 'পার্ট ৮: সি-তে ফাইল হ্যান্ডলিং একটি বিস্তারিত গাইড/টিউটোরিয়াল'
+date: '2024-11-18'
+tags: ['সি', 'ফাইল হ্যান্ডলিং', 'সি প্রোগ্রামিং']
+draft: false
+summary: 'সি-তে ফাইলগুলির সাথে কীভাবে interact করবেন তা শিখুন! এই বিস্তারিত গাইডটি ফাইল হ্যান্ডলিংয়ের essential aspects, যেমন opening, reading from, writing to, এবং closing file গুলি cover করে, আপনার program গুলিকে persistent data এর সাথে কাজ করতে সক্ষম করে।'
+authors: ['default']
+---
+
+**আমাদের "সি-তে শুরু করা" সিরিজের পার্ট ৮ এ আপনাকে আবার স্বাগতম!** এখন পর্যন্ত, আমরা variable, array, এবং structure ব্যবহার করে আমাদের program এর মধ্যে data নিয়ে কীভাবে কাজ করতে হয় তা শিখেছি। তবে, program terminate হলে এই variable গুলিতে থাকা data সাধারণত lost হয়ে যায়। সি-তে **ফাইল হ্যান্ডলিং** আপনার program গুলিকে আপনার কম্পিউটারের storage device এ stored file গুলোর সাথে interact করতে অনুমতি দেয়, যা আপনাকে existing file থেকে data read করতে এবং নতুন বা existing file এ data write করতে সক্ষম করে, আপনার program গুলিকে persistent information এর সাথে কাজ করতে সক্ষম করে তোলে।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### ফাইল হ্যান্ডলিং কেন গুরুত্বপূর্ণ?
+
+বেশ কয়েকটি কারণে ফাইল হ্যান্ডলিং প্রোগ্রামিংয়ের একটি crucial aspect:
+
+- **ডেটা পার্সিস্টেন্স:** এটি প্রোগ্রামগুলিকে ডেটা permanently store করার অনুমতি দেয়, প্রোগ্রাম finished running হওয়ার পরেও। এটি এমন অ্যাপ্লিকেশনগুলির জন্য essential যেগুলি ব্যবহারকারীর preference, application state, বা অন্য কোন ধরণের data save করতে হবে যা multiple session জুড়ে available থাকতে হবে।
+- **ডেটা ইনপুট:** প্রোগ্রামগুলি external file থেকে data read করতে পারে, যা আপনাকে large dataset process করতে বা source code এ সরাসরি value hardcoding ছাড়াই program behavior configure করতে অনুমতি দেয়।
+- **ডেটা আউটপুট:** প্রোগ্রামগুলি processed data বা result file এ write করতে পারে, যা পরে other program গুলি ব্যবহার করতে পারে বা ব্যবহারকারীদের দ্বারা viewed হতে পারে।
+- **কনফিগারেশন ফাইল:** অনেক অ্যাপ্লিকেশন configuration setting store করার জন্য file ব্যবহার করে, যা ব্যবহারকারীদের application এর behavior customize করার অনুমতি দেয়।
+- **লগিং:** প্রোগ্রামগুলি file এ log write করতে পারে, event, error, বা debugging এবং monitoring এর জন্য অন্যান্য useful information recording করে।
+
+### সি-তে ফাইল নিয়ে কাজ করা: মৌলিক বিষয়গুলি
+
+সি-তে একটি ফাইল নিয়ে কাজ করতে, আপনি সাধারণত এই step গুলি follow করেন:
+
+1.  **ফাইল ওপেন করা:** আপনাকে একটি নির্দিষ্ট mode ব্যবহার করে ফাইলটি open করতে হবে যা নির্দেশ করে যে আপনি এটি থেকে read করতে চান, এতে write করতে চান, বা উভয়ই।
+2.  **ফাইলে operations Perform করা:** একবার ফাইল open হয়ে গেলে, আপনি এটি থেকে data read করতে পারেন বা এতে data write করতে পারেন।
+3.  **ফাইল ক্লোজ করা:** ফাইল নিয়ে আপনার কাজ finished হয়ে গেলে, এর সাথে associated resource release করার জন্য এটি close করা essential।
+
+### একটি ফাইল ওপেন করা: `fopen()` Function
+
+`fopen()` function সি-তে একটি ফাইল open করতে ব্যবহৃত হয়। এটি `<stdio.h>` header file এ defined। `fopen()` এর সিনট্যাক্স হলো:
+
+```c
+FILE *fopen(const char *filename, const char *mode);
+```
+
+- **`filename`:** আপনি যে ফাইলটি open করতে চান তার নাম ধারণকারী একটি string। এটি current directory তে না থাকলে ফাইলের path অন্তর্ভুক্ত করতে পারে।
+
+- **`mode`:** আপনি যে mode এ ফাইলটি open করতে চান তা specifying করা একটি string। এখানে কিছু সাধারণ ফাইল mode দেওয়া হলো:
+      _ **`"r"`:** Read mode। existing file reading এর জন্য open করে। file pointer ফাইলের শুরুতে position করা হয়। ফাইল যদি exist না করে, `fopen()` `NULL` return করে।
+      _ **`"w"`:** Write mode। file writing এর জন্য open করে। ফাইল যদি exist করে, তার contents truncat করা হয় (deleted)। ফাইল যদি exist না করে, একটি নতুন ফাইল তৈরি করা হয়। file pointer ফাইলের শুরুতে position করা হয়।
+      _ **`"a"`:** Append mode। file writing এর জন্য open করে ফাইলের শেষে। ফাইল যদি exist করে, file এ write করা new data শেষে append হবে। ফাইল যদি exist না করে, একটি নতুন ফাইল তৈরি করা হয়।
+      _ **`"r+"`:** Read/write mode। existing file reading এবং writing উভয়ের জন্য open করে। file pointer ফাইলের শুরুতে position করা হয়।
+      _ **`"w+"`:** Read/write mode (existing file truncate করে বা new file তৈরি করে)। file reading এবং writing উভয়ের জন্য open করে। ফাইল যদি exist করে, তার contents truncat করা হয়। ফাইল যদি exist না করে, একটি নতুন ফাইল তৈরি করা হয়। file pointer ফাইলের শুরুতে position করা হয়।
+      _ **`"a+"`:** Read/append mode (exist না করলে new file তৈরি করে)। file reading এবং writing উভয়ের জন্য open করে। ফাইল যদি exist করে, writing ফাইলের শেষে শুরু হবে। ফাইল যদি exist না করে, একটি নতুন ফাইল তৈরি করা হয়। reading এর জন্য initial file pointer position ফাইলের শুরুতে থাকে, কিন্তু writing সর্বদা শেষে ঘটে।
+      \* binary mode এ একটি ফাইল open করতে আপনি এই mode গুলোর সাথে `"b"` যোগ করতে পারেন (যেমন, `"rb"`, `"wb"`, `"ab")। binary mode file কে কোনো interpretation ছাড়াই byte এর sequence হিসাবে treat করে, যা image বা executable file এর মতো non-text file এর জন্য important। যদি `"b"\` specified না হয়, file text mode এ open করা হয়, যেখানে কিছু character translation ঘটতে পারে (যেমন, newline character)।
+
+- **Return Value:** ফাইল সফলভাবে open হলে `fopen()` একটি **ফাইল পয়েন্টার** (একটি `FILE` structure এর pointer) return করে। এই pointer পরবর্তীতে file এর উপর operation perform করতে ব্যবহৃত হয়। যদি কোনো কারণে ফাইল open করা না যায় (যেমন, read mode এ ফাইল exist করে না, বা permission issue আছে), `fopen()` `NULL` return করে। সম্ভাব্য error handle করার জন্য `fopen()` call করার পর `NULL` এর জন্য check করা crucial।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+
+    // Open a file named "my_document.txt" in write mode
+    fptr = fopen("my_document.txt", "w");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1; // Indicate an error occurred
+    }
+
+    printf("File opened successfully!\n");
+
+    // We'll write to the file later
+
+    return 0;
+}
+```
+
+### একটি ফাইল ক্লোজ করা: `fclose()` Function
+
+একবার আপনি একটি ফাইল থেকে reading বা writing finished হয়ে গেলে, আপনাকে `fclose()` function ব্যবহার করে এটি close করতে হবে। এটি ফাইল দ্বারা ব্যবহৃত resource release করে এবং any buffered data file এ লেখা হয়েছে তা নিশ্চিত করে। `fclose()` এর সিনট্যাক্স হলো:
+
+```c
+int fclose(FILE *stream);
+```
+
+- **`stream`:** `fopen()` দ্বারা return করা file pointer।
+- **Return Value:** ফাইল সফলভাবে closed হলে `fclose()` 0 return করে। closed করার সময় error ঘটলে এটি `EOF` (End Of File, সাধারণত -1) return করে।
+
+**উদাহরণ (পূর্ববর্তী থেকে continu করে):**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+
+    fptr = fopen("my_document.txt", "w");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    printf("File opened successfully!\n");
+
+    // ... (Write to the file here) ...
+
+    if (fclose(fptr) == 0) {
+        printf("File closed successfully!\n");
+    } else {
+        printf("Error closing the file!\n");
+    }
+
+    return 0;
+}
+```
+
+**গুরুত্বপূর্ণ:** আপনি যে ফাইলগুলি open করেন তা সর্বদা close করুন\! এটি করতে ব্যর্থ হলে data loss বা অন্যান্য issue হতে পারে।
+
+### একটি Text File থেকে Reading
+
+সি একটি text file থেকে data read করার জন্য বেশ কয়েকটি function সরবরাহ করে:
+
+#### Character by Character Reading: `fgetc()`
+
+`fgetc()` function file pointer দ্বারা pointed file থেকে একটি single character read করে। এটি read করা character কে একটি integer হিসাবে return করে (বা ফাইলের end এ reach করলে বা error ঘটলে `EOF`)।
+
+```c
+int fgetc(FILE *stream);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+    char ch;
+
+    fptr = fopen("my_document.txt", "r"); // Open in read mode
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    printf("Contents of the file:\n");
+    while ((ch = fgetc(fptr)) != EOF) {
+        printf("%c", ch);
+    }
+    printf("\n");
+
+    fclose(fptr);
+    return 0;
+}
+```
+
+#### Line by Line Reading: `fgets()`
+
+`fgets()` function `stream` দ্বারা pointed file থেকে at most `n-1` character read করে এবং সেগুলি `str` দ্বারা pointed character array তে store করে। এটি একটি newline character encounter হলে, বা ফাইলের end reach হলে, বা `n-1` character read করা হয়ে গেলে reading বন্ধ করে দেয়। read করা newline character, যদি read করা হয়, string এ included থাকে। string null-terminated হয়। এটি success এ `str` return করে এবং error ঘটলে বা কোনো character read হওয়ার আগে ফাইলের end এ reach করলে `NULL` return করে।
+
+```c
+char *fgets(char *str, int n, FILE *stream);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+    char line[100];
+
+    fptr = fopen("my_document.txt", "r");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    printf("Contents of the file (line by line):\n");
+    while (fgets(line, sizeof(line), fptr) != NULL) {
+        printf("%s", line);
+    }
+    printf("\n");
+
+    fclose(fptr);
+    return 0;
+}
+```
+
+#### Formatted Input Reading: `fscanf()`
+
+`fscanf()` function file থেকে formatted input read করে, similar to `scanf()` standard input (keyboard) থেকে read করে। এটি format string এবং additional arguments দ্বারা pointed location গুলিতে values store করে `stream` দ্বারা pointed file থেকে character read করে। এটি successfully matched এবং assigned input item এর number return করে, যা early matching failure এর ক্ষেত্রে provided এর চেয়ে কম হতে পারে। যেকোনো matching succeed হওয়ার আগে input failure ঘটলে, `fscanf()` `EOF` return করে।
+
+```c
+int fscanf(FILE *stream, const char *format, ...);
+```
+
+**উদাহরণ:**
+
+ধরে নেওয়া যাক "my_document.txt" এ data আছে: `John 30`
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+    char name[50];
+    int age;
+
+    fptr = fopen("my_document.txt", "r");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    while (fscanf(fptr, "%s %d", name, &age) == 2) {
+        printf("Name: %s, Age: %d\n", name, age);
+    }
+
+    fclose(fptr);
+    return 0;
+}
+```
+
+### একটি Text File এ Writing
+
+সি একটি text file এ data write করার জন্য function ও সরবরাহ করে:
+
+#### Character by Character Writing: `fputc()`
+
+`fputc()` function stream দ্বারা pointed file এ একটি single character `c` write করে। এটি success এ written character return করে, বা error ঘটলে `EOF` return করে।
+
+```c
+int fputc(int c, FILE *stream);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+
+    fptr = fopen("output.txt", "w"); // Open in write mode
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    fputc('H', fptr);
+    fputc('e', fptr);
+    fputc('l', fptr);
+    fputc('l', fptr);
+    fputc('o', fptr);
+    fputc('\n', fptr);
+
+    fclose(fptr);
+    printf("Data written to output.txt\n");
+    return 0;
+}
+```
+
+#### Line by Line Writing: `fputs()`
+
+`fputs()` function stream দ্বারা pointed file এ string `str` write করে। এটি স্বয়ংক্রিয়ভাবে একটি newline character append করে না। এটি success এ একটি non-negative value return করে, বা error এ `EOF` return করে।
+
+```c
+int fputs(const char *str, FILE *stream);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+
+    fptr = fopen("output.txt", "w");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    fputs("This is the first line.\n", fptr);
+    fputs("This is the second line.\n", fptr);
+
+    fclose(fptr);
+    printf("Data written to output.txt\n");
+    return 0;
+}
+```
+
+#### Formatted Output Writing: `fprintf()`
+
+`fprintf()` function file এ formatted output write করে, similar to `printf()` standard output (console) এ write করে। এটি format string এবং additional arguments অনুসারে stream দ্বারা pointed file এ write করে। এটি successful হলে written character এর number return করে, বা error ঘটলে একটি negative value return করে।
+
+```c
+int fprintf(FILE *stream, const char *format, ...);
+```
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *fptr;
+    char name[] = "Jane Doe";
+    int age = 25;
+
+    fptr = fopen("output.txt", "w");
+
+    if (fptr == NULL) {
+        printf("Error opening the file!\n");
+        return 1;
+    }
+
+    fprintf(fptr, "Name: %s, Age: %d\n", name, age);
+
+    fclose(fptr);
+    printf("Data written to output.txt\n");
+    return 0;
+}
+```
+
+### ফাইল অপারেশন চলাকালীন Error Handling
+
+ফাইল অপারেশন চলাকালীন potential error handle করা crucial। ফাইল সফলভাবে open হয়েছে কিনা তা নিশ্চিত করতে সর্বদা `fopen()` এর return value check করুন। অন্যান্য ফাইল অপারেশন এর জন্য, আপনাকে function গুলোর return value check করতে হতে পারে বা stream এ error check করার জন্য `ferror()` এর মতো function ব্যবহার করতে হতে পারে।
+
+### End of File Check করা: `feof()`
+
+`feof()` function specified stream এর জন্য end-of-file indicator সেট করা হয়েছে কিনা তা check করে। end-of-file indicator সেট করা হলে এটি একটি non-zero value return করে, এবং অন্যথায় zero return করে।
+
+```c
+int feof(FILE *stream);
+```
+
+আপনি `fgetc()` এবং `fgets()` example গুলিতে `feof()` এর usage implicitly দেখেছেন, যেখানে loop এই function গুলি `EOF` বা `NULL` return না করা পর্যন্ত continue হয়েছিল, যা ফাইলের end নির্দেশ করে।
+
+### Binary File Handling (সংক্ষিপ্ত পরিচিতি)
+
+image, audio, বা executable file এর মতো non-text file handle করার জন্য, আপনাকে **binary mode** এ ফাইলটি open করতে হবে (যেমন, `"rb"`, `"wb"`)। binary mode এ, data কোনো interpretation ছাড়াই byte এর sequence হিসাবে read এবং write করা হয়। binary file নিয়ে কাজ করার সময় আপনি সাধারণত `fread()` এর মতো function ব্যবহার করেন একটি block of byte read করতে এবং `fwrite()` একটি block of byte write করতে। প্রয়োজনে আমরা এই সিরিজের একটি later part এ binary file handling আরও বিস্তারিত আলোচনা করব।
+
+### উদাহরণ: একটি ফাইল থেকে Reading এবং এ Writing
+
+এখানে একটি আরও complete example যা একটি file ("names_input.txt") থেকে name read করে এবং সেগুলিকে আরেকটি file ("names_output.txt") এ write করে:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *inputFile, *outputFile;
+    char name[50];
+
+    // Open the input file in read mode
+    inputFile = fopen("names_input.txt", "r");
+    if (inputFile == NULL) {
+        perror("Error opening input file");
+        return 1;
+    }
+
+    // Open the output file in write mode
+    outputFile = fopen("names_output.txt", "w");
+    if (outputFile == NULL) {
+        perror("Error opening output file");
+        fclose(inputFile); // Close the input file if output file opening fails
+        return 1;
+    }
+
+    // Read names from the input file and write them to the output file
+    while (fgets(name, sizeof(name), inputFile) != NULL) {
+        fprintf(outputFile, "Name: %s", name); // Write to the output file
+    }
+
+    // Close both files
+    fclose(inputFile);
+    fclose(outputFile);
+
+    printf("Names copied from names_input.txt to names_output.txt\n");
+
+    return 0;
+}
+```
+
+এই example test করার জন্য আপনার C program এর একই directory তে "names_input.txt" নামের একটি ফাইল তৈরি করুন এবং এতে কিছু নাম (প্রতি লাইনে একটি) যোগ করুন।
+
+### এরপর কি?
+
+আমাদের "সি-তে শুরু করা" সিরিজের পরবর্তী অংশে, আমরা সি-তে **preprocessor directive** explore করব, যা special instruction যা আপনার code এর actual compilation এর আগে preprocessor দ্বারা processed হয়।
+
+<br />
+
+**পরামর্শ:**
+
+- memory তে data কীভাবে store হয় তা understand করতে, যা file I/O এর জন্য প্রাসঙ্গিক, আপনি আমাদের আলোচনা "[সি-তে মেমরি ম্যানেজমেন্ট (পার্ট ৬)](/blog/beginner-c-cpp/memory-management-in-c)" পুনরায় দেখতে পারেন।
+- C-তে string সম্পর্কে আপনার refresher প্রয়োজন হলে, যা file এ text read এবং write করার সময় প্রায়শই ব্যবহৃত হয়, "[সি-তে অ্যারে এবং স্ট্রিং (পার্ট ৫)](/blog/beginner-c-cpp/array-and-string-in-c)" দেখুন।
+- আমরা file open করার জন্য বিভিন্ন mode ব্যবহার করেছি। operating system এ file permission concept বোঝা আপনার জন্য সহায়ক হতে পারে, যা আপনি "[Link to a potential future blog post about File Permissions]" এ আরও জানতে পারেন।
+- আমরা `<stdio.h>` থেকে standard library function ব্যবহার করেছি, আপনি "[Link to a potential future blog post about Standard Library Functions in C]" এ অন্যান্য useful function explore করতে আগ্রহী হতে পারেন।
+
+This detailed content provides a comprehensive introduction to file handling in C for beginners. Remember to replace the bracketed placeholders with actual links to your blog posts.
+
+## এই আর্টিকেলে আলোচিত বিষয়:
+
+- সি-তে ফাইল হ্যান্ডলিং
+- সি-তে ফাইল I/O
+- সি-তে ফাইল অপারেশন
+- সি-তে ফাইল মোড
+- সি-তে ফাইল ফাংশন
+- সি-তে ফাইল রিডিং
+- সি-তে ফাইল রাইটিং
+- সি-তে ফাইল ওপেনিং
+- সি-তে ফাইল ক্লোজিং
+- সি-তে ফাইল এরর হ্যান্ডলিং
+- সি-তে ফাইল এন্ড অফ ফাইল
+- সি-তে ফাইল বাইনারি মোড
+- সি-তে ফাইল টেক্সট মোড
+- সি-তে ফাইল স্ট্রিম
+- সি-তে ফাইল পয়েন্টার
+- সি-তে ফাইল বাফারিং

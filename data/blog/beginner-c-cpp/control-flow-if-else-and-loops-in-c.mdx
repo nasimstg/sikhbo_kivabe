@@ -1,0 +1,250 @@
+---
+title: 'Part 3: Control Flow: If-Else, Loops in C'
+date: '2024-11-13'
+tags: ['C', 'C Programming', 'Beginner C Programming']
+draft: false
+summary: 'Learn how to use conditional statements (`if`, `else if`, `else`) and looping structures (`for`, `while`, `do-while`) to make your programs more dynamic and powerful.'
+authors: ['default']
+---
+
+**Welcome back to Part 3 of our "Getting Started with C" series!** In the previous parts, we laid the groundwork by understanding the basics of C and how to work with variables, data types, and operators. Now, we're going to learn how to make our programs more intelligent and versatile by introducing **control flow** statements. These statements allow you to execute different blocks of code based on certain conditions or to repeat a block of code multiple times.
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### Conditional Statements: Making Decisions with `if`, `else if`, and `else`
+
+Conditional statements allow your program to make decisions and execute different paths of code based on whether a certain condition is true or false. The most common conditional statement in C is the `if` statement.
+
+#### The `if` Statement
+
+The `if` statement executes a block of code only if a specified condition is true. The syntax is as follows:
+
+```c
+if (condition) {
+    // Code to be executed if the condition is true
+}
+```
+
+The `condition` is an expression that evaluates to either true (non-zero) or false (zero). If the condition is true, the code inside the curly braces `{}` is executed.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int age = 20;
+
+    if (age >= 18) {
+        printf("You are eligible to vote.\n");
+    }
+
+    return 0;
+}
+```
+
+In this example, the message "You are eligible to vote." will be printed only if the value of the `age` variable is 18 or greater.
+
+#### The `else` Statement
+
+The `else` statement can be used in conjunction with an `if` statement to execute a block of code if the condition in the `if` statement is false. The syntax is:
+
+```c
+if (condition) {
+    // Code to be executed if the condition is true
+} else {
+    // Code to be executed if the condition is false
+}
+```
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int age = 15;
+
+    if (age >= 18) {
+        printf("You are eligible to vote.\n");
+    } else {
+        printf("You are not yet eligible to vote.\n");
+    }
+
+    return 0;
+}
+```
+
+In this case, since `age` is 15 (less than 18), the message "You are not yet eligible to vote." will be printed.
+
+#### The `else if` Statement
+
+Sometimes, you might have multiple conditions to check. The `else if` statement allows you to check additional conditions if the preceding `if` or `else if` conditions were false. The syntax is:
+
+```c
+if (condition1) {
+    // Code to be executed if condition1 is true
+} else if (condition2) {
+    // Code to be executed if condition1 is false AND condition2 is true
+} else if (condition3) {
+    // Code to be executed if condition1 and condition2 are false AND condition3 is true
+} else {
+    // Code to be executed if none of the above conditions are true
+}
+```
+
+You can have multiple `else if` statements. The `else` block at the end is optional and will be executed if none of the preceding conditions are true.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int score = 75;
+
+    if (score >= 90) {
+        printf("Grade: A\n");
+    } else if (score >= 80) {
+        printf("Grade: B\n");
+    } else if (score >= 70) {
+        printf("Grade: C\n");
+    } else if (score >= 60) {
+        printf("Grade: D\n");
+    } else {
+        printf("Grade: F\n");
+    }
+
+    return 0;
+}
+```
+
+In this example, the program will determine and print the corresponding letter grade based on the value of the `score` variable.
+
+### Looping Structures: Repeating Actions with `for`, `while`, and `do-while`
+
+Loops allow you to execute a block of code repeatedly until a certain condition is met. C provides three main types of loops: `for`, `while`, and `do-while`.
+
+#### The `for` Loop
+
+The `for` loop is typically used when you know in advance how many times you want to execute a block of code. The syntax is:
+
+```c
+for (initialization; condition; increment/decrement) {
+    // Code to be executed repeatedly
+}
+```
+
+- **Initialization:** This statement is executed only once at the beginning of the loop. It's often used to initialize a loop counter variable.
+- **Condition:** This expression is evaluated before each iteration of the loop. If the condition is true, the loop body is executed. If it's false, the loop terminates.
+- **Increment/Decrement:** This statement is executed at the end of each iteration. It's often used to update the loop counter.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 1; i <= 5; i++) {
+        printf("The value of i is: %d\n", i);
+    }
+
+    return 0;
+}
+```
+
+This loop will print the message "The value of i is: [number]" five times, with the value of `i` ranging from 1 to 5.
+
+#### The `while` Loop
+
+The `while` loop executes a block of code as long as a specified condition is true. The condition is checked before each iteration. The syntax is:
+
+```c
+while (condition) {
+    // Code to be executed as long as the condition is true
+}
+```
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int count = 0;
+
+    while (count < 3) {
+        printf("Count is: %d\n", count);
+        count++; // Increment the counter to eventually make the condition false
+    }
+
+    return 0;
+}
+```
+
+This loop will print the value of `count` (0, 1, and 2) as long as `count` is less than 3. It's crucial to ensure that the condition eventually becomes false to avoid an infinite loop.
+
+#### The `do-while` Loop
+
+The `do-while` loop is similar to the `while` loop, but it guarantees that the loop body will be executed at least once because the condition is checked _after_ the first iteration. The syntax is:
+
+```c
+do {
+    // Code to be executed at least once, and then repeatedly as long as the condition is true
+} while (condition);
+```
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int num;
+
+    do {
+        printf("Enter a positive number: ");
+        scanf("%d", &num);
+    } while (num <= 0);
+
+    printf("You entered: %d\n", num);
+
+    return 0;
+}
+```
+
+This loop will keep prompting the user to enter a positive number until a positive number is entered.
+
+### Controlling Loop Execution: `break` and `continue`
+
+C provides two special statements that can be used to alter the normal flow of execution within loops:
+
+- **`break`:** The `break` statement immediately terminates the innermost enclosing loop (or `switch` statement). The program execution continues with the statement immediately following the loop.
+- **`continue`:** The `continue` statement skips the rest of the current iteration of the loop and proceeds to the next iteration.
+
+We'll explore these statements in more detail in future parts of the series when we encounter scenarios where they are particularly useful.
+
+### What's Next?
+
+In the next part of our "Getting Started with C" series, we will dive into the world of **functions** in C. You'll learn how to define your own functions to create reusable blocks of code and make your programs more organized and manageable. Stay tuned!
+
+<br />
+
+**Suggestions:**
+
+- If you want to review the different types of operators we discussed in the previous part, you can find that information here: "[Variables, Data Types, and Operators in C](/blog/beginner-c-cpp/c-variable-data-types-and-operators)".
+- Understanding boolean logic is crucial for working with conditional statements. You might find our explanation of "[Boolean Logic in Programming]" helpful.
+- As we briefly mentioned the `switch` statement, you might want to explore its usage in our article on "[The Switch Statement in C]".
+- For a more advanced understanding of loop control, you can look forward to our future content on "[Link to a potential future blog post about Advanced Loop Techniques in C]".
+
+This content thoroughly covers control flow in C for beginners, providing a strong understanding of how to make programs make decisions and repeat actions.
+
+## Topic covered in this article:
+
+- ### Control Flow
+- ### If-Else
+- ### Loops
+- ### For Loop
+- ### While Loop
+- ### Do-While Loop

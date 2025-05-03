@@ -1,0 +1,475 @@
+---
+title: 'সি-তে Stack এবং Queue Implement করা ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ৩'
+date: '2024-12-04'
+tags: ['সি', 'ডেটা স্ট্রাকচার', 'স্ট্যাক', 'কিউ']
+draft: false
+summary: 'Array এবং linked list উভয়ই ব্যবহার করে সি-তে fundamental Abstract Data Types (ADT) - Stacks (LIFO) এবং Queues (FIFO) - Implement কিভাবে করতে হয় তা শিখুন। তাদের operation, application, এবং trade-off গুলি বুঝুন।'
+authors: ['default']
+---
+
+আমাদের Intermediate C সিরিজের পার্ট ৩ এ আপনাকে আবার স্বাগতম! [dynamic memory allocation](/blog/intermediate-c-p1-dynamic-memory-allocation) tackle করার পর এবং [linked list](/blog/intermediate-c-p2-working-with-linked-lists) এর flexibility explore করার পর, আমরা এখন দুটি crucial Abstract Data Types (ADT) implement করার জন্য প্রস্তুত: **Stacks** এবং **Queues**। এগুলি specific data structure নয়, বরং data কীভাবে stored এবং accessed হতে পারে তা defining করে এমন _concept_, প্রায়শই তাদের underlying implementation এর জন্য array বা linked list এর উপর নির্ভর করে। আসুন LIFO এবং FIFO এর জগতে ডুব দেওয়া যাক!
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+## Stack এবং Queue কি?
+
+Stack এবং Queue হলো linear data structure যা element গুলিকে কীভাবে যোগ করা বা remove করা যেতে পারে তা restrict করে।
+
+- **Stack:** **LIFO (Last-In, First-Out)** নীতি অনুসরণ করে। প্লেটের একটি stack ভাবুন – আপনি শেষ যে প্লেটটি উপরে রেখেছেন সেটিই প্রথমে তুলে নেবেন।
+- **Queue:** **FIFO (First-In, First-Out)** নীতি অনুসরণ করে। টিকিট কেনার জন্য একটি queue বা line ভাবুন – line এর প্রথম ব্যক্তিই প্রথম সেবা পাবেন।
+
+তাদেরকে Abstract Data Types বলা হয় কারণ আমরা তাদের operation এবং behavior _কি_ করে তা সংজ্ঞায়িত করি কীভাবে তারা implement করা হয় (array, linked list, ইত্যাদি ব্যবহার করে) তা থেকে আলাদা করে।
+
+## I. Stack (LIFO)
+
+একটি stack প্রধানত দুটি main operation সমর্থন করে: push (যোগ করা) একটি element stack এর top এ এবং pop (remove করা) একটি element stack এর top থেকে।
+
+**Core Stack Operations:**
+
+- `push(item)`: Stack এর top এ একটি item যোগ করুন।
+- `pop()`: Stack এর top থেকে item remove করুন এবং return করুন।
+- `peek()` বা `top()`: top item return করুন এটি remove না করে।
+- `isEmpty()`: Stack empty কিনা check করুন।
+- `isFull()`: (array-based implementation এর জন্য প্রাসঙ্গিক) Stack full কিনা check করুন।
+
+**Application:** function call management (the call stack), expression evaluation (infix to postfix conversion), backtracking algorithm (যেমন mazes solve করা), software এ undo/redo feature।
+
+### Array ব্যবহার করে Stack Implementation
+
+Maximum size আগে থেকে জানা থাকলে এটি প্রায়শই simplest implementation।
+
+**Structure:**
+
+```c
+#include <stdio.h>
+#include <stdlib.h> // For malloc/free if creating dynamically
+#include <limits.h> // For INT_MIN or other error indicators
+
+#define MAX_SIZE 100 // Example fixed size
+
+typedef struct {
+    int items[MAX_SIZE]; // Stack element ধারণ করার জন্য Array
+    int top;             // top element এর Index (-1 মানে empty)
+    // dynamic array ব্যবহার করলে optionally 'capacity' add করুন
+} StackArray;
+
+// একটি stack তৈরি/initialize করার Function
+StackArray* createStackArray() {
+    // dynamically allocate করা যেতে পারে: StackArray* stack = malloc(sizeof(StackArray));
+    // এখানে সরলতার জন্য, আমরা একটি static/global বা local instance ব্যবহার করব
+    // dynamically allocated হলে, NULL এর জন্য check করতে এবং পরে free করতে মনে রাখবেন।
+    static StackArray stack; // static storage ব্যবহার করে উদাহরণ
+    stack.top = -1; // stack empty হিসাবে initialize করুন
+    return &stack;
+}
+
+// stack full কিনা Check করুন
+int isFull_Array(StackArray* stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+// stack empty কিনা Check করুন
+int isEmpty_Array(StackArray* stack) {
+    return stack->top == -1;
+}
+
+// Push operation
+void push_Array(StackArray* stack, int item) {
+    if (isFull_Array(stack)) {
+        fprintf(stderr, "Stack Overflow! Cannot push %d.\n", item);
+        return;
+    }
+    // top increment করুন, তারপর item add করুন
+    stack->items[++(stack->top)] = item;
+    printf("Pushed %d onto the array stack.\n", item);
+}
+
+// Pop operation
+int pop_Array(StackArray* stack) {
+    if (isEmpty_Array(stack)) {
+        fprintf(stderr, "Stack Underflow! Cannot pop.\n");
+        return INT_MIN; // Or some other error indicator
+    }
+    // top এ item return করুন, তারপর top decrement করুন
+    printf("Popped %d from the array stack.\n", stack->items[stack->top]);
+    return stack->items[(stack->top)--];
+}
+
+// Peek operation
+int peek_Array(StackArray* stack) {
+     if (isEmpty_Array(stack)) {
+        fprintf(stderr, "Stack is empty! Cannot peek.\n");
+        return INT_MIN; // Error indicator
+    }
+    return stack->items[stack->top];
+}
+
+// Example Usage (Array Stack)
+void exampleArrayStack() {
+    printf("\n--- Array Stack Example ---\n");
+    StackArray* myStack = createStackArray();
+
+    push_Array(myStack, 10);
+    push_Array(myStack, 20);
+    push_Array(myStack, 30);
+
+    printf("Top element is: %d\n", peek_Array(myStack)); // 30 হওয়া উচিত
+
+    pop_Array(myStack); // 30 Popped হয়েছে
+    pop_Array(myStack); // 20 Popped হয়েছে
+
+    printf("Is stack empty? %s\n", isEmpty_Array(myStack) ? "Yes" : "No"); // No
+
+    pop_Array(myStack); // 10 Popped হয়েছে
+    printf("Is stack empty? %s\n", isEmpty_Array(myStack) ? "Yes" : "No"); // Yes
+
+    pop_Array(myStack); // Stack Underflow!
+    printf("--- End Array Stack Example ---\n");
+}
+
+```
+
+**Explanation:**
+
+_ আমরা `items` নামক একটি array ব্যবহার করি data store করতে।
+  _ একটি integer `top` _last inserted element_ এর index ট্র্যাক করে। `top = -1` empty stack নির্দেশ করে।
+  _ `push`: `top` increment করে, তারপর item টি `items[top]` এ রাখে। প্রথমে overflow check করে।
+  _ `pop`: `items[top]` এ item return করে, তারপর `top` decrement করে। প্রথমে underflow check করে।
+  _ `peek`: `items[top]` এ item return করে `top` modify না করে।
+  _ **Limitation:** Fixed size (`MAX_SIZE`)। আপনি dynamic array এর জন্য `malloc`/`realloc` ব্যবহার করতে পারেন, তবে এটি complexity যোগ করে।
+
+### Linked Lists ব্যবহার করে Stack Implementation
+
+এটি linked list এর শুরুতে adding/removing এর efficiency leverage করে।
+
+**Structure:**
+পূর্ববর্তী tutorial থেকে Node structure প্রয়োজন।
+
+```c
+// Node structure পুনরায় ব্যবহার বা redefine করা
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Stack structure এর শুধুমাত্র top node (list এর head) এর pointer প্রয়োজন
+typedef struct {
+    Node* top; // top node point করে (linked list এর head)
+} StackLL;
+
+// একটি empty stack তৈরি করার Function
+StackLL* createStackLL() {
+    StackLL* stack = (StackLL*)malloc(sizeof(StackLL));
+    if (!stack) {
+        perror("Failed to allocate stack");
+        return NULL;
+    }
+    stack->top = NULL; // stack empty হিসাবে initialize করুন
+    return stack;
+}
+
+// stack empty কিনা Check করুন
+int isEmpty_LL(StackLL* stack) {
+    return stack->top == NULL;
+}
+
+// Push operation (LL এর শুরুতে inserting এর equivalent)
+void push_LL(StackLL* stack, int data) {
+    // একটি নতুন node তৈরি করুন
+    Node* newNode = (Node*)malloc(sizeof(Node));
+     if (!newNode) {
+        perror("Failed to allocate node for push");
+        return; // Or handle error more gracefully
+    }
+    newNode->data = data;
+
+    // নতুন node কে current top এর সাথে link করুন
+    newNode->next = stack->top;
+
+    // top কে নতুন node point করতে update করুন
+    stack->top = newNode;
+    printf("Pushed %d onto the linked list stack.\n", data);
+}
+
+// Pop operation (LL এর first node deleting এর equivalent)
+int pop_LL(StackLL* stack) {
+    if (isEmpty_LL(stack)) {
+        fprintf(stderr, "Stack Underflow! Cannot pop from linked list stack.\n");
+        return INT_MIN; // Error indicator
+    }
+
+    // current top node store করুন
+    Node* temp = stack->top;
+    int poppedData = temp->data;
+
+    // top কে next node এ update করুন
+    stack->top = stack->top->next;
+
+    // old top node free করুন
+    free(temp);
+    temp = NULL;
+
+    printf("Popped %d from the linked list stack.\n", poppedData);
+    return poppedData;
+}
+
+// Peek operation
+int peek_LL(StackLL* stack) {
+    if (isEmpty_LL(stack)) {
+        fprintf(stderr, "Stack is empty! Cannot peek linked list stack.\n");
+        return INT_MIN; // Error indicator
+    }
+    return stack->top->data;
+}
+
+// entire stack free করার Function (essential!)
+void freeStackLL(StackLL* stack) {
+    Node* current = stack->top;
+    Node* nextNode;
+    printf("Freeing linked list stack...\n");
+    while (current != NULL) {
+        nextNode = current->next;
+        free(current);
+        current = nextNode;
+    }
+    free(stack); // stack structure itself free করুন
+    printf("Linked list stack freed.\n");
+}
+
+
+// Example Usage (Linked List Stack)
+void exampleLLStack() {
+    printf("\n--- Linked List Stack Example ---\n");
+    StackLL* myStack = createStackLL();
+     if (!myStack) return; // Allocation check
+
+    push_LL(myStack, 100);
+    push_LL(myStack, 200);
+    push_LL(myStack, 300);
+
+    printf("Top element is: %d\n", peek_LL(myStack)); // 300 হওয়া উচিত
+
+    pop_LL(myStack); // 300 Popped হয়েছে
+    pop_LL(myStack); // 200 Popped হয়েছে
+
+    printf("Is stack empty? %s\n", isEmpty_LL(myStack) ? "Yes" : "No"); // No
+
+    pop_LL(myStack); // 100 Popped হয়েছে
+    printf("Is stack empty? %s\n", isEmpty_LL(myStack) ? "Yes" : "No"); // Yes
+
+    pop_LL(myStack); // Stack Underflow!
+
+    // IMPORTANT: stack memory Free করুন
+    freeStackLL(myStack);
+    printf("--- End Linked List Stack Example ---\n");
+}
+```
+
+**Explanation:**
+
+_ Stack এর শুধুমাত্র একটি `top` pointer প্রয়োজন, যা আমাদের basic linked list এ `head` pointer এর মতো কাজ করে।
+  _ `push`: একটি new node তৈরি করে এবং list এর শুরুতে (updating `top`) এটিকে insert করে। এটি O(1)।
+  _ `pop`: first node (যেটি `top` point করছে) remove করে, `top` কে next node এ update করে, এবং removed node কে `free` করে। এটি O(1)।
+  _ `peek`: `top` node থেকে data return করে।
+  \* **Advantage:** Dynamic size, কোনো artificial limit নেই (কেবল available memory)।
+
+## II. Queue (FIFO)
+
+একটি queue প্রধানত rear (back) এ elements যোগ করা এবং front থেকে elements remove করা সমর্থন করে।
+
+**Core Queue Operations:**
+
+_ `enqueue(item)`: Queue এর rear এ একটি item যোগ করুন।
+  _ `dequeue()`: Queue এর front থেকে item remove করুন এবং return করুন।
+  _ `peek()` বা `front()`: front item return করুন এটিকে remove না করে।
+  _ `isEmpty()`: Queue empty কিনা check করুন।
+  \* `isFull()`: (array-based implementation এর জন্য প্রাসঙ্গিক) Queue full কিনা check করুন।
+
+**Application:** Task scheduling (CPU scheduling, print queues), asynchronous request handling (web server requests), graph এ Breadth-First Search (BFS), data streaming এ buffer।
+
+### Linked Lists ব্যবহার করে Queue Implementation
+
+Queue implement করার জন্য এটি প্রায়শই সবচেয়ে intuitive উপায়, সরাসরি "line" concept model করে। efficiency এর জন্য list এর front এবং rear উভয়েরই pointer প্রয়োজন।
+
+**Structure:**
+
+```c
+// Node structure পুনরায় ব্যবহার বা redefine করা
+// typedef struct Node { ... } Node; (Assumed defined above)
+
+// Queue structure এর front এবং rear উভয় node এর pointer প্রয়োজন
+typedef struct {
+    Node* front; // front node point করে (list এর head)
+    Node* rear;  // rear node point করে (list এর tail)
+} QueueLL;
+
+// একটি empty queue তৈরি করার Function
+QueueLL* createQueueLL() {
+    QueueLL* queue = (QueueLL*)malloc(sizeof(QueueLL));
+     if (!queue) {
+        perror("Failed to allocate queue");
+        return NULL;
+    }
+    queue->front = NULL;
+    queue->rear = NULL;
+    return queue;
+}
+
+// queue empty কিনা Check করুন
+int isEmpty_QueueLL(QueueLL* queue) {
+    return queue->front == NULL; // front NULL হলে, queue empty
+}
+
+// Enqueue operation (rear/tail এ add করুন)
+void enqueue_LL(QueueLL* queue, int data) {
+    // একটি নতুন node তৈরি করুন
+    Node* newNode = (Node*)malloc(sizeof(Node));
+     if (!newNode) {
+        perror("Failed to allocate node for enqueue");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = NULL; // শেষে যোগ করা node সর্বদা NULL point করে
+
+    // queue empty হলে, নতুন node front এবং rear উভয়ই
+    if (queue->rear == NULL) { // or check isEmpty_QueueLL(queue)
+        queue->front = newNode;
+        queue->rear = newNode;
+        printf("Enqueued %d (first element).\n", data);
+        return;
+    }
+
+    // current rear node কে নতুন node এর সাথে link করুন
+    queue->rear->next = newNode;
+
+    // rear pointer কে নতুন node এ update করুন
+    queue->rear = newNode;
+    printf("Enqueued %d to the rear.\n", data);
+}
+
+// Dequeue operation (front/head থেকে remove করুন)
+int dequeue_LL(QueueLL* queue) {
+    if (isEmpty_QueueLL(queue)) {
+        fprintf(stderr, "Queue Underflow! Cannot dequeue.\n");
+        return INT_MIN; // Error indicator
+    }
+
+    // current front node store করুন
+    Node* temp = queue->front;
+    int dequeuedData = temp->data;
+
+    // front pointer কে next node এ move করুন
+    queue->front = queue->front->next;
+
+    // খুবই গুরুত্বপূর্ণ: update এর পর front NULL হয়ে গেলে, queue এখন empty,
+    // সুতরাং rear ও NULL হতে হবে!
+    if (queue->front == NULL) {
+        queue->rear = NULL;
+    }
+
+    // old front node free করুন
+    free(temp);
+    temp = NULL;
+
+    printf("Dequeued %d from the front.\n", dequeuedData);
+    return dequeuedData;
+}
+
+// Peek/Front operation
+int peek_QueueLL(QueueLL* queue) {
+     if (isEmpty_QueueLL(queue)) {
+        fprintf(stderr, "Queue is empty! Cannot peek.\n");
+        return INT_MIN; // Error indicator
+    }
+    return queue->front->data;
+}
+
+// entire queue free করার Function
+void freeQueueLL(QueueLL* queue) {
+     Node* current = queue->front;
+    Node* nextNode;
+    printf("Freeing linked list queue...\n");
+    while (current != NULL) {
+        nextNode = current->next;
+        free(current);
+        current = nextNode;
+    }
+    free(queue); // queue structure itself free করুন
+     printf("Linked list queue freed.\n");
+}
+
+// Example Usage (Linked List Queue)
+void exampleLLQueue() {
+     printf("\n--- Linked List Queue Example ---\n");
+    QueueLL* myQueue = createQueueLL();
+    if (!myQueue) return;
+
+    enqueue_LL(myQueue, 10);
+    enqueue_LL(myQueue, 20);
+    enqueue_LL(myQueue, 30);
+
+    printf("Front element is: %d\n", peek_QueueLL(myQueue)); // 10 হওয়া উচিত
+
+    dequeue_LL(myQueue); // 10 Dequeued হয়েছে
+    printf("Front element is: %d\n", peek_QueueLL(myQueue)); // 20 হওয়া উচিত
+
+    enqueue_LL(myQueue, 40);
+
+    dequeue_LL(myQueue); // 20 Dequeued হয়েছে
+    dequeue_LL(myQueue); // 30 Dequeued হয়েছে
+    printf("Is queue empty? %s\n", isEmpty_QueueLL(myQueue) ? "Yes" : "No"); // No
+
+    dequeue_LL(myQueue); // 40 Dequeued হয়েছে
+    printf("Is queue empty? %s\n", isEmpty_QueueLL(myQueue) ? "Yes" : "No"); // Yes
+
+    dequeue_LL(myQueue); // Queue Underflow!
+
+    // IMPORTANT: queue memory Free করুন
+    freeQueueLL(myQueue);
+     printf("--- End Linked List Queue Example ---\n");
+}
+
+```
+
+**Explanation:**
+
+_ Queue structure দুটি pointer ধারণ করে: `front` (`head` এর মতো) এবং `rear` (last node point করে)।
+  _ `enqueue`: একটি নতুন node তৈরি করে। queue empty হলে, front এবং rear উভয়কেই নতুন node এ set করে। অন্যথায়, current rear এর পরে node টি append করে এবং rear update করে। এটি O(1)।
+  _ `dequeue`: front দ্বারা pointed node remove করে। front কে next node এ update করে। **Crucially**, update এর পর front NULL হয়ে গেলে (অর্থাৎ last element dequeue করা হয়েছে), rear ও NULL সেট করতে হবে\! old front node free করে। এটি O(1)।
+  _ `peek`: front node থেকে data return করে।
+  \* **Advantage:** enqueue এবং dequeue উভয়ের জন্য efficient O(1) time complexity, fully dynamic size।
+
+### Array ব্যবহার করে Queue Implementation (Circular Queue - Conceptual)
+
+একটি standard array দিয়ে efficiently একটি queue implement করা tricky কারণ front থেকে dequeue করতে অন্যান্য সমস্ত element shift করতে হয় (O(n))। একটি **Circular Array** (বা Ring Buffer) এটি solve করে।
+
+**Concept:**
+
+* একটি array এবং দুটি index ব্যবহার করুন: `front` (first element এর index) এবং `rear` (last element এর *পরের* index)।
+  * যখন `front` বা `rear` array এর end এ reach করে, তারা modulo operator (`% capacity`) ব্যবহার করে শুরু দিকে wrap around করে।
+  \* full queue এবং empty queue এর মধ্যে distinguish করার জন্য special condition প্রয়োজন (যেমন, elements এর একটি `count` রাখা, বা একটি slot unused leave করা)।
+
+শক্তিশালী হলেও, circular queue এর index management এবং full/empty check linked list approach এর তুলনায় সঠিকভাবে implement করা complex হতে পারে। সংক্ষেপে এবং স্পষ্টতার জন্য, আমরা উপরের linked list queue implementation এর উপর focus করেছি, যা fixed capacity একটি strict requirement না হলে C-তে general-purpose queue এর জন্য প্রায়শই preferred।
+
+## Array এবং Linked List Implementation এর মধ্যে নির্বাচন
+
+_ **Stack:**
+      _ **Array:** max size জানা থাকলে simpler, memory locality এর কারণে potentially slightly faster। max size underestimate হলে overflow এর risk।
+      _ **Linked List:** More flexible (dynamic size), overflow risk নেই (memory শেষ হওয়া ছাড়া), O(1) push/pop naturally efficient। Performance absolutely critical না হলে এবং size fixed না হলে generally preferred।
+  _ **Queue:**
+      _ **Circular Array:** সঠিকভাবে implement করা হলে খুব efficient হতে পারে, good memory locality। Fixed size, complex index management।
+      _ **Linked List:** enqueue/dequeue এর জন্য অনেক simpler logic, dynamic size, O(1) operation straightforward। C-তে general-purpose queue এর জন্য প্রায়শই preferred implementation।
+
+## উপসংহার
+
+Stack (LIFO) এবং Queue (FIFO) হলো computer science এ numerous application সহ fundamental abstract data types। আমরা দেখেছি fixed-size array এবং, আরও flexibly, dynamic linked list উভয়ই ব্যবহার করে সেগুলিকে সি-তে implement কিভাবে করতে হয়। underlying principle এবং implementation method গুলোর মধ্যে trade-off বোঝা আপনাকে কাজের জন্য সঠিক tool select করার অনুমতি দেয়। এগুলি আয়ত্ত করা proficient C programmer হওয়ার আরেকটি key step।
+
+এরপর, আমরা non-linear structure গুলিতে venture করব যখন আমরা **সি-তে Trees এবং Graphs এর পরিচিতি** পাবো\!
+
+## আরও পড়া এবং সম্পর্কিত পোস্ট
+
+_ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ২: সি-তে Linked Lists নিয়ে কাজ করা](/blog/intermediate-c-concepts/unknown-sized-array-linkedlist-in-c)
+  _ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ১: সি-তে ডাইনামিক মেমরি অ্যালোকেশন](/blog/intermediate-c-concepts/dynamic-memory-allocation-in-c)
+  _ [সি-তে শুরু করা পার্ট ৭: স্ট্রাকচার এবং ইউনিয়ন](/blog/getting-started-c-p7-structures-unions)
+  _ [সি-তে শুরু করা পার্ট ৬: সি-তে পয়েন্টার](/blog/beginner-c-cpp/structures-and-unions-in-c)

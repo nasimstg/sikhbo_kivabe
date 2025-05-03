@@ -1,9 +1,11 @@
 const siteMetadata = {
-  title: 'Sikhbo Kivabe',
-  author: 'Mohammed Nasim',
-  headerTitle: 'Sikhbo Kivabe',
-  description: 'A simple website to get started with any technology . Obviously in Bangla Language. I am you host nasimStg and this is you first step into the tech field. I will be teaching you guys how you can learn any web technology. ',
-  language: 'en-us',
+  title:
+    "ব্লগ সাইট 'শিখবো কিভাবে' দিয়ে যেকোনো কিছু শিখুন | 'শিখবো কিভাবে' দিয়ে কোডিং, ডিজাইন এবং আরও অনেক কিছু শিখুন",
+  author: 'মো: নাসিম শেখ',
+  headerTitle: 'শিখবো কিভাবে',
+  description:
+    'আমার সাথে একটি নতুন প্রোগ্রামিং ভাষা বা প্রযুক্তি শিখুন। ওয়েব, মোবাইল এবং ডেস্কটপ প্রোগ্রামিংয়ের জন্য সেরা টিউটোরিয়াল এবং কোর্সগুলি খুঁজুন। এই ব্লগটি ব্যবহার করে আমাদের সাথে আপনার নিজস্ব প্রকল্প তৈরি করতে জনপ্রিয় সরঞ্জাম এবং ফ্রেমওয়ার্ক ব্যবহার করতে শিখুন।',
+  language: 'bn-bd',
   theme: 'system', // system, dark or light
   siteUrl: 'https://sikhbokivabe.vercel.app/',
   siteRepo: 'https://github.com/nasimstg/sikhbo_kivabe',
@@ -16,7 +18,7 @@ const siteMetadata = {
   facebook: 'https://facebook.com/mohammed.nasim.on3',
   youtube: 'https://youtube.com/@wooenestudio',
   linkedin: 'https://www.linkedin.com/in/nasimStg',
-  locale: ['bn-BD', 'en-US'],
+  locale: ['bn-BD'],
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.

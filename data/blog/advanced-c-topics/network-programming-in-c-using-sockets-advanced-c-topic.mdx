@@ -1,0 +1,345 @@
+---
+title: 'সকেট ব্যবহার করে সি-তে নেটওয়ার্ক প্রোগ্রামিং পার্ট ২ (৬টির মধ্যে) অ্যাডভান্সড সি টপিকস'
+date: '2024-12-16'
+tags: ['সি', 'সিরিজ', 'অ্যাডভান্সড সি', 'নেটওয়ার্ক প্রোগ্রামিং', 'সকেট']
+draft: false
+summary: 'আপনার সি প্রোগ্রামগুলিকে ইন্টারনেটের সাথে সংযুক্ত করুন! বার্কলে সকেটস API ব্যবহার করে নেটওয়ার্ক প্রোগ্রামিংয়ের মৌলিক বিষয়গুলি শিখুন। ক্লায়েন্ট-সার্ভার আর্কিটেকচার, TCP/IP বুঝুন এবং ব্যবহারিক সি উদাহরণ সহ socket(), bind(), listen(), accept(), এবং connect()-এর মতো মূল ফাংশনগুলি আয়ত্ত করুন।'
+authors: ['default']
+---
+
+কখনও ভেবে দেখেছেন অ্যাপ্লিকেশনগুলি কীভাবে ইন্টারনেট বা স্থানীয় নেটওয়ার্ক জুড়ে যোগাযোগ করে? জাদু প্রায়শই **সকেটের** মাধ্যমে ঘটে। এই আর্টিকেলটি স্ট্যান্ডার্ড বার্কলে সকেটস API ব্যবহার করে সি-তে নেটওয়ার্ক প্রোগ্রামিংয়ের মৌলিক বিষয়গুলিতে ডুব দেয়, যা আপনাকে নেটওয়ার্ক জুড়ে ডেটা পাঠানো এবং গ্রহণ করতে পারে এমন অ্যাপ্লিকেশন তৈরি করতে সক্ষম করে। আপনার প্রথম ক্লায়েন্ট-সার্ভার অ্যাপ্লিকেশন তৈরি করার জন্য প্রস্তুত হন!
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+## সকেট প্রোগ্রামিং কি?
+
+এর মূল বিষয় হল, নেটওয়ার্ক প্রোগ্রামিং বলতে এমন প্রোগ্রাম লেখা বোঝায় যা নেটওয়ার্কের (ইন্টারনেটের মতো বা একটি স্থানীয় LAN) মাধ্যমে অন্যান্য প্রোগ্রামের সাথে যোগাযোগ করে। একটি **সকেট** হলো নেটওয়ার্কে চলমান দুটি প্রোগ্রামের মধ্যে একটি দ্বি-মুখী যোগাযোগের লিঙ্কের একটি শেষ প্রান্ত। সকেটস API ফাংশন এবং ডেটা স্ট্রাকচারের একটি সেট প্রদান করে যা প্রোগ্রামারদের এই যোগাযোগের শেষ প্রান্তগুলি তৈরি এবং পরিচালনা করতে দেয়।
+
+নেটওয়ার্ক প্রোগ্রামিংয়ে ব্যবহৃত সবচেয়ে সাধারণ মডেল হল **ক্লায়েন্ট-সার্ভার মডেল**:
+
+- **সার্ভার:** একটি প্রোগ্রাম যা সাধারণত ক্রমাগত চলে, একটি নির্দিষ্ট নেটওয়ার্ক অ্যাড্রেস এবং পোর্টে ক্লায়েন্টদের কাছ থেকে আগত সংযোগ অনুরোধ শোনে এবং কিছু পরিষেবা প্রদান করে (যেমন, ওয়েব পেজ সরবরাহ করা, ডেটাবেস পরিচালনা করা, গেম চালানো)।
+- **ক্লায়েন্ট:** একটি প্রোগ্রাম যা পরিষেবা অনুরোধ করতে বা ডেটা বিনিময় করতে সার্ভারে একটি সংযোগ শুরু করে। আপনার ওয়েব ব্রাউজার হল ওয়েব সার্ভারগুলির সাথে সংযোগ স্থাপনকারী একটি ক্লায়েন্ট।
+
+## মূল ধারণা
+
+কোডে ডুব দেওয়ার আগে, আসুন কিছু অপরিহার্য ধারণা উপলব্ধি করি:
+
+1.  **IP অ্যাড্রেস এবং পোর্ট:**
+        _ একটি **IP অ্যাড্রেস** (ইন্টারনেট প্রোটোকল অ্যাড্রেস) নেটওয়ার্কে একটি ডিভাইসকে (কম্পিউটার, সার্ভার) অনন্যভাবে সনাক্ত করে (যেমন, IPv4-এর জন্য `192.168.1.100` বা IPv6-এর জন্য `2001:0db8:85a3::8a2e:0370:7334`)।
+        _ একটি **পোর্ট নম্বর** হল একটি 16-বিট সংখ্যা (0-65535) যা সেই ডিভাইসে চলমান একটি নির্দিষ্ট অ্যাপ্লিকেশন বা পরিষেবা সনাক্ত করে। IP অ্যাড্রেসকে বিল্ডিংয়ের ঠিকানা এবং পোর্ট নম্বরকে সেই বিল্ডিংয়ের নির্দিষ্ট অ্যাপার্টমেন্ট নম্বর হিসাবে ভাবুন। স্ট্যান্ডার্ড পরিষেবাগুলির সুপরিচিত পোর্ট রয়েছে (যেমন, HTTP পোর্ট 80 ব্যবহার করে, HTTPS পোর্ট 443 ব্যবহার করে, SSH পোর্ট 22 ব্যবহার করে)।
+2.  **প্রোটোকল (TCP বনাম UDP):**
+        _ **TCP (ট্রান্সমিশন কন্ট্রোল প্রোটোকল):** সংযোগ-ভিত্তিক, নির্ভরযোগ্য, স্ট্রিম-ভিত্তিক। এটি গ্যারান্টি দেয় যে ডেটা ক্রমানুসারে এবং ত্রুটি ছাড়াই আসে (বা এটি ব্যর্থতার আপনাকে অবহিত করে)। ডেটা স্থানান্তর শুরু করার আগে এটি একটি সংযোগ স্থাপন করে। এটিকে একটি ফোন কলের মতো ভাবুন। আমরা এই নির্দেশিকাতে TCP (`SOCK_STREAM`)-এর উপর ফোকাস করব।
+        _ **UDP (ইউজার ডেটাগ্রাম প্রোটোকল):** সংযোগহীন, অবিশ্বাস্য, ডেটাগ্রাম-ভিত্তিক। এটি দ্রুততর তবে ডেলিভারি বা অর্ডারের গ্যারান্টি দেয় না। এটিকে পোস্টকার্ড পাঠানোর মতো ভাবুন – সেগুলি হারিয়ে যেতে পারে বা ক্রমানুসারে নাও পৌঁছাতে পারে। স্পিড যেখানে গুরুত্বপূর্ণ এবং মাঝে মাঝে ডেটা হারানো গ্রহণযোগ্য (যেমন ভিডিও স্ট্রিমিং বা DNS লুকআপস) সেখানে ব্যবহৃত হয় (`SOCK_DGRAM`)।
+3.  **বাইট অর্ডার (এন্ডিয়াননেস):** কম্পিউটারগুলি মাল্টি-বাইট সংখ্যাগুলিকে ভিন্নভাবে সংরক্ষণ করে (লিটল-এন্ডিয়ান বনাম বিগ-এন্ডিয়ান)। নেটওয়ার্কগুলি সাধারণত বিগ-এন্ডিয়ান ("নেটওয়ার্ক বাইট অর্ডার") ব্যবহার করে। সকেটস API হোস্ট বাইট অর্ডার এবং নেটওয়ার্ক বাইট অর্ডারের মধ্যে রূপান্তরের জন্য ফাংশন সরবরাহ করে:
+        _ `htons()`: হোস্ট টু নেটওয়ার্ক শর্ট (16-বিট, পোর্টের জন্য)
+        _ `htonl()`: হোস্ট টু নেটওয়ার্ক লং (32-বিট, IPv4 অ্যাড্রেসের জন্য)
+        _ `ntohs()`: নেটওয়ার্ক টু হোস্ট শর্ট
+        _ `ntohl()`: নেটওয়ার্ক টু হোস্ট লং
+        \* **সকেট স্ট্রাকচারে অ্যাড্রেস এবং পোর্ট স্থাপন বা পুনরুদ্ধার করার সময় সর্বদা এগুলি ব্যবহার করুন!**
+4.  **সকেট ডিসক্রিপ্টর:** আপনি যখন একটি সকেট তৈরি করেন, অপারেটিং সিস্টেম একটি পূর্ণসংখ্যা রিটার্ন করে, ফাইল ডিসক্রিপ্টরের মতো (`int socket_fd`)। সেই নির্দিষ্ট সকেট উল্লেখ করার জন্য আপনি পরবর্তী সকেট ফাংশন কলগুলিতে এই ডিসক্রিপ্টরটি ব্যবহার করেন।
+
+## TCP সার্ভার ওয়ার্কফ্লো
+
+একটি সাধারণ TCP সার্ভার নিম্নলিখিত পদক্ষেপগুলি সম্পাদন করে:
+
+1.  **`socket()` - একটি সকেট তৈরি করুন:** OS থেকে একটি সকেট ডিসক্রিপ্টর পান।
+2.  **`bind()` - অ্যাড্রেস অ্যাসাইন করুন:** ক্লায়েন্টরা কোথায় সংযোগ করবে তা জানার জন্য তৈরি সকেটে একটি নির্দিষ্ট IP অ্যাড্রেস এবং পোর্ট নম্বর অ্যাসাইন করুন।
+3.  **`listen()` - সংযোগগুলির জন্য শুনুন:** সকেটটিকে একটি প্যাসিভ সকেট হিসাবে চিহ্নিত করুন যা আগত সংযোগ অনুরোধ গ্রহণ করতে ব্যবহৃত হবে। পেন্ডিং সংযোগগুলির জন্য একটি কিউ সীমা (ব্যাকলগ) সংজ্ঞায়িত করুন।
+4.  **`accept()` - সংযোগ গ্রহণ করুন:** একটি ক্লায়েন্ট সংযোগ করার চেষ্টা করা পর্যন্ত অপেক্ষা করুন (ব্লক করুন)। যখন একটি সংযোগ ঘটে, তখন `accept()` শুধুমাত্র _সেই নির্দিষ্ট ক্লায়েন্টের_ সাথে যোগাযোগের জন্য নিবেদিত একটি _নতুন_ সকেট ডিসক্রিপ্টর তৈরি করে। মূল লিসেনিং সকেটটি আরও সংযোগ গ্রহণ করার জন্য খোলা থাকে।
+5.  **`read()`/`recv()` এবং `write()`/`send()` - যোগাযোগ করুন:** কানেক্টেড ক্লায়েন্টের সাথে ডেটা বিনিময় করতে `accept()` দ্বারা রিটার্ন করা _নতুন_ সকেট ডিসক্রিপ্টর ব্যবহার করুন।
+6.  **`close()` - সংযোগ বন্ধ করুন:** যোগাযোগ শেষ হলে ক্লায়েন্ট-নির্দিষ্ট সকেট ডিসক্রিপ্টর বন্ধ করুন। সার্ভার তখন অন্য সংযোগ গ্রহণ করার জন্য `accept()`-এ ফিরে যেতে পারে অথবা বন্ধ হওয়ার সময় মূল লিসেনিং সকেট বন্ধ করতে পারে।
+
+## TCP ক্লায়েন্ট ওয়ার্কফ্লো
+
+একটি সাধারণ TCP ক্লায়েন্ট এই পদক্ষেপগুলি সম্পাদন করে:
+
+1.  **`socket()` - একটি সকেট তৈরি করুন:** OS থেকে একটি সকেট ডিসক্রিপ্টর পান।
+2.  **`connect()` - সংযোগ স্থাপন করুন:** সার্ভারের IP অ্যাড্রেস এবং পোর্ট নম্বরের সাথে সক্রিয়ভাবে সংযোগ করার চেষ্টা করুন। ক্লায়েন্টকে এগুলি আগেই জানতে হবে।
+3.  **`write()`/`send()` এবং `read()`/`recv()` - যোগাযোগ করুন:** সকেট ডিসক্রিপ্টর ব্যবহার করে সার্ভারের সাথে ডেটা বিনিময় করুন।
+4.  **`close()` - সংযোগ বন্ধ করুন:** যোগাযোগ শেষ হলে সকেট ডিসক্রিপ্টর বন্ধ করুন।
+
+## প্রয়োজনীয় ডেটা স্ট্রাকচার এবং হেডার
+
+আপনার প্রাথমিকভাবে এই হেডারগুলির প্রয়োজন হবে:
+
+```c
+#include <stdio.h>      // Standard I/O
+#include <stdlib.h>     // Standard library (exit)
+#include <string.h>     // String manipulation (bzero, strlen)
+#include <unistd.h>     // Unix standard functions (read, write, close)
+#include <sys/socket.h> // Core socket functions and data structures
+#include <netinet/in.h> // Structures for internet addresses (sockaddr_in)
+#include <arpa/inet.h>  // Functions for manipulating IP addresses (inet_pton)
+#include <errno.h;      // For error number variables (like errno)
+```
+
+IPv4 অ্যাড্রেসের জন্য মূল স্ট্রাকচার হল `struct sockaddr_in`:
+
+```c
+struct sockaddr_in {
+    short            sin_family;   // Address family, AF_INET for IPv4
+    unsigned short   sin_port;     // Port number (needs to be in Network Byte Order!)
+    struct in_addr   sin_addr;     // IP address (needs to be in Network Byte Order!)
+    char             sin_zero[8];  // Padding, set to zero
+};
+
+struct in_addr {
+    unsigned long s_addr;          // 32-bit IPv4 address
+};
+```
+
+## সহজ TCP সার্ভার উদাহরণ (ইটারেটিভ)
+
+এই সার্ভারটি পোর্ট 8080-এ শোনে, একবারে একটি সংযোগ গ্রহণ করে, একটি বার্তা পড়ে, একটি উত্তর পাঠায় এবং সংযোগ বন্ধ করে।
+
+```c
+// server.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+void error_exit(const char *msg) {
+    perror(msg);
+    exit(EXIT_FAILURE);
+}
+
+int main() {
+    int listen_fd, conn_fd; // Listening socket, connection socket
+    struct sockaddr_in serv_addr, cli_addr;
+    socklen_t cli_len;
+    char buffer[BUFFER_SIZE];
+    int n;
+
+    // 1. Create socket
+    listen_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (listen_fd < 0) {
+        error_exit("ERROR opening socket");
+    }
+    printf("Socket created successfully.\n");
+
+    // Initialize server address structure
+    memset(&serv_addr, 0, sizeof(serv_addr)); // Use memset for portability
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY); // Listen on any available interface
+    serv_addr.sin_port = htons(PORT);          // Set port (Network Byte Order)
+
+    // 2. Bind socket to address and port
+    if (bind(listen_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        close(listen_fd);
+        error_exit("ERROR on binding");
+    }
+    printf("Binding successful on port %d.\n", PORT);
+
+    // 3. Listen for incoming connections
+    if (listen(listen_fd, 5) < 0) { // 5 is the backlog queue size
+         close(listen_fd);
+        error_exit("ERROR on listen");
+    }
+    printf("Server listening...\n");
+
+    while (1) { // Loop to accept multiple connections sequentially
+        cli_len = sizeof(cli_addr);
+
+        // 4. Accept a connection
+        // accept() blocks until a client connects
+        conn_fd = accept(listen_fd, (struct sockaddr *)&cli_addr, &cli_len);
+        if (conn_fd < 0) {
+            perror("ERROR on accept"); // Don't exit, just report and try again
+            continue; // Continue to next iteration to accept another connection
+        }
+
+        // Get client IP address and port for logging
+        char client_ip[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &cli_addr.sin_addr, client_ip, sizeof(client_ip));
+        printf("Connection accepted from %s:%d\n", client_ip, ntohs(cli_addr.sin_port));
+
+        // --- Communication with the connected client ---
+        memset(buffer, 0, BUFFER_SIZE);
+
+        // 5. Read data from client
+        n = read(conn_fd, buffer, BUFFER_SIZE - 1); // Read up to BUFFER_SIZE-1 bytes
+        if (n < 0) {
+            perror("ERROR reading from socket");
+        } else if (n == 0) {
+             printf("Client disconnected.\n");
+        }
+        else {
+            buffer[n] = '\0'; // Null-terminate the received string
+            printf("Received message: %s\n", buffer);
+
+            // 5. Write response to client
+            const char *response = "Message received by server.";
+            n = write(conn_fd, response, strlen(response));
+            if (n < 0) {
+                perror("ERROR writing to socket");
+            } else {
+                printf("Response sent.\n");
+            }
+        }
+
+        // 6. Close the connection socket for this client
+        close(conn_fd);
+        printf("Connection closed.\n\n");
+    } // End of while loop
+
+    // Close the listening socket (optional here as we loop forever, but good practice)
+    // close(listen_fd);
+    // return 0;
+}
+```
+
+## সহজ TCP ক্লায়েন্ট উদাহরণ
+
+এই ক্লায়েন্টটি পোর্ট 8080-এ `127.0.0.1` (localhost)-এর সাথে সংযোগ করে, একটি বার্তা পাঠায়, উত্তর পড়ে এবং এক্সিট করে।
+
+```c
+// client.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+
+#define SERVER_IP "127.0.0.1" // Loopback address for testing on the same machine
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+void error_exit(const char *msg) {
+    perror(msg);
+    exit(EXIT_FAILURE);
+}
+
+int main() {
+    int sock_fd;
+    struct sockaddr_in serv_addr;
+    char buffer[BUFFER_SIZE];
+    int n;
+
+    // 1. Create socket
+    sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock_fd < 0) {
+        error_exit("ERROR opening socket");
+    }
+    printf("Socket created successfully.\n");
+
+    // Initialize server address structure
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT); // Server port (Network Byte Order)
+
+    // Convert IPv4 address from text to binary form
+    if (inet_pton(AF_INET, SERVER_IP, &serv_addr.sin_addr) <= 0) {
+        close(sock_fd);
+        error_exit("Invalid address/ Address not supported");
+    }
+
+    // 2. Connect to the server
+    printf("Connecting to server %s:%d...\n", SERVER_IP, PORT);
+    if (connect(sock_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        close(sock_fd);
+        error_exit("ERROR connecting");
+    }
+    printf("Connected successfully.\n");
+
+    // --- Communication ---
+    // 3. Send message to server
+    const char *message = "Hello from C client!";
+    printf("Sending message: %s\n", message);
+    n = write(sock_fd, message, strlen(message));
+    if (n < 0) {
+         close(sock_fd);
+         error_exit("ERROR writing to socket");
+    }
+
+    // 3. Read response from server
+    memset(buffer, 0, BUFFER_SIZE);
+    printf("Waiting for server response...\n");
+    n = read(sock_fd, buffer, BUFFER_SIZE - 1);
+    if (n < 0) {
+         close(sock_fd);
+         error_exit("ERROR reading from socket");
+    } else if (n == 0) {
+        printf("Server closed connection unexpectedly.\n");
+    }
+    else {
+        buffer[n] = '\0'; // Null-terminate
+        printf("Server replied: %s\n", buffer);
+    }
+
+
+    // 4. Close the socket
+    close(sock_fd);
+    printf("Connection closed.\n");
+
+    return 0;
+}
+```
+
+## কম্পাইল এবং রান করা
+
+উপরের কোডটি `server.c` এবং `client.c` হিসাবে সংরক্ষণ করুন। স্ট্যান্ডার্ড সি লাইব্রেরি ছাড়াও (Linux/macOS-এ মৌলিক সকেটের জন্য কোনও বিশেষ লাইব্রেরি প্রয়োজন নেই) gcc ব্যবহার করে সেগুলিকে কম্পাইল করুন:
+
+```bash
+gcc server.c -o server
+gcc client.c -o client
+```
+
+এখন, সেগুলিকে রান করুন:
+
+1.  একটি টার্মিনাল উইন্ডো খুলুন এবং সার্ভারটি চালান:
+
+`bash ./server `
+
+আপনি এটি শোনার ইঙ্গিত প্রদানকারী আউটপুট দেখতে পাবেন।
+
+2.  একটি _দ্বিতীয়_ টার্মিনাল উইন্ডো খুলুন এবং ক্লায়েন্টটি চালান:
+
+`bash ./client `
+
+ক্লায়েন্টটি সংযোগ করবে, তার বার্তা পাঠাবে, উত্তর গ্রহণ করবে, এটি প্রিন্ট করবে এবং এক্সিট করবে।
+
+3.  সার্ভার টার্মিনালের দিকে ফিরে তাকান। আপনি বার্তাগুলি দেখতে পাবেন যা ইঙ্গিত করে যে একটি সংযোগ গ্রহণ করা হয়েছে, বার্তা গ্রহণ করা হয়েছে, উত্তর পাঠানো হয়েছে, এবং সংযোগ বন্ধ করা হয়েছে। সার্ভার তখন পরবর্তী সংযোগের জন্য শোনার জন্য ফিরে যাবে। আপনি ক্লায়েন্টটি আবার চালাতে পারেন।
+
+## ত্রুটি পরিচালনা
+
+নেটওয়ার্ক প্রোগ্রামিংয়ে ত্রুটি হওয়ার সম্ভাবনা থাকে (নেটওয়ার্ক ডাউন, সার্ভার ব্যস্ত, হোস্ট পৌঁছানো যায় না, ইত্যাদি)। সকেট ফাংশনগুলির রিটার্ন ভ্যালু **সর্বদা** চেক করুন।
+
+_ বেশিরভাগ ত্রুটিতে `-1` রিটার্ন করে এবং গ্লোবাল `errno` ভ্যারিয়েবল সেট করে।
+  _ `errno`-এর সাথে সম্পর্কিত সিস্টেম ত্রুটি বার্তা প্রিন্ট করতে `perror("Descriptive message")` ব্যবহার করুন।
+  \* ত্রুটিগুলি সুন্দরভাবে পরিচালনা করুন – খোলা সকেট বন্ধ করুন, রিসোর্স মুক্ত করুন এবং রিট্রাই, অ্যাবোর্ট বা ত্রুটি লগ করার সিদ্ধান্ত নিন।
+
+## মৌলিক বিষয়গুলির বাইরে: পরবর্তী পদক্ষেপ
+
+এই ইটারেটিভ সার্ভারটি একবারে কেবল একটি ক্লায়েন্টকে হ্যান্ডেল করতে পারে। বাস্তব বিশ্বের সার্ভারগুলির একই সাথে একাধিক ক্লায়েন্টকে হ্যান্ডেল করার প্রয়োজন হয়। এটি সাধারণত নিম্নলিখিতগুলির মাধ্যমে সম্পন্ন হয়:
+
+1.  **মাল্টি-থ্রেডিং:** প্রতিটি গৃহীত ক্লায়েন্ট সংযোগের জন্য একটি নতুন থ্রেড তৈরি করুন (আমাদের [পূর্ববর্তী আর্টিকেলে](https://www.google.com/search?q=link-to-pthreads-article) আলোচিত pthreads ব্যবহার করে)।
+2.  **মাল্টি-প্রসেসিং:** প্রতিটি ক্লায়েন্ট সংযোগের জন্য একটি নতুন প্রসেস তৈরি করুন (`fork()`)।
+3.  **নন-ব্লকিং I/O এবং মাল্টিপ্লেক্সিং:** একটি একক থ্রেডের মধ্যে মাল্টিপল সংযোগগুলি ব্লক না করে পরিচালনা করতে `select()`, `poll()`, বা `epoll()` (Linux-এ) এর মতো ফাংশন ব্যবহার করুন।
+
+অন্যান্য অ্যাডভান্সড বিষয়গুলির মধ্যে UDP (`SOCK_DGRAM`) ব্যবহার করা, SSL/TLS (OpenSSL) ব্যবহার করে সুরক্ষিত যোগাযোগ বাস্তবায়ন করা, আংশিক রিড/রাইট পরিচালনা করা এবং শক্তিশালী অ্যাপ্লিকেশন-লেভেল প্রোটোকল ডিজাইন করা অন্তর্ভুক্ত।
+
+## উপসংহার
+
+আপনি সি-তে নেটওয়ার্ক প্রোগ্রামিংয়ের উত্তেজনাপূর্ণ জগতে আপনার প্রথম পদক্ষেপ নিয়েছেন\! আপনি এখন ক্লায়েন্ট-সার্ভার মডেল, IP অ্যাড্রেস এবং পোর্টের ভূমিকা, TCP যোগাযোগের মৌলিক বিষয়গুলি, এবং মূল সকেট API ফাংশনগুলি (`socket`, `bind`, `listen`, `accept`, `connect`, `read`, `write`, `close`) বোঝেন। আমাদের উদাহরণগুলি সহজ হলেও, তারা ওয়েব সার্ভার এবং চ্যাট অ্যাপ্লিকেশন থেকে শুরু করে ডিস্ট্রিবিউটেড কম্পিউটিং সিস্টেম পর্যন্ত জটিল নেটওয়ার্কড অ্যাপ্লিকেশন তৈরির ভিত্তি তৈরি করে। মনে রাখবেন ত্রুটিগুলি অধ্যবসায়ের সাথে পরিচালনা করুন এবং বাস্তব বিশ্বের অ্যাপ্লিকেশনগুলির জন্য কনকারেন্সি মডেলগুলি বিবেচনা করুন।
+
+<br />
+
+---
+
+**প্রস্তাবিত পাঠ:**
+
+_ **(পূর্ববর্তী সি সিরিজের লিঙ্ক)**: আমাদের [সি-এর সাথে শুরু করার সিরিজ](/blog/beginner-c-cpp/getting-started-with-c-cpp) এবং [ইন্টারমিডিয়েট সি কনসেপ্টস](/blog/intermediate-c-concepts/intermediate-c-concepts-series-sikhbo-kivabe) দিয়ে আপনার সি মৌলিক বিষয়গুলি রিফ্রেশ করুন।
+  _ **(মাল্টি-থ্রেডিং আর্টিকেলের লিঙ্ক)**: [পোসিক্স থ্রেড সহ সি-তে মাল্টি-থ্রেডিং](/blog/advanced-c-topics/multi-threading-in-c-using-posix-threads-advanced-c-topic) ব্যবহার করে একই সাথে একাধিক ক্লায়েন্ট কীভাবে হ্যান্ডেল করবেন তা শিখুন।
+  \* **(ডিবাগিং আর্টিকেলের লিঙ্ক)**: নেটওয়ার্কড অ্যাপ্লিকেশন ডিবাগ করা জটিল হতে পারে। [জিডিবি সহ কার্যকরভাবে সি প্রোগ্রাম ডিবাগ করা](/blog/advanced-c-topics/debugging-c-programs-effectively-with-gdb-advanced-c-topic) দেখুন।

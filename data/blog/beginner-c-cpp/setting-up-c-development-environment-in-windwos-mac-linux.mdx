@@ -1,0 +1,131 @@
+---
+title: 'পার্ট ১: সি পরিচিতি এবং আপনার ডেভেলপমেন্ট এনভায়রনমেন্ট সেটআপ করা'
+date: '2024-11-11'
+tags: ['সি', 'ডেভেলপমেন্ট এনভায়রনমেন্ট', 'নতুনদের জন্য']
+draft: false
+summary: 'আমাদের সিরিজের এই প্রথম অংশটি আপনাকে সি ভাষার সাথে পরিচয় করিয়ে দেয়, এর গুরুত্ব, এবং Windows, macOS, এবং Linux এ আপনার ডেভেলপমেন্ট এনভায়রনমেন্ট সেটআপ করার মাধ্যমে আপনাকে গাইড করে।'
+authors: ['default']
+---
+
+**সি প্রোগ্রামিংয়ের জগতে স্বাগতম!** আপনি প্রোগ্রামিংয়ে একজন সম্পূর্ণ নতুন beginner হোন বা আপনার skill expand করতে চাইছেন, সি একটি মৌলিক এবং শক্তিশালী ভাষা যা অনেক আধুনিক প্রযুক্তির foundation তৈরি করে। আমাদের "সি-তে শুরু করা" সিরিজের এই প্রথম অংশে, আমরা explore করব কী সি-কে এত গুরুত্বপূর্ণ করে তোলে এবং আপনার নিজস্ব সি প্রোগ্রাম লেখা শুরু করার জন্য আপনার development environment setup করার essential step গুলোর মাধ্যমে আপনাকে guide করব।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### সি প্রোগ্রামিং ভাষা কি?
+
+সি হল একটি general-purpose, procedural computer programming language যা ডেনিস রিচি দ্বারা Bell Telephone Laboratories এ 1969 থেকে 1973 সালের মধ্যে develop করা হয়েছিল। এর ডিজাইন structured programming, lexical variable scope, এবং recursion এর উপর জোর দেয়, একটি static type system সহ।
+
+এখানে সি ভাষার কিছু key characteristic দেওয়া হলো:
+
+- **Procedural:** সি একটি procedural paradigm অনুসরণ করে, যার অর্থ প্রোগ্রামগুলি procedure বা function এর sequence হিসাবে structured যা specific task perform করে।
+- **Low-Level Access:** সি system memory তে low-level access প্রদান করে, যা operating system development, embedded system, এবং game development এর মতো task গুলোর জন্য এটিকে ideal করে তোলে।
+- **Efficiency and Performance:** সি তার efficiency এবং speed এর জন্য পরিচিত, কারণ এটি direct memory manipulation এর অনুমতি দেয় এবং এর relatively small runtime overhead রয়েছে।
+- **Portability:** সি code প্রায়শই minimal modification সহ বিভিন্ন platform এ compile এবং run করা যায়, যা এর widespread use এ অবদান রাখে।
+- **অন্যান্য ভাষার ভিত্তি:** C++, Java, এবং C# এর মতো অনেক জনপ্রিয় প্রোগ্রামিং ভাষা সি দ্বারা প্রভাবিত হয়েছে। সি বোঝা এই ভাষাগুলি শেখার জন্য একটি solid foundation প্রদান করতে পারে।
+
+### আজকের বিশ্বে সি কেন শিখবেন?
+
+আপনার মনে হতে পারে যখন আরও অনেক আধুনিক প্রোগ্রামিং ভাষা available আছে তখন কেন আপনার সি শেখা উচিত। এখানে কিছু compelling reason দেওয়া হলো:
+
+- **System Internals বোঝা:** সি শেখা low-level এ কম্পিউটার কীভাবে কাজ করে সে সম্পর্কে একটি deep understanding প্রদান করে, যার মধ্যে memory management এবং system interaction অন্তর্ভুক্ত।
+- **Operating System Development:** অনেক operating system এর core, Linux এবং Windows এর অংশ সহ, সি-তে লেখা হয়েছে।
+- **Embedded Systems:** countless device এ পাওয়া microcontroller এবং embedded system program করার জন্য সি হলো dominant language।
+- **Game Development:** game engine প্রায়শই higher-level language ব্যবহার করলেও, performance reasons এর জন্য underlying engine component গুলি প্রায়শই সি বা C++ এ লেখা হয়।
+- **Performance-Critical Applications:** অ্যাপ্লিকেশনগুলির জন্য যেখানে speed এবং efficiency paramount, সি একটি top choice হিসাবে remains।
+- **Further Learning এর ভিত্তি:** পূর্বে উল্লেখ করা হয়েছে, সি অন্যান্য প্রোগ্রামিং ভাষা এবং concept শেখার জন্য একটি strong foundation প্রদান করে।
+
+### আপনার ডেভেলপমেন্ট এনভায়রনমেন্ট সেটআপ করা
+
+আপনি সি code লেখা শুরু করার আগে, আপনাকে আপনার development environment setup করতে হবে। এটি সাধারণত একটি সি compiler এবং একটি text editor বা একটি Integrated Development Environment (IDE) install করা involve করে।
+
+#### ১. একটি সি Compiler Install করা (GCC)
+
+সবচেয়ে common এবং widely used সি compiler হলো GNU Compiler Collection (GCC)। বিভিন্ন operating system এ এটি install করার পদ্ধতি এখানে দেওয়া হলো:
+
+**Windows:**
+
+- **MinGW (Minimalist GNU for Windows):**
+      1. MinGW website এ যান ([https://osdn.net/projects/mingw/releases/](https://osdn.net/projects/mingw/releases/))।
+      2. installer download করুন (সাধারণত `mingw-get-setup.exe` এর মতো কিছু নামে)।
+      3. installer run করুন এবং on-screen instruction follow করুন।
+      4. installation চলাকালীন, আপনাকে component select করতে বলা হবে। নিশ্চিত করুন যে আপনি `mingw32-gcc-g++` (C++ এর জন্যও, যা প্রায়শই useful) এবং `mingw32-gcc-core` select করেছেন।
+      5. installation এর পর, আপনাকে MinGW `bin` directory (সাধারণত `C:\MinGW\bin` বা similar) আপনার system এর `PATH` environment variable এ যোগ করতে হবে। Windows search bar এ "environment variables" search করুন, "Edit the system environment variables" এ click করুন, তারপর "Environment Variables" button এ click করুন। "System variables" section এ `Path` variable find করুন, এটি select করুন, এবং "Edit" এ click করুন। MinGW `bin` directory এর path যোগ করুন এবং open windows গুলিতে "OK" এ click করুন।
+      6. Command Prompt open করুন এবং `gcc -v` type করুন। GCC সঠিকভাবে installed হলে, আপনি version information দেখতে পাবেন।
+
+- **MSYS2:** আরেকটি option হলো MSYS2, যা Windows এ একটি Unix-like environment provide করে। আপনি এর package manager এর মাধ্যমে GCC install করতে পারেন। installation instruction এর জন্য MSYS2 website এ যান ([https://www.msys2.org/](https://www.msys2.org/))। install হওয়ার পর, আপনি MSYS2 MinGW 64-bit terminal open করতে পারেন এবং command ব্যবহার করে GCC install করতে পারেন: `pacman -S mingw-w64-x86_64-gcc`।
+
+**macOS:**
+
+- আপনার যদি Xcode installed থাকে, তবে আপনার কাছে সম্ভবত ইতিমধ্যেই Clang compiler আছে, যা সি code compile করতে পারে। Terminal open করে `gcc -v` বা `clang --version` type করে আপনি check করতে পারেন।
+- আপনার যদি Xcode না থাকে, Terminal open করে command run করে Xcode Command Line Tools install করতে পারেন: `xcode-select --install`। install করার জন্য prompts follow করুন।
+
+**Linux (Ubuntu/Debian based):**
+
+- আপনার terminal open করুন এবং command run করুন: `sudo apt update`
+- তারপর, command ব্যবহার করে GCC install করুন: `sudo apt install gcc`
+- `gcc -v` type করে installation verify করুন।
+
+**Linux (Fedora/CentOS/RHEL based):**
+
+- আপনার terminal open করুন এবং command run করুন: `sudo dnf install gcc` (Fedora এর জন্য) বা `sudo yum install gcc` (CentOS/RHEL এর জন্য)।
+- `gcc -v` type করে installation verify করুন।
+
+#### ২. একটি Text Editor বা IDE নির্বাচন করা
+
+আপনার সি code লেখার জন্য আপনার একটি place প্রয়োজন হবে। এখানে কয়েকটি জনপ্রিয় option দেওয়া হলো:
+
+- **Text Editors (Lightweight):**
+      _ **Visual Studio Code (VS Code):** C/C++ এর জন্য excellent support সহ একটি free এবং শক্তিশালী editor extension এর মাধ্যমে।
+      _ **Sublime Text:** একটি popular, feature-rich text editor (free নয় তবে free trial provide করে)।
+      _ **Atom:** একটি free এবং customizable text editor (যদিও development discontinued করা হয়েছে, এটি এখনও usable)।
+      _ **Notepad++ (Windows):** Windows এর জন্য একটি free এবং lightweight editor good syntax highlighting সহ।
+      _ **TextEdit (macOS):** macOS এর সাথে included একটি basic text editor। simple program এর জন্য usable হলেও, আরও feature-rich editor recommended।
+      _ **Nano/Vim (Linux/macOS):** Command-line based text editor যা powerful কিন্তু steeper learning curve আছে।
+
+- **Integrated Development Environments (IDEs) (আরও Feature-Rich):**
+      _ **Visual Studio (Windows/macOS):** excellent debugging এবং project management tool সহ একটি comprehensive IDE (free Community edition available)।
+      _ **CLion (Windows/macOS/Linux):** C এবং C++ development এর জন্য specifically designed একটি শক্তিশালী IDE (paid, তবে student এবং open-source project গুলোর জন্য প্রায়শই free)।
+      _ **Code::Blocks (Windows/macOS/Linux):** C, C++, এবং Fortran এর জন্য একটি free এবং open-source IDE।
+      _ **Eclipse CDT (Windows/macOS/Linux):** C/C++ Development Tooling (CDT) সহ একটি popular open-source IDE।
+
+Beginners দের জন্য, C/C++ extension সহ **Visual Studio Code** প্রায়শই great starting point কারণ এটি ব্যবহার সহজ এবং powerful feature আছে।
+
+### আপনার প্রথম সি প্রোগ্রাম (একটি Sneak Peek)
+
+যদিও আমরা এই সিরিজের next part এ সি code লেখা delve করব, এখানে একটি খুব simple "Hello, World!" program দেওয়া হলো আপনাকে একটি taste দিতে:
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+আপনি এই code আপনার chosen text editor এ type করতে পারেন এবং এটিকে `hello.c` হিসাবে save করতে পারেন। তারপর, আপনার terminal বা command prompt open করুন, আপনি file save করেছেন সেই directory তে navigate করুন, এবং GCC ব্যবহার করে এটি compile করুন:
+
+```bash
+gcc hello.c -o hello
+```
+
+অবশেষে, compiled program run করুন:
+
+```bash
+./hello  # macOS এবং Linux এ
+hello.exe # Windows এ
+```
+
+আপনি output দেখতে পাবেন: `Hello, World!`
+
+### এরপর কি?
+
+সি প্রোগ্রামিংয়ের জগতে আপনার প্রথম step নেওয়ার জন্য অভিনন্দন\! এই সিরিজের next part এ, আমরা সি ভাষার fundamental concept গুলিতে dive করব, যার মধ্যে variable, data type, এবং operator অন্তর্ভুক্ত। Stay tuned\!
+
+**পরামর্শ:**
+
+- আপনি যদি বিভিন্ন programming paradigm সম্পর্কে আরও জানতে আগ্রহী হন, আমাদের article "[Procedural vs. Object-Oriented Programming সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" দেখুন।
+- C-তে crucial memory management concept এর একটি deeper understanding এর জন্য, আপনি আমাদের guide "[Memory Management Basics সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" সহায়ক খুঁজে পেতে পারেন।
+- আপনি যদি পরে C++ explore করার পরিকল্পনা করছেন, আপনি আমাদের introductory article "[Getting Started with C++ সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" পড়তে চাইতে পারেন।
+- developers দের জন্য command-line tool ব্যবহার সম্পর্কে আরও জানতে আমাদের "[Essential Command-Line Commands for Developers সম্পর্কিত আপনার ব্লগ পোস্টের লিঙ্ক]" দেখুন।

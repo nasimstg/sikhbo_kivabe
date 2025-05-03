@@ -1,0 +1,357 @@
+---
+title: 'সি-তে Linked Lists নিয়ে কাজ করা ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ২'
+date: '2024-12-03'
+tags: ['সি', 'ডেটা স্ট্রাকচার', 'লিঙ্কড লিস্ট', 'ডাইনামিক মেমরি', 'ইন্টারমিডিয়েট সি']
+draft: false
+summary: 'fundamental data structure explore করুন: সি-তে Linked List। pointer এবং dynamic memory allocation ব্যবহার করে কীভাবে node তৈরি, insert, delete, traverse, এবং search করতে হয় তা শিখুন। Array এর চেয়ে সুবিধা বুঝুন।'
+authors: ['default']
+---
+
+আমাদের Intermediate C Concepts সিরিজের দ্বিতীয় অংশে স্বাগতম! পূর্ববর্তী পোস্টে, আমরা [সি-তে ডাইনামিক মেমরি অ্যালোকেশন](/blog/intermediate-c-p1-dynamic-memory-allocation) explore করেছি, `malloc`, `calloc`, `realloc`, এবং `free` আয়ত্ত করেছি। এখন, আমরা সেই knowledge টি practical use এ আনব একটি fundamental এবং versatile dynamic data structure এ diving করে: **Linked List**। pointer এবং dynamic memory allocation কীভাবে data organize করার flexible উপায় unlock করে তা দেখার জন্য প্রস্তুত হন!
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+## Linked List কি? কেন শুধু Array ব্যবহার করা যায় না?
+
+Array similar data type এর collection store করার জন্য great। তবে, তাদের একটি significant limitation আছে: তাদের size compile time এ fixed হয় (বা dynamically allocated হলে reallocated না হওয়া পর্যন্ত fixed থাকে)। যদি আপনার এমন একটি collection প্রয়োজন হয় যা program execution চলাকালীন easily grow বা shrink করতে পারে, অথবা যদি আপনাকে মাঝখানে ঘন ঘন element insert/delete করতে হয়, তাহলে array inefficient হয়ে যায়।
+
+এক্ষেত্রে **Linked Lists** Shine করে। একটি linked list হলো একটি linear data structure যেখানে element গুলি contiguous memory location এ store করা হয় না। পরিবর্তে, প্রতিটি element (**Node** বলা হয়) দুটি অংশ ধারণ করে:
+
+১.  **Data:** node এ stored actual value।
+২.  **Pointer (or Link):** sequence এ _next_ node কে pointed করে এমন একটি address।
+
+List এর last node `NULL` এ point করে, list এর end indicate করে। list এর entry point সাধারণত একটি pointer যা `head` বলা হয়, যা first node এ point করে। যদি `head` `NULL` হয়, list empty।
+
+**Array এর চেয়ে সুবিধা:**
+
+- **Dynamic Size:** Linked list run time এ node যোগ বা remove করে সহজেই grow এবং shrink করতে পারে।
+- **Efficient Insertion/Deletion:** element insert বা delete করার জন্য subsequent element shift করার প্রয়োজন হয় না (array এর বিপরীতে)। আপনাকে শুধু adjacent node গুলোর pointer update করতে হবে।
+
+**অসুবিধা:**
+
+- **No Random Access:** আপনি array[i] এর মতো i-th element সরাসরি access করতে পারবেন না। আপনাকে head node থেকে list traverse করতে হবে।
+- **Extra Memory:** প্রতিটি node এ `next` pointer store করার জন্য extra memory প্রয়োজন।
+
+এই tutorial এর জন্য, আমরা most common type এর উপর focus করব: **Singly Linked List**, যেখানে প্রতিটি node শুধুমাত্র next node এ point করে।
+
+## Building Block: Node Structure
+
+Linked list এর সবকিছু `Node` এর চারপাশে revolved হয়। আমরা এটি সি-তে একটি `struct` ব্যবহার করে define করি। যেহেতু `struct` এ নিজেকে (same type এর next node point করার জন্য) point করার জন্য একটি pointer contain করতে হবে, এটি একটি self-referential structure এর classic example।
+
+```c
+#include <stdio.h>
+#include <stdlib.h> // Needed for malloc and free
+
+// linked list এ একটি node এর জন্য structure define করুন
+struct Node {
+    int data;             // node এ stored data (কোনো type এর হতে পারে)
+    struct Node *next;    // list এ next node এর Pointer
+};
+
+// সুবিধার জন্য Typedef (optional but common)
+typedef struct Node Node;
+
+// Global head pointer (বা এটি function এ pass করুন)
+// empty list indicate করে NULL তে initialize করা হয়েছে
+Node *head = NULL;
+```
+
+এখানে:
+
+_ `data` value ধারণ করে (আমরা সরলতার জন্য `int` ব্যবহার করছি)।
+  _ `next` হলো `struct Node*` type এর একটি pointer, যা subsequent node এর memory address ধারণ করবে।
+  _ `typedef` আমাদের `struct Node` এর পরিবর্তে কেবল `Node` লিখতে অনুমতি দেয়।
+  _ `head` হলো একটি pointer যা list এর first node point করবে। এটি crucial\!
+
+## Singly Linked Lists এর Core Operation
+
+Linked list manage করার জন্য essential operation গুলি implement করা যাক।
+
+### ১. একটি নতুন Node তৈরি করা
+
+যখন আমরা data add করতে চাই তখন একটি নতুন node তৈরি করার একটি উপায় প্রয়োজন। এতে node structure এর জন্য dynamically memory allocate করা এবং তার field গুলি initialize করা involve থাকে। একটি helper function good practice।
+
+```c
+// given data সহ একটি নতুন node তৈরি করার Function
+Node* createNode(int data) {
+    // নতুন node এর জন্য memory allocate করুন
+    Node* newNode = (Node*)malloc(sizeof(Node));
+
+    // malloc সফল হয়েছে কিনা Check করুন
+    if (newNode == NULL) {
+        fprintf(stderr, "Error: Memory allocation failed for new node!\n");
+        // exit(1); // Or handle error appropriately
+        return NULL; // Indicate failure
+    }
+
+    // node এর data এবং next pointer initialize করুন
+    newNode->data = data;
+    newNode->next = NULL; // নতুন node initially কিছু point করে না
+
+    return newNode; // newly created node এর pointer return করুন
+}
+```
+
+_ আমরা `malloc` ব্যবহার করি একটি `Node` structure এর জন্য space পেতে।
+  _ **Crucially**, আমরা check করি `malloc` `NULL` return করেছে কিনা।
+  _ আমরা passed `data` কে node এর `data` field এ assign করি।
+  _ `newNode->next` কে `NULL` তে set করা হয় কারণ যখন এটি প্রথম তৈরি হয়, এটি এখনও কিছুর সাথে linked নয়।
+
+### ২. Insertion
+
+Node বিভিন্ন position এ insert করা যেতে পারে। চলুন সবচেয়ে common গুলো দেখি:
+
+**a) Beginning এ Inserting (Prepend)**
+
+এটি simplest এবং most efficient insertion method (O(1) time complexity)।
+
+```c
+// list এর beginning এ একটি node insert করার Function
+void insertAtBeginning(int data) {
+    // নতুন node তৈরি করুন
+    Node* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; // Node creation failed
+    }
+
+    // নতুন node কে current head এর সাথে Link করুন
+    newNode->next = head;
+
+    // head কে নতুন node point করতে Update করুন
+    head = newNode;
+
+    printf("Inserted %d at the beginning.\n", data);
+}
+```
+
+_ Node তৈরি করুন।
+  _ নতুন node এর `next` কে list এর _current_ `head` এ point করুন।
+  \* `head` pointer কে `newNode` এ point করতে update করুন, এটিকে new first node তৈরি করুন।
+
+**b) End এ Inserting (Append)**
+
+এর জন্য list traverse করে last node খুঁজে বের করা প্রয়োজন (O(n) time complexity)।
+
+```c
+// list এর end এ একটি node insert করার Function
+void insertAtEnd(int data) {
+    // নতুন node তৈরি করুন
+    Node* newNode = createNode(data);
+     if (newNode == NULL) {
+        return; // Node creation failed
+    }
+
+    // If the list empty হয়, নতুন node head হয়ে যায়
+    if (head == NULL) {
+        head = newNode;
+        printf("Inserted %d as the first node (at the end).\n", data);
+        return;
+    }
+
+    // last node এ Traverse করুন
+    Node* current = head;
+    while (current->next != NULL) {
+        current = current->next; // next node এ move করুন
+    }
+
+    // last node এর next pointer কে নতুন node এর সাথে Link করুন
+    current->next = newNode;
+    printf("Inserted %d at the end.\n", data);
+}
+```
+
+_ Node তৈরি করুন।
+  _ Special case handle করুন: list empty হলে (`head == NULL`), নতুন node _is_ the head।
+  _ অন্যথায়, `head` থেকে start করুন এবং iterate করুন (`while (current->next != NULL)`) যতক্ষণ না আপনি সেই node খুঁজে পান যার `next` pointer `NULL`। এটি last node।
+  _ সেই last node এর `next` pointer কে `newNode` এ point করতে set করুন।
+
+### ৩. Traversal (List Printing)
+
+List এর contents দেখতে, আমাদের beginning থেকে end পর্যন্ত traverse করতে হবে।
+
+```c
+// linked list এর সমস্ত element print করার Function
+void printList() {
+    // head থেকে Start করুন
+    Node* current = head;
+
+    if (current == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    printf("List: ");
+    // list এর end পর্যন্ত Traverse করুন (current NULL না হওয়া পর্যন্ত)
+    while (current != NULL) {
+        printf("%d -> ", current->data); // data print করুন
+        current = current->next;       // next node এ move করুন
+    }
+    printf("NULL\n"); // list এর end indicate করুন
+}
+```
+
+_ `head` তে initialized একটি temporary pointer (`current`) ব্যবহার করুন।
+  _ `current` NULL না হওয়া পর্যন্ত Loop করুন।
+  _ Loop এর ভিতরে, `current->data` process করুন (এখানে, আমরা এটি print করি)।
+  _ Crucially, `current = current->next` update করুন পরের iteration এর জন্য next node এ move করতে।
+
+### ৪. একটি Node Search করা
+
+specific data সহ একটি node list এ exists কিনা খুঁজে বের করুন।
+
+```c
+// specific data সহ একটি node search করার Function
+Node* searchNode(int data) {
+    Node* current = head;
+    while (current != NULL) {
+        if (current->data == data) {
+            printf("Found node with data %d at address %p.\n", data, (void*)current);
+            return current; // found node এর pointer return করুন
+        }
+        current = current->next;
+    }
+    printf("Node with data %d not found.\n", data);
+    return NULL; // Data not found
+}
+```
+
+_ printing এর similar list Traverse করুন।
+  _ প্রতিটি iteration এ, `current->data` target `data` এর সাথে match করে কিনা check করুন।
+  _ Found হলে, সেই node এর pointer return করুন (`current`)।
+  _ data খুঁজে না পেয়ে loop শেষ হলে, `NULL` return করুন।
+
+### ৫. Deletion
+
+Node removing এর জন্য pointer manipulation এবং memory management (`free`) carefully করতে হবে।
+
+**a) First Node Delete করা**
+
+তুলনামূলকভাবে simple (O(1))।
+
+```c
+// list এ first node delete করার Function
+void deleteFirstNode() {
+    if (head == NULL) {
+        printf("Cannot delete from an empty list.\n");
+        return;
+    }
+
+    // temporary pointer এ current head store করুন
+    Node* temp = head;
+
+    // second node এ point করতে head update করুন
+    head = head->next;
+
+    // original first node এর memory free করুন
+    printf("Deleting first node with data %d.\n", temp->data);
+    free(temp);
+    temp = NULL; // Good practice
+}
+```
+
+_ list empty কিনা check করুন।
+  _ current `head` ধরে রাখার জন্য একটি temporary pointer (`temp`) তৈরি করুন।
+  * `head` pointer কে *next* node এ move করুন (`head = head->next`)।
+  * `temp` দ্বারা pointed memory `free()` করুন।
+
+**b) Specific Data সহ একটি Node Delete করা**
+
+এটি আরও complex কারণ আপনাকে যে node delete করতে চান তার _আগের_ node খুঁজে বের করতে হবে (O(n))।
+
+```c
+// specific data সহ একটি node delete করার Function
+void deleteNodeByData(int data) {
+    if (head == NULL) {
+        printf("List is empty, cannot delete.\n");
+        return;
+    }
+
+    Node* current = head;
+    Node* previous = NULL; // previous node ট্র্যাক রাখুন
+
+    // Special case: head node delete করা
+    if (current != NULL && current->data == data) {
+        head = current->next; // head move করুন
+        printf("Deleting head node with data %d.\n", data);
+        free(current);       // old head free করুন
+        current = NULL;
+        return;
+    }
+
+    // delete করার জন্য node খুঁজে বের করতে Traverse করুন, previous one ট্র্যাক রাখুন
+    while (current != NULL && current->data != data) {
+        previous = current;
+        current = current->next;
+    }
+
+    // node not found হলে
+    if (current == NULL) {
+        printf("Node with data %d not found for deletion.\n", data);
+        return;
+    }
+
+    // Node found, list এ এটিকে bypass করুন
+    // previous node এর next কে current node এর next এর সাথে Link করুন
+    previous->next = current->next;
+
+    // delete করার জন্য node এর memory free করুন
+    printf("Deleting node with data %d.\n", data);
+    free(current);
+    current = NULL;
+}
+```
+
+_ empty list case handle করুন।
+  _ Special case handle করুন যেখানে head node নিজেই delete করতে হবে (`deleteFirstNode` এর similar)।
+  _ দুটি pointer ব্যবহার করুন: `current` head থেকে start করে, এবং `previous` `NULL` থেকে start করে।
+  _ list Traverse করুন। প্রতিটি step এ, `current = current->next` update করার _আগে_ `previous = current` update করুন।
+  _ Stop করুন যখন `current` delete করার জন্য node point করে (বা যদি এটি not found হয় তবে `current` NULL হয়ে যায়)।
+  _ Found হলে, `previous` node কে `current` এর _পরের_ node এর সাথে সরাসরি Link করুন (`previous->next = current->next`)। এটি কার্যকরভাবে chain থেকে `current` remove করে।
+  \* `free(current)`।
+
+### ৬. entire List Free করা
+
+List যখন আর প্রয়োজন নেই তখন memory leak প্রতিরোধ করার জন্য Crucial।
+
+```c
+// linked list এর সমস্ত node free করার Function
+void freeList() {
+    Node* current = head;
+    Node* nextNode = NULL;
+
+    printf("Freeing the entire list...\n");
+    while (current != NULL) {
+        nextNode = current->next; // next node এর pointer store করুন
+        printf("Freeing node with data %d at %p\n", current->data, (void*)current);
+        free(current);           // current node free করুন
+        current = nextNode;      // next node এ move করুন
+    }
+
+    // list এখন empty হওয়ায় head কে NULL সেট করুন
+    head = NULL;
+    printf("List freed successfully.\n");
+}
+```
+
+_ দুটি pointer ব্যবহার করুন: `current` এবং `nextNode`।
+  _ `current` NULL না হওয়া পর্যন্ত iterate করুন।
+  * **Loop এর ভিতরে:** *প্রথমে*, next node এর address save করুন (`nextNode = current->next`)। *তারপর*, `free(current)`। *অবশেষে*, `current = nextNode` update করুন আপনি পূর্বে save করা next node এ move করতে। (আপনি যদি প্রথমে `current` free করতেন, তবে list এর rest এর link lose করতেন\!)
+  * end এ `head = NULL` সেট করুন।
+
+## Variations (সংক্ষেপে)
+
+* **Doubly Linked List:** প্রতিটি node এর *উভয়* `next` এবং `previous` node এর pointer আছে। উভয় direction এ traversal permission দেয় তবে আরও memory ব্যবহার করে।
+  * **Circular Linked List:** last node এর `next` pointer `NULL` এর পরিবর্তে `head` node এ point করে, একটি circle গঠন করে।
+
+## উপসংহার
+
+Linked lists একটি cornerstone data structure, direct access এর মূল্যে dynamic resizing এবং efficient insertion/deletion offer করে। pointer ব্যবহার করে node manipulate করা এবং `malloc` এবং `free` দিয়ে তাদের memory lifecycle manage করার উপায় বোঝা যেকোনো সি programmer এর জন্য একটি vital skill। আপনি এখন singly linked list এর fundamental operation implement কিভাবে করতে হয় তা শিখেছেন।
+
+আমাদের next C intermediate tutorial এ, আমরা **Stack এবং Queue** implement করার জন্য এই concept গুলোর উপর build করব, যা প্রায়শই linked list ব্যবহার করে efficiently realize করা যেতে পারে\!
+
+## আরও পড়া এবং সম্পর্কিত পোস্ট
+
+_ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ১: সি-তে ডাইনামিক মেমরি অ্যালোকেশন](/blog/intermediate-c-concepts/dynamic-memory-allocation-in-c)
+  _ [সি-তে শুরু করা পার্ট ৬: সি-তে পয়েন্টার](/blog/beginner-c-cpp/memory-management-in-c)
+  \* [সি-তে শুরু করা পার্ট ৭: স্ট্রাকচার এবং ইউনিয়ন](/blog/getting-started-c-p7-structures-unions)

@@ -1,206 +1,204 @@
 export default function index() {
   return (
     <div>
-      <h1>Privacy Policy for wooeneStudio</h1>
-
+            <h1>শিখবো কিভাবে-এর গোপনীয়তা নীতি</h1>     {' '}
       <p>
-        At Sikhbo Kivabe, accessible from https://sikhbokivabe.vercel.app/, one of our main
-        priorities is the privacy of our visitors. This Privacy Policy document contains types of
-        information that is collected and recorded by Sikhbo Kivabe and how we use it.
+                শিখবো কিভাবে-এ, যা https://sikhbokivabe.vercel.app/ থেকে অ্যাক্সেসযোগ্য, আমাদের
+        অন্যতম প্রধান অগ্রাধিকার হলো আমাদের দর্শকদের গোপনীয়তা। এই গোপনীয়তা নীতি নথিতে শিখবো কিভাবে
+        দ্বারা সংগৃহীত এবং রেকর্ড করা তথ্যের প্রকারভেদ এবং আমরা কীভাবে তা ব্যবহার করি তা উল্লেখ করা
+        হয়েছে।      {' '}
       </p>
-
+           {' '}
       <p>
-        If you have additional questions or require more information about our Privacy Policy, do
-        not hesitate to contact us.
+                আপনার যদি আমাদের গোপনীয়তা নীতি সম্পর্কে অতিরিক্ত প্রশ্ন থাকে বা আরও তথ্যের প্রয়োজন
+        হয়, তবে আমাদের সাথে যোগাযোগ করতে দ্বিধা করবেন না।      {' '}
       </p>
-
+           {' '}
       <p>
-        This Privacy Policy applies only to our online activities and is valid for visitors to our
-        website with regards to the information that they shared and/or collect in Sikhbo Kivabe.
-        This policy is not applicable to any information collected offline or via channels other
-        than this website. Our Privacy Policy was created with the help of the{' '}
-        <a href="https://www.privacypolicygenerator.info/">Free Privacy Policy Generator</a>.
+                এই গোপনীয়তা নীতি শুধুমাত্র আমাদের অনলাইন কার্যক্রমের জন্য প্রযোজ্য এবং আমাদের
+        ওয়েবসাইটের দর্শকদের জন্য বৈধ, যারা শিখবো কিভাবে-এ তথ্য শেয়ার করেছেন এবং/অথবা সংগ্রহ
+        করেছেন। এই নীতি অফলাইনে বা এই ওয়েবসাইট ছাড়া অন্য কোনো চ্যানেলের মাধ্যমে সংগৃহীত কোনো
+        তথ্যের জন্য প্রযোজ্য নয়।      {' '}
       </p>
-
-      <h2>Consent</h2>
-
-      <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
-
-      <h2>Information we collect</h2>
-
+            <h2>সম্মতি</h2>     {' '}
       <p>
-        The personal information that you are asked to provide, and the reasons why you are asked to
-        provide it, will be made clear to you at the point we ask you to provide your personal
-        information.
+        আমাদের ওয়েবসাইট ব্যবহার করে, আপনি এতদ্বারা আমাদের গোপনীয়তা নীতিতে সম্মতি দিচ্ছেন এবং এর
+        শর্তাবলীতে সম্মত হচ্ছেন।
       </p>
+            <h2>যে তথ্য আমরা সংগ্রহ করি</h2>     {' '}
       <p>
-        If you contact us directly, we may receive additional information about you such as your
-        name, email address, phone number, the contents of the message and/or attachments you may
-        send us, and any other information you may choose to provide.
+                আপনার কাছে যে ব্যক্তিগত তথ্য চাওয়া হয় এবং কেন এটি সরবরাহ করতে বলা হয়, তা আপনার
+        ব্যক্তিগত তথ্য চাওয়ার সময় আপনাকে স্পষ্টভাবে জানানো হবে।      {' '}
       </p>
+           {' '}
       <p>
-        When you register for an Account, we may ask for your contact information, including items
-        such as name, company name, address, email address, and telephone number.
+                আপনি যদি সরাসরি আমাদের সাথে যোগাযোগ করেন, তাহলে আমরা আপনার সম্পর্কে অতিরিক্ত তথ্য
+        পেতে পারি, যেমন আপনার নাম, ইমেল ঠিকানা, ফোন নম্বর, আপনি আমাদের যে বার্তা এবং/অথবা সংযুক্তি
+        পাঠাতে পারেন তার বিষয়বস্তু এবং আপনি সরবরাহ করতে বেছে নিতে পারেন এমন অন্য কোনো তথ্য।      {' '}
       </p>
-
-      <h2>How we use your information</h2>
-
-      <p>We use the information we collect in various ways, including to:</p>
-
+           {' '}
+      <p>
+                আপনি যখন একটি অ্যাকাউন্টের জন্য নিবন্ধন করেন, তখন আমরা আপনার যোগাযোগের তথ্য চাইতে
+        পারি, যার মধ্যে নাম, কোম্পানির নাম, ঠিকানা, ইমেল ঠিকানা এবং টেলিফোন নম্বরের মতো বিষয়গুলি
+        অন্তর্ভুক্ত থাকতে পারে।      {' '}
+      </p>
+            <h2>আমরা আপনার তথ্য কীভাবে ব্যবহার করি</h2>     {' '}
+      <p>আমরা সংগৃহীত তথ্য বিভিন্নভাবে ব্যবহার করি, যার মধ্যে রয়েছে:</p>     {' '}
       <ul>
-        <li>Provide, operate, and maintain our website</li>
-        <li>Improve, personalize, and expand our website</li>
-        <li>Understand and analyze how you use our website</li>
-        <li>Develop new products, services, features, and functionality</li>
+                <li>আমাদের ওয়েবসাইট প্রদান, পরিচালনা এবং রক্ষণাবেক্ষণ করা</li>       {' '}
+        <li>আমাদের ওয়েবসাইট উন্নত করা, ব্যক্তিগতকরণ করা এবং প্রসারিত করা</li>       {' '}
+        <li>আপনি কীভাবে আমাদের ওয়েবসাইট ব্যবহার করেন তা বোঝা এবং বিশ্লেষণ করা</li>       {' '}
+        <li>নতুন পণ্য, পরিষেবা, বৈশিষ্ট্য এবং কার্যকারিতা তৈরি করা</li>       {' '}
         <li>
-          Communicate with you, either directly or through one of our partners, including for
-          customer service, to provide you with updates and other information relating to the
-          website, and for marketing and promotional purposes
+                    আপনার সাথে সরাসরি বা আমাদের অংশীদারদের একজনের মাধ্যমে যোগাযোগ করা, যার মধ্যে
+          গ্রাহক পরিষেবা, ওয়েবসাইট সম্পর্কিত আপডেট এবং অন্যান্য তথ্য প্রদান এবং মার্কেটিং ও
+          প্রচারমূলক উদ্দেশ্যে যোগাযোগ অন্তর্ভুক্ত        {' '}
         </li>
-        <li>Send you emails</li>
-        <li>Find and prevent fraud</li>
+                <li>আপনাকে ইমেল পাঠানো</li>        <li>জালিয়াতি সনাক্তকরণ এবং প্রতিরোধ করা</li>   
+         {' '}
       </ul>
-
-      <h2>Log Files</h2>
-
+            <h2>লগ ফাইল</h2>     {' '}
       <p>
-        Sikhbo Kivabe follows a standard procedure of using log files. These files log visitors when
-        they visit websites. All hosting companies do this and a part of hosting services'
-        analytics. The information collected by log files include internet protocol (IP) addresses,
-        browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages,
-        and possibly the number of clicks. These are not linked to any information that is
-        personally identifiable. The purpose of the information is for analyzing trends,
-        administering the site, tracking users' movement on the website, and gathering demographic
-        information.
+                শিখবো কিভাবে লগ ফাইল ব্যবহার করার একটি স্ট্যান্ডার্ড পদ্ধতি অনুসরণ করে। এই ফাইলগুলি
+        ওয়েবসাইট পরিদর্শনের সময় দর্শকদের লগ করে। সমস্ত হোস্টিং কোম্পানি এটি করে এবং এটি হোস্টিং
+        পরিষেবাগুলির বিশ্লেষণের একটি অংশ। লগ ফাইল দ্বারা সংগৃহীত তথ্যের মধ্যে রয়েছে ইন্টারনেট
+        প্রোটোকল (IP) ঠিকানা, ব্রাউজারের ধরন, ইন্টারনেট পরিষেবা প্রদানকারী (ISP), তারিখ এবং সময়ের
+        স্ট্যাম্প, রেফার করা/প্রস্থান পৃষ্ঠা এবং সম্ভবত ক্লিকের সংখ্যা। এগুলি ব্যক্তিগতভাবে
+        সনাক্তকরণযোগ্য কোনো তথ্যের সাথে সংযুক্ত নয়। তথ্যের উদ্দেশ্য হলো ট্রেন্ড বিশ্লেষণ করা, সাইট
+        পরিচালনা করা, ওয়েবসাইটে ব্যবহারকারীদের গতিবিধি ট্র্যাক করা এবং জনসংখ্যার তথ্য সংগ্রহ করা।  
+           {' '}
       </p>
-
-      <h2>Cookies and Web Beacons</h2>
-
+            <h2>কুকিজ এবং ওয়েব বীকন</h2>     {' '}
       <p>
-        Like any other website, Sikhbo Kivabe uses 'cookies'. These cookies are used to store
-        information including visitors' preferences, and the pages on the website that the visitor
-        accessed or visited. The information is used to optimize the users' experience by
-        customizing our web page content based on visitors' browser type and/or other information.
+                অন্য যেকোনো ওয়েবসাইটের মতো, শিখবো কিভাবে 'কুকিজ' ব্যবহার করে। এই কুকিজগুলি দর্শকদের
+        পছন্দ এবং দর্শক অ্যাক্সেস করেছেন বা পরিদর্শন করেছেন এমন পৃষ্ঠার তথ্য সহ তথ্য সংরক্ষণ করতে
+        ব্যবহৃত হয়। এই তথ্য দর্শকদের ব্রাউজারের ধরন এবং/অথবা অন্যান্য তথ্যের উপর ভিত্তি করে আমাদের
+        ওয়েব পৃষ্ঠার বিষয়বস্তু কাস্টমাইজ করে ব্যবহারকারীদের অভিজ্ঞতা অপ্টিমাইজ করতে ব্যবহৃত হয়।  
+           {' '}
       </p>
-
-      <h2>Google DoubleClick DART Cookie</h2>
-
+            <h2>গুগল ডাবলক্লিক ডার্ট কুকি</h2>     {' '}
       <p>
-        Google is one of a third-party vendor on our site. It also uses cookies, known as DART
-        cookies, to serve ads to our site visitors based upon their visit to www.website.com and
-        other sites on the internet. However, visitors may choose to decline the use of DART cookies
-        by visiting the Google ad and content network Privacy Policy at the following URL –{' '}
+                গুগল আমাদের সাইটের তৃতীয় পক্ষের বিক্রেতাদের মধ্যে অন্যতম। এটি কুকিজ ব্যবহার করে, যা
+        DART কুকিজ নামে পরিচিত, যা www.website.com এবং ইন্টারনেটের অন্যান্য সাইটে ভিজিটের উপর ভিত্তি
+        করে আমাদের সাইটের দর্শকদের বিজ্ঞাপন পরিবেশন করতে ব্যবহৃত হয়। তবে, দর্শকরা নিম্নলিখিত URL-এ
+        গুগল বিজ্ঞাপন এবং বিষয়বস্তু নেটওয়ার্কের গোপনীয়তা নীতি পরিদর্শন করে DART কুকিজ ব্যবহার
+        প্রত্যাখ্যান করতে পারেন –        {' '}
         <a href="https://policies.google.com/technologies/ads">
-          https://policies.google.com/technologies/ads
+                    https://policies.google.com/technologies/ads        {' '}
         </a>
+             {' '}
       </p>
-
-      <h2>Advertising Partners Privacy Policies</h2>
-
+            <h2>বিজ্ঞাপন অংশীদারদের গোপনীয়তা নীতি</h2>     {' '}
       <p>
-        You may consult this list to find the Privacy Policy for each of the advertising partners of
-        Sikhbo Kivabe.
+                শিখবো কিভাবে-এর প্রতিটি বিজ্ঞাপন অংশীদারের গোপনীয়তা নীতি খুঁজে বের করতে আপনি এই
+        তালিকাটি দেখতে পারেন।      {' '}
       </p>
-
+           {' '}
       <p>
-        Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web
-        Beacons that are used in their respective advertisements and links that appear on Sikhbo
-        Kivabe, which are sent directly to users' browser. They automatically receive your IP
-        address when this occurs. These technologies are used to measure the effectiveness of their
-        advertising campaigns and/or to personalize the advertising content that you see on websites
-        that you visit.
+                তৃতীয় পক্ষের বিজ্ঞাপন সার্ভার বা বিজ্ঞাপন নেটওয়ার্ক কুকিজ, জাভাস্ক্রিপ্ট বা ওয়েব
+        বীকন-এর মতো প্রযুক্তি ব্যবহার করে যা শিখবো কিভাবে-এ প্রদর্শিত তাদের নিজ নিজ বিজ্ঞাপন এবং
+        লিঙ্কগুলিতে ব্যবহৃত হয়, যা সরাসরি ব্যবহারকারীদের ব্রাউজারে পাঠানো হয়। যখন এটি ঘটে তখন তারা
+        স্বয়ংক্রিয়ভাবে আপনার IP ঠিকানা পায়। এই প্রযুক্তিগুলি তাদের বিজ্ঞাপন প্রচারণার কার্যকারিতা
+        পরিমাপ করতে এবং/অথবা আপনি যে ওয়েবসাইটগুলিতে যান সেখানে আপনার দেখা বিজ্ঞাপনের বিষয়বস্তু
+        ব্যক্তিগতকরণ করতে ব্যবহৃত হয়।      {' '}
       </p>
-
+           {' '}
       <p>
-        Note that Sikhbo Kivabe has no access to or control over these cookies that are used by
-        third-party advertisers.
+                মনে রাখবেন যে তৃতীয় পক্ষের বিজ্ঞাপনদাতাদের দ্বারা ব্যবহৃত এই কুকিগুলিতে শিখবো
+        কিভাবে-এর কোনো অ্যাক্সেস বা নিয়ন্ত্রণ নেই।      {' '}
       </p>
-
-      <h2>Third Party Privacy Policies</h2>
-
+            <h2>তৃতীয় পক্ষের গোপনীয়তা নীতি</h2>     {' '}
       <p>
-        Sikhbo Kivabe's Privacy Policy does not apply to other advertisers or websites. Thus, we are
-        advising you to consult the respective Privacy Policies of these third-party ad servers for
-        more detailed information. It may include their practices and instructions about how to
-        opt-out of certain options.{' '}
+                শিখবো কিভাবে-এর গোপনীয়তা নীতি অন্যান্য বিজ্ঞাপনদাতা বা ওয়েবসাইটের জন্য প্রযোজ্য
+        নয়। সুতরাং, আমরা আপনাকে আরও বিস্তারিত তথ্যের জন্য এই তৃতীয় পক্ষের বিজ্ঞাপন সার্ভারগুলির
+        নিজ নিজ গোপনীয়তা নীতি দেখার পরামর্শ দিচ্ছি। এতে নির্দিষ্ট বিকল্পগুলি থেকে অপ্ট-আউট করার
+        পদ্ধতি এবং নির্দেশাবলী অন্তর্ভুক্ত থাকতে পারে।      {' '}
       </p>
-
+           {' '}
       <p>
-        You can choose to disable cookies through your individual browser options. To know more
-        detailed information about cookie management with specific web browsers, it can be found at
-        the browsers' respective websites.
+                আপনি আপনার ব্যক্তিগত ব্রাউজার বিকল্পগুলির মাধ্যমে কুকিজ অক্ষম করতে বেছে নিতে পারেন।
+        নির্দিষ্ট ওয়েব ব্রাউজারগুলির সাথে কুকি ব্যবস্থাপনা সম্পর্কে আরও বিস্তারিত তথ্য জানতে, এটি
+        ব্রাউজারগুলির নিজ নিজ ওয়েবসাইটে পাওয়া যেতে পারে।      {' '}
       </p>
-
-      <h2>CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
-
-      <p>Under the CCPA, among other rights, California consumers have the right to:</p>
+            <h2>CCPA গোপনীয়তা অধিকার (আমার ব্যক্তিগত তথ্য বিক্রি করবেন না)</h2>     {' '}
       <p>
-        Request that a business that collects a consumer's personal data disclose the categories and
-        specific pieces of personal data that a business has collected about consumers.
+        CCPA এর অধীনে, অন্যান্য অধিকারের মধ্যে, ক্যালিফোর্নিয়ার ভোক্তাদের নিম্নলিখিত অধিকার রয়েছে:
       </p>
+           {' '}
       <p>
-        Request that a business delete any personal data about the consumer that a business has
-        collected.
+                একটি ব্যবসায়িক প্রতিষ্ঠান যে ভোক্তার ব্যক্তিগত তথ্য সংগ্রহ করে, তাদের সংগৃহীত
+        ব্যক্তিগত তথ্যের বিভাগ এবং নির্দিষ্ট অংশগুলি প্রকাশ করার অনুরোধ জানানোর অধিকার।      {' '}
       </p>
+           {' '}
       <p>
-        Request that a business that sells a consumer's personal data, not sell the consumer's
-        personal data.
+                একটি ব্যবসায়িক প্রতিষ্ঠান দ্বারা সংগৃহীত ভোক্তার ব্যক্তিগত তথ্য মুছে ফেলার অনুরোধ
+        জানানোর অধিকার।      {' '}
       </p>
+           {' '}
       <p>
-        If you make a request, we have one month to respond to you. If you would like to exercise
-        any of these rights, please contact us.
+                একটি ব্যবসায়িক প্রতিষ্ঠান যে ভোক্তার ব্যক্তিগত তথ্য বিক্রি করে, তারা যেন ভোক্তার
+        ব্যক্তিগত তথ্য বিক্রি না করে সেই অনুরোধ জানানোর অধিকার।      {' '}
       </p>
-
-      <h2>GDPR Data Protection Rights</h2>
-
+           {' '}
       <p>
-        We would like to make sure you are fully aware of all of your data protection rights. Every
-        user is entitled to the following:
+                আপনি যদি অনুরোধ করেন, আমরা আপনাকে উত্তর দেওয়ার জন্য এক মাস সময় পাব। আপনি যদি এই
+        অধিকারগুলির কোনোটি প্রয়োগ করতে চান, তাহলে অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন।      {' '}
       </p>
+            <h2>GDPR ডেটা সুরক্ষা অধিকার</h2>     {' '}
       <p>
-        The right to access – You have the right to request copies of your personal data. We may
-        charge you a small fee for this service.
+                আমরা নিশ্চিত করতে চাই যে আপনার ডেটা সুরক্ষার সমস্ত অধিকার সম্পর্কে আপনি পুরোপুরি
+        অবগত আছেন। প্রতিটি ব্যবহারকারীর নিম্নলিখিত অধিকারগুলি রয়েছে:        {' '}
       </p>
+           {' '}
       <p>
-        The right to rectification – You have the right to request that we correct any information
-        you believe is inaccurate. You also have the right to request that we complete the
-        information you believe is incomplete.
+                অ্যাক্সেসের অধিকার – আপনার ব্যক্তিগত তথ্যের কপি অনুরোধ করার অধিকার আপনার আছে। এই
+        পরিষেবার জন্য আমরা আপনার কাছে একটি ছোট ফি চার্জ করতে পারি।      {' '}
       </p>
+           {' '}
       <p>
-        The right to erasure – You have the right to request that we erase your personal data, under
-        certain conditions.
+                সংশোধনের অধিকার – আপনি যে তথ্য ভুল বলে মনে করেন তা সংশোধন করার অনুরোধ করার অধিকার
+        আপনার আছে। আপনি যে তথ্য অসম্পূর্ণ বলে মনে করেন তা সম্পূর্ণ করার অনুরোধ করার অধিকারও আপনার
+        আছে।      {' '}
       </p>
+           {' '}
       <p>
-        The right to restrict processing – You have the right to request that we restrict the
-        processing of your personal data, under certain conditions.
+                মুছে ফেলার অধিকার – নির্দিষ্ট শর্তাবলীর অধীনে আপনার ব্যক্তিগত তথ্য মুছে ফেলার অনুরোধ
+        করার অধিকার আপনার আছে।      {' '}
       </p>
+           {' '}
       <p>
-        The right to object to processing – You have the right to object to our processing of your
-        personal data, under certain conditions.
+                প্রসেসিং সীমাবদ্ধ করার অধিকার – নির্দিষ্ট শর্তাবলীর অধীনে আপনার ব্যক্তিগত তথ্য
+        প্রসেসিং সীমাবদ্ধ করার অনুরোধ করার অধিকার আপনার আছে।      {' '}
       </p>
+           {' '}
       <p>
-        The right to data portability – You have the right to request that we transfer the data that
-        we have collected to another organization, or directly to you, under certain conditions.
+                প্রসেসিংয়ে আপত্তি করার অধিকার – নির্দিষ্ট শর্তাবলীর অধীনে আপনার ব্যক্তিগত তথ্য
+        প্রসেসিংয়ে আপত্তি করার অধিকার আপনার আছে।      {' '}
       </p>
+           {' '}
       <p>
-        If you make a request, we have one month to respond to you. If you would like to exercise
-        any of these rights, please contact us.
+                ডেটা পোর্টেবিলিটির অধিকার – নির্দিষ্ট শর্তাবলীর অধীনে আমরা যে ডেটা সংগ্রহ করেছি তা
+        অন্য কোনো সংস্থা বা সরাসরি আপনার কাছে স্থানান্তর করার অনুরোধ করার অধিকার আপনার আছে।      {' '}
       </p>
-
-      <h2>Children's Information</h2>
-
+           {' '}
       <p>
-        Another part of our priority is adding protection for children while using the internet. We
-        encourage parents and guardians to observe, participate in, and/or monitor and guide their
-        online activity.
+                আপনি যদি অনুরোধ করেন, আমরা আপনাকে উত্তর দেওয়ার জন্য এক মাস সময় পাব। আপনি যদি এই
+        অধিকারগুলির কোনোটি প্রয়োগ করতে চান, তাহলে অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন।      {' '}
       </p>
-
+            <h2>শিশুদের তথ্য</h2>     {' '}
       <p>
-        Sikhbo Kivabe does not knowingly collect any Personal Identifiable Information from children
-        under the age of 13. If you think that your child provided this kind of information on our
-        website, we strongly encourage you to contact us immediately and we will do our best efforts
-        to promptly remove such information from our records.
+                আমাদের অগ্রাধিকারের আরেকটি অংশ হলো ইন্টারনেট ব্যবহারের সময় শিশুদের সুরক্ষা যোগ করা।
+        আমরা পিতামাতা এবং অভিভাবকদের তাদের অনলাইন কার্যকলাপ পর্যবেক্ষণ, অংশগ্রহণ এবং/অথবা নিরীক্ষণ ও
+        গাইড করতে উৎসাহিত করি।      {' '}
       </p>
+           {' '}
+      <p>
+                শিখবো কিভাবে জেনে বুঝে ১৩ বছরের কম বয়সী শিশুদের কাছ থেকে কোনো ব্যক্তিগত
+        সনাক্তকরণযোগ্য তথ্য সংগ্রহ করে না। আপনি যদি মনে করেন যে আপনার সন্তান আমাদের ওয়েবসাইটে এই
+        ধরণের তথ্য সরবরাহ করেছে, আমরা আপনাকে অবিলম্বে আমাদের সাথে যোগাযোগ করতে দৃঢ়ভাবে উৎসাহিত করি
+        এবং আমরা আমাদের রেকর্ড থেকে দ্রুত এই তথ্য অপসারণের জন্য যথাসাধ্য চেষ্টা করব।      {' '}
+      </p>
+         {' '}
     </div>
   )
 }

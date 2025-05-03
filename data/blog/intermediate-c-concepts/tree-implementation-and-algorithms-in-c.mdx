@@ -1,0 +1,498 @@
+---
+title: 'সি-তে Trees ইমপ্লিমেন্টেশন এবং অ্যালগরিদম ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ৪'
+date: '2024-12-05'
+tags: ['সি', 'ডেটা স্ট্রাকচার', 'অ্যালগরিদম', 'ট্রি']
+draft: false
+summary: 'সি-তে Trees ব্যবহার করে Non-linear data structure explore করুন। essential terminology শিখুন, Binary Trees এবং Binary Search Trees (BSTs) explore করুন, traversal algorithm (DFS, BFS) আয়ত্ত করুন, এবং insertion, search, এবং deletion এর মতো core BST operation implement করুন।'
+authors: ['default']
+---
+
+linear structure যেমন [Linked Lists](/blog/intermediate-c-p2-working-with-linked-lists) এবং [Stacks and Queues](/blog/intermediate-c-p3-stack-and-queue-implementation-in-c) এর concept explore করার পর, চলুন non-linear data structure এর fascinatig realm এ branch out করা যাক: **Trees**। Trees অবিশ্বাস্যভাবে versatile, file system এবং database থেকে AI এবং graphics পর্যন্ত সর্বত্র ব্যবহৃত হয়। এই পোস্টটি fundamental tree concept introduce করবে, **Binary Trees** এবং powerful **Binary Search Tree (BST)** এর উপর heavily focusing করবে, যা আপনাকে দেখাবে কীভাবে [pointer](/blog/getting-started-c-p6-pointers), [structs](/blog/getting-started-c-p7-structures-unions), [dynamic allocation](/blog/intermediate-c-p1-dynamic-memory-allocation), এবং প্রায়শই, recursion ব্যবহার করে সেগুলিকে সি-তে implement করতে হয়।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+## Tree কি? মৌলিক পরিভাষা
+
+linear structure (array, linked list) এর মতো নয় যেখানে element sequentially follow করে, একটি **Tree** হলো একটি hierarchical structure যা **Nodes** এবং **Edges** দ্বারা connected। একটি organizational chart বা একটি family tree ভাবুন।
+
+আপনি যে মূল শব্দগুলির মুখোমুখি হবেন:
+
+- **Node:** একটি tree এর fundamental অংশ যা data এবং অন্যান্য node এর pointer (link) ধারণ করে।
+- **Edge:** দুটি node সংযোগকারী link।
+- **Root:** tree এর topmost node (একমাত্র node যার কোনো parent নেই)।
+- **Parent:** একটি node যার নিচে এক বা একাধিক node connected আছে।
+- **Child:** Root থেকে দূরে moving করার সময় অন্য node এর সাথে সরাসরি connected node।
+- **Siblings:** যে node গুলি একই parent share করে।
+- **Leaf:** যে node এর কোনো children নেই (একটি branch এর bottom এ)।
+- **Internal Node:** যে node এর অন্তত একটি child আছে (অর্থাৎ, leaf নয়)।
+- **Path:** node এবং edge এর একটি sequence যা একটি node কে descendant এর সাথে connect করে।
+- **Height (একটি Node এর):** node থেকে leaf পর্যন্ত longest path এর edge সংখ্যা। একটি leaf এর height 0।
+- **Height (একটি Tree এর):** root node এর height।
+- **Depth (একটি Node এর):** root node থেকে সেই node পর্যন্ত edge সংখ্যা। root এর depth 0।
+- **Level (একটি Node এর):** Generally, Level = Depth। Level 0 হলো root, Level 1 হলো তার children, ইত্যাদি।
+
+```
+
+```
+
+[Root (Level 0)]
+   /      \
+  /        \
+
+```
+
+[Child A]   [Child B]  (Level 1, Siblings)
+/           /    
+/           /      
+[Leaf C]  [Internal D] [Leaf E] (Level 2)
+|
+|
+[Leaf F] (Level 3)
+
+উদাহরণ: Node B এর Height 2, Tree এর Height 3। Node D এর Depth 2।
+
+```
+
+## Tree ব্যবহার করবেন কেন?
+
+- **Hierarchy Represent করা:** inherent parent-child relationship (file system, XML/HTML DOM, organization chart) সহ data এর জন্য Ideal।
+- **Efficient Searching/Sorting:** Binary Search Tree quick searching, insertion, এবং deletion (প্রায়শই logarithmic time) অনুমতি দেয়।
+- **Decision Process:** Decision tree choice এবং outcome model করে।
+- **Specialized Applications:** Heaps (priority queues), Tries (dictionary lookups), B-Trees (databases)।
+
+যদিও অনেক ধরণের tree আছে, আমরা সবচেয়ে common: **Binary Trees** এর উপর focus করব।
+
+## Binary Trees
+
+একটি **Binary Tree** হলো একটি specific ধরণের tree যেখানে প্রতিটি node এর **সর্বোচ্চ দুটি child** থাকতে পারে: একটি **বাম child** এবং একটি **ডান child**।
+
+### সি-তে Binary Tree Node Structure
+
+আমরা linked list এর মতো একটি self-referential structure ব্যবহার করি, তবে দুটি pointer সহ।
+
+```c
+#include <stdio.h>
+#include <stdlib.h> // For malloc, free
+#include <stdbool.h> // For bool type
+
+// Binary Tree এর জন্য Node structure
+typedef struct TreeNode {
+    int data;                // Node এ store করা data
+    struct TreeNode *left;   // বাম child এর Pointer
+    struct TreeNode *right;  // ডান child এর Pointer
+} TreeNode;
+
+// একটি নতুন tree node তৈরি করার Helper function
+TreeNode* createNode(int data) {
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+    if (!newNode) {
+        perror("Failed to allocate tree node");
+        return NULL;
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+```
+
+### Binary Tree Traversal Algorithms
+
+Traversal মানে tree এর প্রতিটি node ঠিক একবার visited করা। দুটি main approach আছে: Depth-First Search (DFS) এবং Breadth-First Search (BFS)।
+
+**১. Depth-First Search (DFS)**
+
+DFS backtracking এর আগে একটি branch এ যতদূর সম্ভব explore করে। Recursion DFS implement করার জন্য একটি natural fit।
+
+\* **Pre-order Traversal (Root, Left, Right):** প্রথমে current node visit করুন, তারপর বাম subtree recursively visit করুন, তারপর ডান subtree। tree copy করতে বা prefix expression পেতে Useful।
+
+`c // Pre-order traversal (Root -> Left -> Right) void preOrder(TreeNode* root) { if (root == NULL) { return; // recursion এর জন্য Base case } printf("%d ", root->data); // root visit করুন preOrder(root->left); // বাম subtree visit করুন preOrder(root->right); // ডান subtree visit করুন } `
+
+\* **In-order Traversal (Left, Root, Right):** বাম subtree recursively visit করুন, তারপর current node visit করুন, তারপর ডান subtree recursively visit করুন। **BST এর জন্য crucially important কারণ এটি ascending order এ node visit করে।**
+
+`c // In-order traversal (Left -> Root -> Right) void inOrder(TreeNode* root) { if (root == NULL) { return; } inOrder(root->left); // বাম subtree visit করুন printf("%d ", root->data); // root visit করুন inOrder(root->right); // ডান subtree visit করুন } `
+
+\* **Post-order Traversal (Left, Right, Root):** বাম subtree recursively visit করুন, তারপর ডান subtree, এবং অবশেষে current node visit করুন। node deleting এর জন্য Useful (parent এর আগে children process করুন) বা postfix expression পেতে।
+
+`c // Post-order traversal (Left -> Right -> Root) void postOrder(TreeNode* root) { if (root == NULL) { return; } postOrder(root->left); // বাম subtree visit করুন postOrder(root->right); // ডান subtree visit করুন printf("%d ", root->data); // root visit করুন } `
+
+**২. Breadth-First Search (BFS) / Level-Order Traversal**
+
+BFS tree level by level explore করে, current depth এর সমস্ত node visiting করে পরের depth এ যাওয়ার আগে। এটির জন্য একটি **Queue** প্রয়োজন (আগের পোস্টের মতো implement করা হয়েছে)।
+
+```c
+// --- Level Order এর জন্য Minimal Queue Implementation ---
+// (Assumed TreeNode* is the data type stored in the queue)
+// আপনি সাধারণত আগের পোস্ট থেকে আপনার queue implementation অন্তর্ভুক্ত করবেন।
+// সংক্ষেপে, এখানে একটি placeholder interface:
+typedef struct QueueNode {
+    TreeNode* treeNode;
+    struct QueueNode* next;
+} QueueNode;
+
+typedef struct {
+    QueueNode *front, *rear;
+} Queue;
+
+Queue* createQueue() { /* Implementation needed */ }
+void enqueue(Queue* q, TreeNode* tn) { /* Implementation needed */ }
+TreeNode* dequeue(Queue* q) { /* Implementation needed */ }
+bool isQueueEmpty(Queue* q) { /* Implementation needed */ }
+void freeQueue(Queue* q) { /* Implementation needed */ }
+// --- End Minimal Queue ---
+
+
+// Queue এর Placeholder implementation (আপনার actual Queue code দিয়ে replace করুন)
+Queue* createQueue() {
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    if (!q) return NULL;
+    q->front = q->rear = NULL;
+    return q;
+}
+
+bool isQueueEmpty(Queue* q) {
+    return q->front == NULL;
+}
+
+void enqueue(Queue* q, TreeNode* tn) {
+    QueueNode* temp = (QueueNode*)malloc(sizeof(QueueNode));
+    if (!temp) return;
+    temp->treeNode = tn;
+    temp->next = NULL;
+    if (q->rear == NULL) {
+        q->front = q->rear = temp;
+        return;
+    }
+    q->rear->next = temp;
+    q->rear = temp;
+}
+
+TreeNode* dequeue(Queue* q) {
+    if (isQueueEmpty(q)) return NULL;
+    QueueNode* temp = q->front;
+    TreeNode* dequeuedNode = temp->treeNode;
+    q->front = q->front->next;
+    if (q->front == NULL) q->rear = NULL; // Queue empty হয়ে গেছে
+    free(temp);
+    return dequeuedNode;
+}
+
+void freeQueue(Queue* q) {
+    while (!isQueueEmpty(q)) {
+        dequeue(q); // dequeue implicitly QueueNodes free করে
+    }
+    free(q); // queue structure itself free করুন
+}
+
+
+// Level-order traversal (BFS)
+void levelOrder(TreeNode* root) {
+    if (root == NULL) {
+        printf("Tree is empty.\n");
+        return;
+    }
+
+    Queue* q = createQueue();
+    if (!q) {
+        perror("Failed to create queue for level order");
+        return;
+    }
+
+    printf("Level Order: ");
+    enqueue(q, root); // root দিয়ে শুরু করুন
+
+    while (!isQueueEmpty(q)) {
+        TreeNode* current = dequeue(q);
+        if (current == NULL) continue; // proper enqueue logic হলে এটি হওয়া উচিত নয়
+
+        printf("%d ", current->data); // dequeued node visit করুন
+
+        // যদি বাম child exists করে তবে enqueue করুন
+        if (current->left != NULL) {
+            enqueue(q, current->left);
+        }
+        // যদি ডান child exists করে তবে enqueue করুন
+        if (current->right != NULL) {
+            enqueue(q, current->right);
+        }
+    }
+    printf("\n");
+    freeQueue(q); // queue cleanup করুন
+}
+
+```
+
+## Binary Search Trees (BSTs)
+
+একটি **Binary Search Tree (BST)** হলো একটি specific ধরণের binary tree যা একটি ordering constraint impose করে, search কে খুব efficient করে তোলে।
+
+**BST Property:** tree এর যে কোনো given node এর জন্য:
+
+_ তার **বাম subtree** এর সমস্ত value node এর value **থেকে কম**।
+  _ তার **ডান subtree** এর সমস্ত value node এর value **থেকে বেশি**।
+  \* বাম এবং ডান উভয় subtree অবশ্যই binary search trees হতে হবে।
+
+_(দ্রষ্টব্য: duplicate value handle করার ক্ষেত্রে বিভিন্নতা exist করে। আমরা সরলতার জন্য কোনো duplicate assume করব না বা সাধারণত ডান subtree তে রাখব।)_
+
+`TreeNode` structure একটি regular binary tree এর মতো same।
+
+### BST Operations
+
+\* **Insertion:** BST property বজায় রেখে একটি নতুন value যোগ করুন।
+
+```c
+    // BST এ একটি node insert করুন (Recursive)
+    TreeNode* insertNode(TreeNode* root, int data) {
+        // 1. Base Case: যদি tree/subtree empty হয়, এখানে নতুন node তৈরি করুন
+        if (root == NULL) {
+            return createNode(data);
+        }
+
+        // 2. Recursive Step: data কে root এর data এর সাথে Compare করুন
+        if (data \< root-\>data) {
+            // data smaller হলে, বাম দিকে যান
+            root-\>left = insertNode(root-\>left, data);
+        } else if (data \> root-\>data) {
+            // data larger হলে, ডান দিকে যান
+            root-\>right = insertNode(root-\>right, data);
+        }
+        // (যদি data == root-\>data হয়, কিছু করবেন না - কোনো duplicate assumed বা প্রয়োজন অনুযায়ী handle করুন)
+
+        // এই subtree এর (সম্ভবত updated) root pointer return করুন
+        return root;
+    }
+```
+
+\* **Searching:** Efficiently একটি value exists কিনা খুঁজে বের করুন।
+
+```c
+    // BST এ একটি node search করুন (Recursive)
+    TreeNode* searchNode(TreeNode* root, int data) {
+        // 1. Base Cases:
+        //   a) root NULL বা root এ data পাওয়া গেছে
+        if (root == NULL || root-\>data == data) {
+            return root;
+        }
+
+        // 2. Recursive Step:
+        if (data \< root-\>data) {
+            // data smaller, বাম subtree search করুন
+            return searchNode(root-\>left, data);
+        } else {
+            // data larger, ডান subtree search করুন
+            return searchNode(root-\>right, data);
+        }
+    }
+```
+
+\* **Finding Minimum and Maximum:** BST property এর কারণে সহজ।
+
+```c
+    // BST এ minimum value সহ node খুঁজে বের করুন (বামmost node)
+    TreeNode* findMin(TreeNode* root) {
+        if (root == NULL) {
+            return NULL; // Empty tree/subtree
+        }
+        // আমরা আর না পারা পর্যন্ত বাম দিকে যান
+        TreeNode* current = root;
+        while (current-\>left \!= NULL) {
+            current = current-\>left;
+        }
+        return current;
+    }
+
+    // BST এ maximum value সহ node খুঁজে বের করুন (ডানmost node)
+     TreeNode* findMax(TreeNode* root) {
+        if (root == NULL) {
+            return NULL;
+        }
+        TreeNode* current = root;
+        while (current-\>right \!= NULL) {
+            current = current-\>right;
+        }
+        return current;
+    }
+```
+
+\* **Deletion:** সবচেয়ে complex operation। তিনটি main case:
+
+1.  **Node একটি Leaf:** এটিকে কেবল remove করুন (parent এর corresponding child pointer কে `NULL` সেট করুন) এবং memory free করুন।
+    2.  **Node এর একটি Child আছে:** node কে তার child দিয়ে replace করুন (parent এর child pointer কে node এর child point করতে update করুন) এবং memory free করুন।
+    3.  **Node এর দুটি Children আছে:**
+          * node এর **in-order successor** (its *right* subtree এর smallest value - right child এ `findMin` ব্যবহার করুন) খুঁজে বের করুন।
+          * successor এর data to be deleted node এ copy করুন।
+          _ successor node কে recursively delete করুন (যা easier হবে কারণ এটির at most একটি right child আছে)।
+          _ _(Alternatively, in-order predecessor ব্যবহার করুন: বাম subtree এর largest value)_।
+
+```c
+    // BST থেকে একটি node delete করুন (Recursive)
+    TreeNode* deleteNode(TreeNode* root, int data) {
+        // 1. Base Case: যদি tree empty হয়
+        if (root == NULL) {
+            return root; // Or return NULL
+        }
+
+        // 2. delete করার জন্য node খুঁজে বের করুন
+        if (data \< root-\>data) {
+            root-\>left = deleteNode(root-\>left, data); // বাম দিকে Recurse করুন
+        } else if (data \> root-\>data) {
+            root-\>right = deleteNode(root-\>right, data); // ডান দিকে Recurse করুন
+        } else {
+            // data সহ node পাওয়া গেছে\! এখন deletion case handle করুন:
+
+            // Case 1: Node একটি leaf (কোনো child নেই) বা একটি child আছে
+            if (root-\>left == NULL) {
+                TreeNode* temp = root-\>right; // right child store করুন (NULL হতে পারে)
+                printf("Deleting node %d (0 or 1 child)\\n", root-\>data);
+                free(root);
+                return temp; // parent link করতে right child return করুন
+            } else if (root-\>right == NULL) {
+                TreeNode* temp = root-\>left; // left child store করুন
+                printf("Deleting node %d (1 child)\\n", root-\>data);
+                free(root);
+                return temp; // parent link করতে left child return করুন
+            }
+
+            // Case 3: Node এর দুটি children আছে
+            // in-order successor খুঁজে বের করুন (right subtree এর smallest node)
+            TreeNode* successor = findMin(root-\>right);
+
+            // successor এর data এই node এ copy করুন
+            printf("Deleting node %d (2 children) - replacing with %d\\n", root-\>data, successor-\>data);
+            root-\>data = successor-\>data;
+
+            // right subtree থেকে successor node কে recursively delete করুন
+            root-\>right = deleteNode(root-\>right, successor-\>data);
+        }
+        return root; // potentially modified root pointer return করুন
+    }
+```
+
+### BST এর সুবিধা এবং অসুবিধা
+
+_ **সুবিধা:**
+      _ search, insert, delete এর জন্য Efficient average-case time complexity: O(log n), যেখানে n হলো node এর সংখ্যা।
+      _ In-order traversal data automatically sorted order এ yields করে।
+  _ **অসুবিধা:**
+      _ unbalanced tree এর জন্য Performance significantly degrades (worst case এ O(n) এর কাছাকাছি, উদাহরণস্বরূপ sorted data insert করা এটিকে linked list এর মতো করে তোলে)।
+      _ Implementation (বিশেষ করে deletion) complex হতে পারে।
+
+## Tree Memory Free করা
+
+linked list এর মতো, dynamically allocated tree node **অবশ্যই** memory leak প্রতিরোধ করার জন্য free করতে হবে। Post-order traversal এর জন্য ideal, কারণ এটি নিশ্চিত করে যে children গুলি parent এর আগে process করা হয়েছে (এবং potentially freed হয়েছে)।
+
+```c
+// tree এর সমস্ত node free করার Function (post-order logic ব্যবহার করে)
+void freeTree(TreeNode* root) {
+    if (root == NULL) {
+        return;
+    }
+    // প্রথমে বাম এবং ডান subtree recursively free করুন
+    freeTree(root->left);
+    freeTree(root->right);
+
+    // তারপর current node free করুন
+    // printf("Freeing node %d\n", root->data); // ঐচ্ছিক debug print
+    free(root);
+}
+```
+
+## BST এর বাইরে: Balanced Trees
+
+BST গুলোর O(n) worst-case performance একটি problem। **Self-Balancing Binary Search Trees** যেমন **AVL Trees** এবং **Red-Black Trees** insertion/deletion এর সময় rotation perform করে এবং stricter rule follow করে automatically একটি balanced structure maintain করে, worst case এও O(log n) performance guarantee করে। তাদের implementation significantly more complex এবং এই introduction এর scope এর বাইরে তবে tree structure আয়ত্ত করার next step represent করে।
+
+## BST Usage এর উদাহরণ (`main`)
+
+```c
+// (TreeNode structure, createNode, insertNode, searchNode, deleteNode,
+//  findMin, findMax, inOrder, preOrder, postOrder, levelOrder, freeTree,
+//  এবং প্রয়োজনীয় Queue function উপরে অন্তর্ভুক্ত করুন)
+
+int main() {
+    TreeNode* root = NULL; // একটি empty tree দিয়ে শুরু করুন
+
+    printf("Inserting nodes into BST...\n");
+    root = insertNode(root, 50);
+    root = insertNode(root, 30);
+    root = insertNode(root, 70);
+    root = insertNode(root, 20);
+    root = insertNode(root, 40);
+    root = insertNode(root, 60);
+    root = insertNode(root, 80);
+    root = insertNode(root, 35); // পরে একটি child সহ একটি node যোগ করা
+    root = insertNode(root, 75); // অন্য একটি leaf যোগ করা
+
+
+    printf("\nIn-order Traversal (Sorted): ");
+    inOrder(root);
+    printf("\n");
+
+    printf("Pre-order Traversal: ");
+    preOrder(root);
+    printf("\n");
+
+    printf("Post-order Traversal: ");
+    postOrder(root);
+    printf("\n");
+
+    levelOrder(root); // Queue implementation প্রয়োজন
+
+    printf("\nSearching for nodes...\n");
+    TreeNode* found = searchNode(root, 40);
+    if (found) printf("Found node with data: %d\n", found->data);
+    else printf("Node with data 40 not found.\n");
+
+    found = searchNode(root, 99);
+    if (found) printf("Found node with data: %d\n", found->data);
+    else printf("Node with data 99 not found.\n");
+
+
+    printf("\nFinding Min/Max...\n");
+    TreeNode* minNode = findMin(root);
+    if(minNode) printf("Minimum value: %d\n", minNode->data); // 20 হওয়া উচিত
+    TreeNode* maxNode = findMax(root);
+     if(maxNode) printf("Maximum value: %d\n", maxNode->data); // 80 হওয়া উচিত
+
+
+    printf("\nDeleting nodes...\n");
+    root = deleteNode(root, 20); // Leaf Delete করুন
+    printf("In-order after deleting 20: "); inOrder(root); printf("\n");
+
+    root = deleteNode(root, 30); // দুটি children সহ Node Delete করুন (35 দিয়ে replace করুন)
+    printf("In-order after deleting 30: "); inOrder(root); printf("\n");
+
+    root = deleteNode(root, 70); // দুটি children সহ Node Delete করুন (75 দিয়ে replace করুন)
+     printf("In-order after deleting 70: "); inOrder(root); printf("\n");
+
+    root = deleteNode(root, 50); // root Delete করুন (60 দিয়ে replace করুন)
+     printf("In-order after deleting 50: "); inOrder(root); printf("\n");
+
+
+    printf("\nFreeing the tree...\n");
+    freeTree(root);
+    root = NULL; // Important: free করার পর root কে NULL সেট করুন
+    printf("Tree freed.\n");
+
+    // empty tree operation test করুন (gracefully handle করা উচিত)
+    printf("In-order on empty tree: "); inOrder(root); printf("\n");
+    levelOrder(root);
+
+
+    return 0;
+}
+```
+
+## উপসংহার
+
+Trees hierarchical এবং efficiently সি-তে data organize এবং access করার একটি powerful উপায় খুলে দেয়। আমরা essential terminology cover করেছি, Binary Tree এবং তাদের traversal method (recursion এর মাধ্যমে DFS, queues এর মাধ্যমে BFS) explore করেছি, এবং insertion, searching, এবং deletion এর complexities সহ Binary Search Trees এর workings delve করেছি। যদিও BSTs powerful, তাদের potential imbalance বোঝা AVL এবং Red-Black trees এর মতো advanced self-balancing structure এর দিকে নিয়ে যায়। মনে রাখবেন যে careful dynamic memory management (`malloc`/`free`) এবং প্রায়শই recursion কার্যকরভাবে trees নিয়ে কাজ করার key।
+
+আমাদের Intermediate C সিরিজের পরবর্তী অংশের জন্য tuned থাকুন, যেখানে আমরা সম্ভবত Bitwise Operations, Function Pointers, বা advanced Error Handling explore করতে পারি\!
+
+## আরও পড়া এবং সম্পর্কিত পোস্ট
+
+_ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ৩: সি-তে Stack এবং Queue Implement করা](/blog/intermediate-c-concepts/stack-and-queue-implementation-in-c) (Level-Order Traversal এর জন্য Queues ব্যবহৃত হয়)
+  _ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ২: সি-তে Linked Lists নিয়ে কাজ করা](/blog/intermediate-c-concepts/unknown-sized-array-linkedlist-in-c)
+  _ [ইন্টারমিডিয়েট সি কনসেপ্টস পার্ট ১: সি-তে ডাইনামিক মেমরি অ্যালোকেশন](/blog/intermediate-c-concepts/dynamic-memory-allocation-in-c)
+  _ [সি-তে শুরু করা পার্ট ৬: সি-তে পয়েন্টার](/blog/beginner-c-cpp/memory-management-in-c)
+  \* [সি-তে শুরু করা পার্ট ৭: স্ট্রাকচার এবং ইউনিয়ন](/blog/beginner-c-cpp/structures-and-unions-in-c)

@@ -1,0 +1,222 @@
+---
+title: 'পার্ট ৫: সি-তে অ্যারে এবং স্ট্রিং'
+date: '2024-11-15'
+tags: ['সি', 'অ্যারে', 'স্ট্রিং', 'ডেটা সংগ্রহ']
+draft: false
+summary: 'ডেটা সংগ্রহের জন্য অ্যারে নিয়ে কীভাবে কাজ করবেন এবং সি-তে স্ট্রিংগুলি কীভাবে ক্যারেক্টার অ্যারে হিসাবে handle করা হয় তা আবিষ্কার করুন। ডিক্লারেশন, ইনিশিয়ালাইজেশন, উপাদান অ্যাক্সেস করা এবং মৌলিক স্ট্রিং ম্যানিপুলেশন কৌশল সম্পর্কে জানুন।'
+authors: ['default']
+---
+
+**সি-তে শুরু করার সিরিজের পার্ট ৫ এ আপনাকে আবার স্বাগতম!** পূর্ববর্তী অংশগুলিতে, আমরা সি প্রোগ্রামিংয়ের একটি দৃঢ় ভিত্তি তৈরি করেছি, basics থেকে function পর্যন্ত সবকিছু কভার করেছি। এখন, আমরা **অ্যারে** ব্যবহার করে ডেটা সংগ্রহ handle করা এবং সি-তে **স্ট্রিং** কীভাবে representation এবং manipulate করা হয় তা explore করতে চলেছি। আরও complex এবং useful program তৈরির জন্য এগুলি মৌলিক ধারণা।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### সি-তে অ্যারে বোঝা
+
+একটি **অ্যারে** হলো একই ডেটা টাইপের উপাদানগুলির একটি সংগ্রহ যা contiguous মেমরি লোকেশনে stored থাকে। এটিকে বাক্সগুলির একটি সারি হিসাবে ভাবুন, যেখানে প্রতিটি বাক্সে একই ধরণের একটি মান ধরে রাখতে পারে, এবং প্রতিটি বাক্সে একটি index থাকে যা আপনাকে এটিতে থাকা মানটি access করতে দেয়।
+
+#### অ্যারে ডিক্লেয়ার করা
+
+সি-তে একটি অ্যারে ডিক্লেয়ার করতে, আপনাকে এর উপাদানগুলির ডেটা টাইপ, অ্যারের নাম এবং square bracket `[]` এর মধ্যে এটিতে store করা যাবে এমন উপাদানগুলির সংখ্যা (এর size) specify করতে হবে।
+
+একটি one-dimensional array ডিক্লেয়ার করার সিনট্যাক্স হলো:
+
+```c
+data_type array_name[array_size];
+```
+
+**উদাহরণ:**
+
+```c
+int numbers[5];     // 5টি উপাদান ধারণ করতে পারে এমন 'numbers' নামক একটি integer array ডিক্লেয়ার করে
+float prices[10];   // 10টি উপাদান ধারণ করতে পারে এমন 'prices' নামক একটি float array ডিক্লেয়ার করে
+char letters[26];  // 26টি উপাদান ধারণ করতে পারে এমন 'letters' নামক একটি character array ডিক্লেয়ার করে
+```
+
+#### অ্যারে ইনিশিয়ালাইজ করা
+
+আপনি যখন একটি অ্যারে ডিক্লেয়ার করেন তখন curly brace `{}` এ আবদ্ধ comma-separated values list সরবরাহ করে এটি ইনিশিয়ালাইজ করতে পারেন।
+
+**উদাহরণ:**
+
+```c
+int numbers[5] = {10, 20, 30, 40, 50};
+float prices[3] = {19.99, 29.50, 9.75};
+char vowels[5] = {'a', 'e', 'i', 'o', 'u'};
+```
+
+আপনি যদি declaration এর সময় একটি অ্যারে ইনিশিয়ালাইজ করেন, আপনি ঐচ্ছিকভাবে size omit করতে পারেন। আপনি যে সংখ্যক উপাদান প্রদান করবেন তার উপর ভিত্তি করে compiler স্বয়ংক্রিয়ভাবে size নির্ধারণ করবে।
+
+```c
+int values[] = {1, 2, 3, 4}; // 'values' এর size 4 হবে
+```
+
+যদি আপনি declared size এর চেয়ে কম initializer প্রদান করেন, তবে বাকি উপাদানগুলি 0 (numeric type এর জন্য) বা null character (character type এর জন্য) দিয়ে ইনিশিয়ালাইজ হবে।
+
+#### অ্যারে উপাদানগুলি অ্যাক্সেস করা
+
+একটি অ্যারের individual element তাদের **index** ব্যবহার করে access করা হয়। সি-তে অ্যারের index 0 থেকে শুরু হয় এবং `array_size - 1` পর্যন্ত যায়। একটি উপাদান access করার জন্য আপনি square bracket `[]` index এর সাথে ব্যবহার করেন।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int numbers[5] = {10, 20, 30, 40, 50};
+
+    printf("The first element is: %d\n", numbers[0]); // index 0 এ উপাদান access করা (value: 10)
+    printf("The third element is: %d\n", numbers[2]);  // index 2 এ উপাদান access করা (value: 30)
+
+    numbers[1] = 25; // index 1 এ উপাদান modify করা
+    printf("The second element is now: %d\n", numbers[1]); // Output: 25
+
+    return 0;
+}
+```
+
+**গুরুত্বপূর্ণ দ্রষ্টব্য:** valid index range (0 থেকে `size - 1`) এর মধ্যে অ্যারের উপাদানগুলি access করা crucial। এই range এর বাইরে উপাদানগুলি access করলে undefined behavior হতে পারে এবং আপনার প্রোগ্রাম crash হতে পারে।
+
+#### মাল্টি-ডাইমেনশনাল অ্যারে
+
+সি মাল্টি-ডাইমেনশনাল অ্যারে, যেমন two-dimensional array (টেবিল বা matrix এর মতো) ডিক্লেয়ার করার অনুমতি দেয়। একটি two-dimensional array ডিক্লেয়ার করার সিনট্যাক্স হলো:
+
+```c
+data_type array_name[row_size][column_size];
+```
+
+**উদাহরণ:**
+
+```c
+int matrix[3][4]; // 3x4 integer matrix (3 row, 4 column) ডিক্লেয়ার করে
+```
+
+আপনি nested curly brace ব্যবহার করে মাল্টি-ডাইমেনশনাল অ্যারে একই ভাবে ইনিশিয়ালাইজ করতে পারেন:
+
+```c
+int matrix[2][3] = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+```
+
+একটি two-dimensional array এর উপাদানগুলি দুটি index ব্যবহার করে access করা হয়: row index এবং column index।
+
+```c
+printf("Element at row 0, column 1: %d\n", matrix[0][1]); // Output: 2
+```
+
+### সি-তে স্ট্রিং বোঝা
+
+সি-তে, একটি **স্ট্রিং** হলো null character (`\0`) দ্বারা terminate হওয়া character গুলির একটি array। null character স্ট্রিংয়ের শেষ signal করে।
+
+#### স্ট্রিং ডিক্লেয়ার এবং ইনিশিয়ালাইজ করা
+
+আপনি একটি স্ট্রিং একটি character array হিসাবে ডিক্লেয়ার করতে পারেন:
+
+```c
+char message[20]; // 19টি character (plus null terminator) পর্যন্ত একটি স্ট্রিং ধারণ করতে পারে এমন একটি character array ডিক্লেয়ার করে
+```
+
+আপনি বিভিন্ন উপায়ে একটি স্ট্রিং ইনিশিয়ালাইজ করতে পারেন:
+
+```c
+char greeting[] = "Hello"; // compiler স্বয়ংক্রিয়ভাবে null terminator যোগ করে
+char name[6] = {'W', 'o', 'r', 'l', 'd', '\0'}; // স্পষ্টভাবে null terminator অন্তর্ভুক্ত করা
+char emptyString[1] = ""; // শুধুমাত্র null terminator ধারণকারী একটি empty string
+```
+
+আপনি যখন double quotes ব্যবহার করে একটি character array ইনিশিয়ালাইজ করেন, তখন compiler স্বয়ংক্রিয়ভাবে শেষে null terminator যোগ করে।
+
+#### একটি স্ট্রিংয়ে character গুলি অ্যাক্সেস করা
+
+যেহেতু একটি স্ট্রিং character গুলির একটি array, আপনি তাদের index ব্যবহার করে একটি স্ট্রিংয়ে individual character গুলি access করতে পারেন, regular array এর মতোই।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char message[] = "Hello";
+
+    printf("The first character is: %c\n", message[0]); // Output: H
+    printf("The fourth character is: %c\n", message[3]); // Output: l
+
+    return 0;
+}
+```
+
+#### স্ট্রিং ম্যানিপুলেশন
+
+সি স্ট্রিংগুলিতে সাধারণ operation সম্পাদনের জন্য standard library function ( `<string.h>` header file এ পাওয়া যায়) এর একটি set সরবরাহ করে। এখানে কয়েকটি গুরুত্বপূর্ণ function দেওয়া হলো:
+
+- **`strlen(str)`:** string `str` এর length রিটার্ন করে (null terminator exclude করে)।
+- **`strcpy(dest, src)`:** string `src` কে string `dest` এ copy করে। নিশ্চিত করুন যে `dest` এ `src` ধারণ করার জন্য পর্যাপ্ত space আছে।
+- **`strcat(dest, src)`:** string `src` কে string `dest` এর শেষে append করে। আবার, নিশ্চিত করুন যে `dest` এ পর্যাপ্ত space আছে।
+- **`strcmp(str1, str2)`:** দুটি string `str1` এবং `str2` তুলনা করে। string গুলি equal হলে 0 রিটার্ন করে, lexicographically `str1` `str2` এর আগে আসলে একটি negative value রিটার্ন করে, এবং `str1` `str2` এর পরে আসলে একটি positive value রিটার্ন করে।
+
+**স্ট্রিং Function ব্যবহার করে উদাহরণ:**
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[20] = "Hello";
+    char str2[] = " World!";
+    char str3[20];
+    int length;
+
+    length = strlen(str1);
+    printf("Length of str1: %d\n", length); // Output: 5
+
+    strcpy(str3, str1);
+    printf("str3 after strcpy: %s\n", str3); // Output: Hello
+
+    strcat(str3, str2);
+    printf("str3 after strcat: %s\n", str3); // Output: Hello World!
+
+    if (strcmp(str1, "Hello") == 0) {
+        printf("str1 is equal to \"Hello\"\n"); // Output: str1 is equal to "Hello"
+    }
+
+    return 0;
+}
+```
+
+**গুরুত্বপূর্ণ দ্রষ্টব্য:** `strcpy` এবং `strcat` এর মতো function ব্যবহার করার সময় buffer overflow সম্পর্কে খুব careful হন। নিশ্চিত করুন যে destination array তে copied বা concatenated string ধারণ করার জন্য পর্যাপ্ত space আছে, null terminator সহ। অন্যথায়, আপনি memory overwrite করতে পারেন এবং unpredictable behavior হতে পারে।
+
+### স্ট্রিংগুলির অ্যারে
+
+আপনি একটি array ও তৈরি করতে পারেন যেখানে প্রতিটি উপাদান একটি string (যা মূলত character গুলির একটি array)। এটি প্রায়শই word বা sentence এর list store করার জন্য ব্যবহৃত হয়।
+
+```c
+char names[3][20] = {
+    "Alice",
+    "Bob",
+    "Charlie"
+};
+
+printf("The second name is: %s\n", names[1]); // Output: Bob
+```
+
+### এরপর কি?
+
+আমাদের "সি-তে শুরু করা" সিরিজের পরবর্তী অংশে, আমরা সি-তে **পয়েন্টার** এর ধারণা নিয়ে আলোচনা করব। পয়েন্টার সি-এর একটি শক্তিশালী কিন্তু কখনও কখনও challenging feature যা আপনাকে memory address এর সাথে সরাসরি কাজ করতে দেয়। উন্নত সি প্রোগ্রামিং এর জন্য পয়েন্টার বোঝা crucial। সাথে থাকুন\!
+
+<br />
+
+**পরামর্শ:**
+
+- সি-তে data type আপনার understanding refresh করার প্রয়োজন হলে, আপনি আমাদের আলোচনা "[সি-তে ভ্যারিয়েবল এবং ডেটা টাইপ (পার্ট ২)](/blog/beginner-c-cpp/c-variable-data-types-and-operators) "-এ পুনরায় দেখতে পারেন।
+- আমরা সংক্ষেপে `<string.h>` header file টি স্পর্শ করেছি। "[সি-তে স্ট্যান্ডার্ড লাইব্রেরি ফাংশন]" সম্পর্কিত আমাদের article অন্যান্য standard library function explore করা আপনার জন্য useful হতে পারে।
+- আমরা যেমন অ্যারের জন্য memory contiguous হওয়ার আলোচনা করেছি, তেমনি কম্পিউটারে memory কীভাবে organized হয় তা সম্পর্কে আরও জানতে আপনি আমাদের article "[কম্পিউটিংয়ে মেমরি সংগঠন](/blog/beginner-c-cpp/memory-management-in-c)" পড়তে পারেন।
+- পরবর্তী অংশে, আমরা পয়েন্টার সম্পর্কে কথা বলব, যা memory address এর সাথে closely related। আপনি "[মেমরি অ্যাড্রেস পরিচিতি](/blog/beginner-c-cpp/memory-management-in-c)" সম্পর্কে ভেবে এর জন্য prepare করতে পারেন।
+
+This content provides a comprehensive introduction to arrays and strings in C for beginners. Let me know if you have any other requests\!
+
+```
+
+```

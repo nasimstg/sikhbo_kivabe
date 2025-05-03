@@ -1,0 +1,194 @@
+---
+title: 'পার্ট ৯: সি-তে প্রিপোসেসর ডিরেক্টিভস পরিচিতি'
+date: '2024-11-19'
+tags: ['সি', 'প্রিপোসেসর', 'ডিরেক্টিভস', 'নতুনদের জন্য']
+draft: false
+summary: 'কম্পাইলেশনের আগে এই বিশেষ নির্দেশনাগুলি কীভাবে process করা হয় তা শিখুন header file অন্তর্ভুক্ত করতে, macros define করতে, এবং conditionally code compile করতে, যা আপনার সি প্রোগ্রামিং capability উন্নত করে।'
+authors: ['default']
+---
+
+**আমাদের "সি-তে শুরু করা" সিরিজের পার্ট ৯ এ আপনাকে আবার স্বাগতম!** আমরা আমাদের beginner's guide এর শেষের কাছাকাছি, এবং এই অংশে, আমরা আপনাকে **সি প্রিপোসেসর** এবং এর **ডিরেক্টিভস** introduce করতে চলেছি। প্রিপোসেসর হলো একটি শক্তিশালী tool যা আপনার source code actually compile করার আগে modify করে। preprocessor directive বোঝা আপনাকে compilation process এর উপর আরও control দেবে এবং আপনাকে আরও flexible এবং efficient C program লিখতে সাহায্য করবে।
+
+<TOCInline toc={props.toc} asDisclosure />
+<br />
+
+### সি প্রিপোসেসর কি?
+
+সি প্রিপোসেসর হলো compilation process এর একটি অংশ যা আপনার সি code এর actual compilation এর আগে run হয়। এটি আপনার source code পড়ে এবং **preprocessor directive** নামক special instruction এর উপর ভিত্তি করে বিভিন্ন operation perform করে। এই directive গুলি একটি hash symbol (`#`) দিয়ে line এর শুরুতে identify করা হয়।
+
+প্রিপোসেসর বেশ কিছু কাজ করতে পারে, যার মধ্যে রয়েছে:
+
+- **Header file অন্তর্ভুক্ত করা:** আপনার source code এ অন্যান্য file এর contents insert করা।
+- **Macros define করা:** symbolic name গুলি specific value বা code snippet দিয়ে replace করা।
+- **Conditional compilation:** নির্দিষ্ট condition এর উপর ভিত্তি করে আপনার code এর অংশ include বা exclude করা।
+
+### সাধারণ প্রিপোসেসর ডিরেক্টিভস
+
+সি-তে সবচেয়ে commonly used preprocessor directive গুলির মধ্যে কয়েকটি explore করা যাক:
+
+#### ১. `#include` Directive
+
+`#include` directive টি অন্য একটি file, সাধারণত একটি header file, আপনার current source code file এ include করতে ব্যবহৃত হয়। Header file গুলিতে সাধারণত function, macro, এবং অন্যান্য definition এর declaration থাকে যা আপনি আপনার program এ ব্যবহার করতে চাইতে পারেন।
+
+`#include` directive এর দুটি common form আছে:
+
+- **`#include <filename.h>`:** এই form টি standard library header file (যেমন, `stdio.h`, `stdlib.h`, `string.h`) অন্তর্ভুক্ত করার জন্য ব্যবহৃত হয়। প্রিপোসেসর এই file গুলি standard system directory বা আপনার compiler setting এ specified directory গুলিতে search করে।
+- **`#include "filename.h"`:** এই form টি সাধারণত আপনার তৈরি করা header file গুলি বা আপনার project এর অংশ header file গুলি অন্তর্ভুক্ত করার জন্য ব্যবহৃত হয়। প্রিপোসেসর সাধারণত প্রথমে current source file এর same directory তে এই file গুলি search করে, এবং যদি specified হয় তবে other directory গুলিতে।
+
+**উদাহরণ:**
+
+```c
+#include <stdio.h>  // standard input/output library অন্তর্ভুক্ত করে
+#include "my_header.h" // "my_header.h" নামক user-defined header file অন্তর্ভুক্ত করে
+```
+
+`#include` directive টি specified header file এর entire content আপনার source code এ directive এর location এ compilation এর আগে copy এবং paste করে।
+
+#### ২. `#define` Directive
+
+`#define` directive টি **macros** define করতে ব্যবহৃত হয়। Macro হলো একটি rule যা specify করে আপনার source code এ একটি particular text compilation এর আগে অন্য একটি text দিয়ে কীভাবে replaced হওয়া উচিত। `#define` symbolic constant বা simple function-like macro তৈরি করতে ব্যবহার করা যেতে পারে।
+
+**Symbolic Constant Define করা:**
+
+```c
+#define PI 3.14159
+#define MAX_SIZE 100
+```
+
+যখনই প্রিপোসেসর আপনার code এ `PI` encounter করবে, এটি এটিকে `3.14159` দিয়ে replace করবে। similarly, `MAX_SIZE` কে `100` দিয়ে replace করা হবে। এটি আপনার code কে আরও readable এবং maintainable করে তোলে, কারণ আপনি constant এর value একটি place (`#define` directive) এ change করতে পারেন এবং এটি আপনার code জুড়ে updated হবে।
+
+**Function-Like Macro Define করা:**
+
+আপনি arguments নিতে macros define করতে পারেন, function এর মতো similar।
+
+```c
+#define SQUARE(x) ((x) * (x))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+```
+
+আপনি যখন এই macro গুলি ব্যবহার করেন, তখন প্রিপোসেসর একটি textual substitution perform করবে। উদাহরণস্বরূপ, `SQUARE(5)` কে `((5) * (5))` দিয়ে replace করা হবে, এবং `MAX(10, 20)` কে `(((10) > (20)) ? (10) : (20))` দিয়ে replace করা হবে।
+
+**Macro সম্পর্কে গুরুত্বপূর্ণ দ্রষ্টব্য:** function-like macro গুলি কখনও কখনও function call overhead এর অভাবের কারণে performance benefit offer করতে পারে, তবে তাদের drawbacks ও থাকতে পারে, যেমন arguments এর side effect থাকলে সম্ভাব্য side effect (যেমন, `SQUARE(i++)`) এবং type checking এর অভাব। আরও complex operation এর জন্য, actual function ব্যবহার করা generally better।
+
+#### ৩. `#undef` Directive
+
+`#undef` directive টি পূর্বে `#define` ব্যবহার করে define করা macro undefine করতে ব্যবহৃত হয়। একটি macro undefine হওয়ার পর, সেই macro name এর পরবর্তী occurrences প্রিপোসেসর দ্বারা replaced হবে না।
+
+```c
+#define DEBUG 1
+
+// ... some code ...
+
+#undef DEBUG
+
+// Now, DEBUG is no longer defined
+```
+
+`#undef` প্রায়শই macro definition এর scope control করতে ব্যবহৃত হয়।
+
+#### ৪. Conditional Compilation Directive
+
+Conditional compilation directive গুলি আপনাকে নির্দিষ্ট condition true বা false কিনা তার উপর ভিত্তি করে compilation থেকে আপনার code এর specific section গুলি include বা exclude করার অনুমতি দেয়। এটি বিশেষভাবে useful এর জন্য:
+
+- **Debugging:** একটি debug flag define করা হলে কেবল debugging code অন্তর্ভুক্ত করা।
+- **Platform-specific code:** বিভিন্ন operating system বা hardware architecture এর জন্য বিভিন্ন code section compile করা।
+- **Feature toggles:** compilation এর সময় আপনার program এর নির্দিষ্ট feature enable বা disable করা।
+
+এখানে কিছু common conditional compilation directive দেওয়া হলো:
+
+- **`#ifdef identifier`:** Check করে `identifier` (macro name) বর্তমানে define করা আছে কিনা। `#ifdef` এর পরে code block টি compile হবে শুধুমাত্র যদি identifier define করা থাকে (`#define` ব্যবহার করে)।
+- **`#ifndef identifier`:** Check করে `identifier` বর্তমানে define করা _নেই_ কিনা। code block টি compile হবে শুধুমাত্র যদি identifier define করা না থাকে।
+- **`#if constant_expression`:** `constant_expression` evaluate করে। expression non-zero (true) হলে, `#if` এর পরে code block টি compile হবে।
+- **`#else`:** একটি alternative code block সরবরাহ করে যা compile হবে যদি পূর্ববর্তী `#if`, `#ifdef`, বা `#ifndef` condition false হয়।
+- **`#elif constant_expression`:** "else if" এর জন্য দাঁড়িয়েছে এবং আপনাকে sequence এ multiple condition check করার অনুমতি দেয়।
+- **`#endif`:** `#if`, `#ifdef`, বা `#ifndef` দিয়ে শুরু হওয়া একটি conditional compilation block এর end mark করে।
+
+**Conditional Compilation এর উদাহরণ:**
+
+**Debugging এর জন্য `#ifdef` ব্যবহার করা:**
+
+```c
+#include <stdio.h>
+
+#define DEBUG 1 // Debugging output enable করার জন্য DEBUG define করুন
+
+int main() {
+    int value = 10;
+    value *= 2;
+
+#ifdef DEBUG
+    printf("DEBUG: Value after multiplication is %d\n", value);
+#endif
+
+    // ... rest of the code ...
+
+    return 0;
+}
+```
+
+এই উদাহরণে, `#ifdef DEBUG` block এর ভিতরের `printf` statement টি compile এবং execute হবে শুধুমাত্র যদি `DEBUG` macro define করা থাকে। আপনি `#define DEBUG 1` line comment out বা remove করলে, এই debugging output compile করা program থেকে exclude হবে।
+
+**Header file এর একাধিক inclusion প্রতিরোধ করতে `#ifndef` ব্যবহার করা (header guard):**
+
+সি-তে, header guard ব্যবহার করা common যাতে একটি header file এর contents একই compilation unit এ multiple time include হওয়া থেকে প্রতিরোধ করা যায়, যা error হতে পারে।
+
+```c
+// my_header.h
+
+#ifndef MY_HEADER_H
+#define MY_HEADER_H
+
+// header file এ declaration এবং definition
+
+#endif // MY_HEADER_H
+```
+
+যখন `my_header.h` প্রথমবার include করা হয়, `MY_HEADER_H` macro define করা হয় না, তাই preprocessor এটি define করে এবং header file এর contents include করে। যদি একই header file later এ একই compilation unit এ আবার include করা হয়, `MY_HEADER_H` ইতিমধ্যেই define করা থাকবে, তাই `#ifndef MY_HEADER_H` condition false হবে, এবং header file এর contents skip করা হবে।
+
+**Platform-specific code এর জন্য `#if`, `#elif`, এবং `#else` ব্যবহার করা:**
+
+```c
+#include <stdio.h>
+
+#define OS_WINDOWS 1
+// #define OS_LINUX 1
+
+int main() {
+#if OS_WINDOWS
+    printf("Running on Windows.\n");
+    // Windows-specific code here
+#elif OS_LINUX
+    printf("Running on Linux.\n");
+    // Linux-specific code here
+#else
+    printf("Unknown operating system.\n");
+#endif
+
+    return 0;
+}
+```
+
+এখানে, compile করা code নির্ভর করে কোন operating system macro define করা আছে তার উপর।
+
+### Preprocessor Directive ব্যবহার করার সুবিধা
+
+- **Code Organization:** `#include` header file এ declaration আলাদা করে code organization এ সাহায্য করে।
+- **Constants এবং Macros:** `#define` constant এবং simple operation এর জন্য symbolic name তৈরি করার অনুমতি দেয়, যা readability এবং maintainability উন্নত করে।
+- **Conditional Compilation:** এটি আপনার code কে different environment, debugging scenario, বা feature set এর জন্য customize করার সক্ষমতা দেয় source code সরাসরি modify না করে।
+- **Header Guard:** `#ifndef` header file এর multiple inclusion দ্বারা সৃষ্ট issue প্রতিরোধ করার জন্য essential।
+
+### এরপর কি?
+
+আমাদের "সি-তে শুরু করা" সিরিজের চূড়ান্ত অংশে, আমরা সি প্রোগ্রামিংয়ে **কিছু সাধারণ ভুল এড়াতে** আলোচনা করব যা আপনাকে cleaner, আরও robust, এবং less error-prone code লিখতে সাহায্য করবে।
+
+**পরামর্শ:**
+
+- header file এর importance understand করতে, আপনি "[সি-তে ফাংশন (পার্ট ৪)](/blog/beginner-c-cpp/functions-in-c-definition-and-usage) " এ আমাদের আলোচনা পুনরায় দেখতে চাইতে পারেন, যেখানে আমরা সংক্ষেপে সেগুলি mention করেছি।
+- আমরা simple operation এর জন্য macro ব্যবহার করেছি। আপনি "[সি-তে ফাংশন (পার্ট ৪)](/blog/beginner-c-cpp/functions-in-c-definition-and-usage)" review করে actual function কীভাবে কাজ করে তার সাথে এটি compare করতে পারেন।
+- Conditional compilation কোন code compile হবে তা control করার জন্য। এটি overall compilation process এর সাথে সম্পর্কিত, যা আমরা "[আপনার ডেভেলপমেন্ট এনভায়রনমেন্ট সেটআপ করা (পার্ট ১)](/blog/beginner-c-cpp/setting-up-c-development-environment-in-windwos-mac-linux)" এ touch করেছি।
+- আমরা সিরিজের শেষের কাছাকাছি, আপনি "[সি-তে ভ্যারিয়েবল, ডেটা টাইপ, এবং অপারেটর (পার্ট ২)](/blog/beginner-c-cpp/c-variable-data-types-and-operators)" এ আলোচনা করা সি-এর fundamental building block গুলোর দিকে ফিরে দেখতে চাইতে পারেন।
+
+# এই আর্টিকেলে আলোচিত বিষয়:
+
+- সি-তে প্রিপোসেসর ডিরেক্টিভস
+- সি প্রিপোসেসর
