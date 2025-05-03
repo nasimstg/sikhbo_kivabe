@@ -14,7 +14,7 @@ export default function FourZeroFour() {
         </div>
         <div className="max-w-md">
           <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">
-            দুঃখিত, এই পৃষ্ঠাটি এই মুহূর্তে উপলব্ধ নেই।
+            দুঃখিত আমরা এই পৃষ্ঠাটি খুঁজে পাইনি।
           </p>
           <p className="mb-8">
             কিন্তু চিন্তা করবেন না, আমাদের হোমপেজে আপনি আরও অনেক কিছু খুঁজে পেতে পারেন।
